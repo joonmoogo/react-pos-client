@@ -1,0 +1,7 @@
+.no-scroll {
+    -ms-overflow-style: none; /* IE, ms엣지 */
+    scrollbar-width: none; /* 파이어폭스 */
+  }
+  .no-scroll::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리, 오페라 */
+  }
