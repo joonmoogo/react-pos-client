@@ -1,9 +1,9 @@
 import React from "react";
 
-function Loading(props){
+function Loading(props) {
     let num = localStorage.getItem(`secretNumber1`);
-    window.location.href=`/home/order/${num}`
-    return(
+    window.location.href = `/home/order/${num}`
+    return (
         <div></div>
     )
 }
