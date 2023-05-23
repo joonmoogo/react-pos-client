@@ -434,17 +434,23 @@ function ReservationList() { // 예약탭 서버에서 불러온 데이터로 �
             </Segment>
           </Grid.Column>
           <Grid.Column>
-            <Segment color="teal">
+            <Segment color="teal" className="no-scroll" style={{ overflow: 'scroll', height: '100%' }}>
               <Segment>
                 <Item.Group link>
                   {viewData.map((e) => {
                     return (
                       <Item>
-                        <Item.Image size='tiny' src='https://react.semantic-ui.com/images/avatar/large/stevie.jpg' />
-                        <Item.Content>
+                        <Item.Image  size='mini' src='https://react.semantic-ui.com/images/avatar/large/stevie.jpg' />
+                        <Item.Content >
                           <Item.Header>{e.time}</Item.Header>
                           <Item.Description>{e.date}</Item.Description>
                           <Item.Description>{e.name}</Item.Description>
+                          <Item.Description>
+                            <Button circular icon='add user' color="facebook"></Button>
+                            <Button circular icon='address book' color="linkedin"></Button>
+                            <Button circular icon='ban' color="google plus"></Button>
+                            </Item.Description>
+                          <Item.Description></Item.Description>
                         </Item.Content>
                       </Item>
                     )
