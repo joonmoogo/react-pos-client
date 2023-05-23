@@ -1,7 +1,9 @@
 import { React, useState } from "react";
-import { Rail, Icon, Comment, Table, List, Image as ImageComponent, Item, Card, Menu, Message, Grid, Header, Button, Form, Segment, Image, Container, TableRow } from "semantic-ui-react";
+import { Accordion, Rail, Icon, Comment, Table, List, Image as ImageComponent, Item, Card, Menu, Message, Grid, Header, Button, Form, Segment, Image, Container, TableRow } from "semantic-ui-react";
 import { Route, Link, useNavigate } from 'react-router-dom'
 import { useSelector } from "react-redux";
+import Calendar from "react-calendar";
+import moment from "moment/moment";
 import './homeComponent.css'
 import { EditUserInfo, EditMarketInfo, EditMenu, EditTable, SalesStatistics, ReviewComment, EditPreferences, SystemInfo, QrCode, } from "./settingComponent";
 import socket from "../../socket-client";
@@ -369,90 +371,99 @@ function TableGroup(props) { // 기본
 // }
 
 function ReservationList() { // 예약탭 서버에서 불러온 데이터로 구성될 예정
+  const [value, setValue] = useState(new Date());
   const paragraph = <ImageComponent src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />
 
+  const marks = [
+    "15-05-2023",
+
+  ];
+
+  let [data, setData] = useState([
+    { date: '15-05-2023', time: '6:30pm', name: '오준묵', menu: ['삼선짬뽕', "쌀국수"] },
+    { date: '18-05-2023', time: '7:30pm', name: '오준묵', menu: ['삼선짬뽕', "쌀국수"] },
+    { date: '19-05-2023', time: '8:30pm', name: '오준묵', menu: ['삼선짬뽕', "쌀국수"] },
+    { date: '20-05-2023', time: '9:30pm', name: '오준묵', menu: ['삼선짬뽕', "쌀국수"] },
+    { date: '11-05-2023', time: '10:30pm', name: '오준묵', menu: ['삼선짬뽕', "쌀국수"] },
+  ]);
+
+  let [viewData, setViewData] = useState([]);
+
+
+
+
   return (
-    <Card.Group>
-      <Card fluid>
-        <Card.Content>
-          <Image
-            floated='right'
-            size='tiny'
-            src='https://react.semantic-ui.com/images/avatar/large/steve.jpg'
-          />
-          <Card.Header>Steve Sanders</Card.Header>
-          <Card.Meta>2023-01-07,22:30 pm</Card.Meta>
-          <Card.Description>
-            2명 예약이요 <strong>best friends</strong>
-          </Card.Description>
-        </Card.Content>
-        <Card.Content extra>
-          <div className='ui two buttons'>
-            <Button basic color='green'>
-              Approve
-            </Button>
-            <Button basic color='red'>
-              Decline
-            </Button>
-          </div>
-        </Card.Content>
-      </Card>
-      <Card fluid>
-        <Card.Content>
-          <Image
-            floated='right'
-            size='tiny'
-            src='https://react.semantic-ui.com/images/avatar/large/molly.png'
-          />
-          <Card.Header>Molly Thomas</Card.Header>
-          <Card.Meta>New User</Card.Meta>
-          <Card.Description>
-            Molly wants to add you to the group <strong>musicians</strong>
-          </Card.Description>
-        </Card.Content>
-        <Card.Content extra>
-          <div className='ui two buttons'>
-            <Button basic color='green'>
-              Approve
-            </Button>
-            <Button basic color='red'>
-              Decline
-            </Button>
-          </div>
-        </Card.Content>
-      </Card>
-      <Card fluid>
-        <Card.Content>
-          <Image
-            floated='right'
-            size='tiny'
-            src='https://react.semantic-ui.com/images/avatar/large/jenny.jpg'
-          />
-          <Card.Header>Jenny Lawrence</Card.Header>
-          <Card.Meta>New User</Card.Meta>
-          <Card.Description>
-            Jenny requested permission to view your contact details
-          </Card.Description>
-        </Card.Content>
-        <Card.Content extra>
-          <div className='ui two buttons'>
-            <Button basic color='green'>
-              Approve
-            </Button>
-            <Button basic color='red'>
-              Decline
-            </Button>
-          </div>
-        </Card.Content>
-      </Card>
-    </Card.Group>
+    <>
+      <Grid columns='equal' relaxed>
+        <Grid.Row>
+          <Grid.Column >
+            <Segment>
+              <Table fixed singleLine selectable>
+                <Table.Body >
+                  <Table.Row>
+                    <Calendar
+                      onChange={setValue}
+                      onClickDay={(e) => {
+                        setViewData([]);
+                        const date = moment(e).format("DD-MM-YYYY");
+                        data.map((e) => {
+                          if (e.date == date) {
+                            setViewData([...viewData, e]);
+                            console.log(viewData);
+                          }
+                        })
+                      }}
+                      value={value}
+                      defaultView="month"
+                      view="month"
+                      tileContent={(date, view) => {
+                        let html = [];
+                        if (data.find((x) => x.date == moment(date.date).format("DD-MM-YYYY"))) {
+                          html.push(<div className="dot"></div>)
+                        }
+                        return (
+                          <>
+                            {html}
+                          </>
+                        )
+                      }}
+                    />
+                  </Table.Row>
+                </Table.Body>
+              </Table>
+            </Segment>
+          </Grid.Column>
+          <Grid.Column>
+            <Segment color="teal">
+              <Segment>
+                <Item.Group link>
+                  {viewData.map((e) => {
+                    return (
+                      <Item>
+                        <Item.Image size='tiny' src='https://react.semantic-ui.com/images/avatar/large/stevie.jpg' />
+                        <Item.Content>
+                          <Item.Header>{e.time}</Item.Header>
+                          <Item.Description>{e.date}</Item.Description>
+                          <Item.Description>{e.name}</Item.Description>
+                        </Item.Content>
+                      </Item>
+                    )
+                  })}
+                </Item.Group>
+              </Segment>
+            </Segment>
+
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </>
   )
 }
 
 function WaitingList() {  //대기탭 미정
   const paragraph = <ImageComponent src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />
 
-  return (
+  return(
     <>
       <Item.Group link>
         <Item>

@@ -4,6 +4,7 @@ import { Image, Menu, Message, Container, Button, Checkbox, Form, Segment } from
 function SignUp() {
 
     let [menu, setMenu] = useState('register');
+    let [option, setOption] = useState([]);
     return (
         <>
             <Menu stackable pointing secondary>
@@ -68,7 +69,7 @@ function SignUpForm() {
                         {/* Form.Input에 error를 추가함으로 노출 */}
                         <Form.Input
                             fluid
-                            label='상호명'
+                            label='전화번호'
                             placeholder='Form example'
                             error
                         //   error={{ content: 'Please enter your first name', pointing: 'below' }}
@@ -79,7 +80,7 @@ function SignUpForm() {
                             header='Form Completed'
                             content="You're all signed up for the newsletter"
                         />
-                        <Message
+                        {/* <Message
                             warning
                             header='Could you check something!'
                             list={[
@@ -90,7 +91,7 @@ function SignUpForm() {
                             error
                             header='Action Forbidden'
                             content='You can only sign up for an account once with a given e-mail address.'
-                        />
+                        /> */}
                     </Form.Field>
                     <Form.Field>
                         <Checkbox label='I agree to the Terms and Conditions' />
