@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
 import { Link, useNavigate } from 'react-router-dom'
+import './loginForm.css'
 
 function LoginForm() {
   let navigate = useNavigate();
@@ -23,12 +24,18 @@ function LoginForm() {
             <Button color='teal' fluid size='large' onClick={() => {
               navigate('/main');
             }}>
-              Login
+              로그인
             </Button>
           </Segment>
         </Form>
         <Message>
-          New to us? <Link to='/signUp'>sign Up</Link>
+          <Link to='/signUp'>아이디 찾기 | </Link>
+          <Link to='/signUp'>비밀번호 찾기 | </Link>
+          <Link to='/signUp'>회원가입 | </Link>
+        </Message>
+        <Message>
+          <Image style={{float:'left',marginRight:'10px'}} size='small' src='/img/kakao_login_medium_narrow.png'></Image>
+          <Image size='small' src='/img/btnG_naver.png'></Image>
         </Message>
       </Grid.Column>
     </Grid>

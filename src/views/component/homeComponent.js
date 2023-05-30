@@ -374,23 +374,16 @@ function ReservationList() { // 예약탭 서버에서 불러온 데이터로 �
   const [value, setValue] = useState(new Date());
   const paragraph = <ImageComponent src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />
 
-  const marks = [
-    "15-05-2023",
-
-  ];
-
+  // Sample reservation data 
   let [data, setData] = useState([
     { date: '15-05-2023', time: '6:30pm', name: '오준묵', menu: ['삼선짬뽕', "쌀국수"] },
-    { date: '18-05-2023', time: '7:30pm', name: '오준묵', menu: ['삼선짬뽕', "쌀국수"] },
-    { date: '19-05-2023', time: '8:30pm', name: '오준묵', menu: ['삼선짬뽕', "쌀국수"] },
-    { date: '20-05-2023', time: '9:30pm', name: '오준묵', menu: ['삼선짬뽕', "쌀국수"] },
-    { date: '11-05-2023', time: '10:30pm', name: '오준묵', menu: ['삼선짬뽕', "쌀국수"] },
+    { date: '15-05-2023', time: '7:30pm', name: '오준묵', menu: ['삼선짬뽕', "쌀국수"] },
+    { date: '15-05-2023', time: '8:30pm', name: '오준묵', menu: ['삼선짬뽕', "쌀국수"] },
+    { date: '25-05-2023', time: '9:30pm', name: '오준묵', menu: ['삼선짬뽕', "쌀국수"] },
+    { date: '15-05-2023', time: '10:30pm', name: '오준묵', menu: ['삼선짬뽕', "쌀국수"] },
   ]);
 
   let [viewData, setViewData] = useState([]);
-
-
-
 
   return (
     <>
@@ -440,7 +433,7 @@ function ReservationList() { // 예약탭 서버에서 불러온 데이터로 �
                   {viewData.map((e) => {
                     return (
                       <Item>
-                        <Item.Image  size='mini' src='https://react.semantic-ui.com/images/avatar/large/stevie.jpg' />
+                        <Item.Image size='mini' src='https://react.semantic-ui.com/images/avatar/large/stevie.jpg' />
                         <Item.Content >
                           <Item.Header>{e.time}</Item.Header>
                           <Item.Description>{e.date}</Item.Description>
@@ -449,7 +442,7 @@ function ReservationList() { // 예약탭 서버에서 불러온 데이터로 �
                             <Button circular icon='add user' color="facebook"></Button>
                             <Button circular icon='address book' color="linkedin"></Button>
                             <Button circular icon='ban' color="google plus"></Button>
-                            </Item.Description>
+                          </Item.Description>
                           <Item.Description></Item.Description>
                         </Item.Content>
                       </Item>
@@ -469,7 +462,7 @@ function ReservationList() { // 예약탭 서버에서 불러온 데이터로 �
 function WaitingList() {  //대기탭 미정
   const paragraph = <ImageComponent src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />
 
-  return(
+  return (
     <>
       <Item.Group link>
         <Item>
