@@ -95,60 +95,35 @@ function EditMenu() {
   return (
     <>
 
-      <Grid columns={2} divided>
-        <Grid.Row stretched>
-          <Grid.Column>
-            <Segment>
-              <Form>
-                <Input icon='food' iconPosition='left' placeholder='Menu' />
-              </Form>
-            </Segment>
-          </Grid.Column>
-          <Grid.Column>
-            <Segment>
-              <Form>
-                <Input icon='won sign' iconPosition='left' placeholder='price' />
-              </Form>
-            </Segment>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-      <Grid columns={2} divided>
-        <Grid.Row stretched>
-          <Grid.Column>
-            <Segment>
-              <Form>
-                <Input icon='food' iconPosition='left' placeholder='Menu' />
-              </Form>
-            </Segment>
-          </Grid.Column>
-          <Grid.Column>
-            <Segment>
-              <Form>
-                <Input icon='won sign' iconPosition='left' placeholder='price' />
-              </Form>
-            </Segment>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-      <Grid columns={2} divided>
-        <Grid.Row stretched>
-          <Grid.Column>
-            <Segment>
-              <Form>
-                <Input icon='food' iconPosition='left' placeholder='Menu' />
-              </Form>
-            </Segment>
-          </Grid.Column>
-          <Grid.Column>
-            <Segment>
-              <Form>
-                <Input icon='won sign' iconPosition='left' placeholder='price' />
-              </Form>
-            </Segment>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
+<Table basic='very'>
+    <Table.Header>
+      <Table.Row>
+        <Table.HeaderCell>Name</Table.HeaderCell>
+        <Table.HeaderCell>Menu</Table.HeaderCell>
+        <Table.HeaderCell>Price</Table.HeaderCell>
+      </Table.Row>
+    </Table.Header>
+
+    <Table.Body>
+      <Table.Row onClick={()=>{
+        console.log('it was clicked');
+      }}>
+        <Table.Cell>삼선짬뽕</Table.Cell>
+        <Table.Cell>메인 메뉴</Table.Cell>
+        <Table.Cell>13000</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell>군만두</Table.Cell>
+        <Table.Cell>사이드 메뉴</Table.Cell>
+        <Table.Cell>3000</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell>쌀국수</Table.Cell>
+        <Table.Cell>메인 메뉴</Table.Cell>
+        <Table.Cell>15000</Table.Cell>
+      </Table.Row>
+    </Table.Body>
+  </Table>
       <h1></h1>
       <Button onClick={() => {
         axios.get('https://port-0-server-for-tableorder-r8xoo2mlehe66wy.sel3.cloudtype.app/data').then((res) => {

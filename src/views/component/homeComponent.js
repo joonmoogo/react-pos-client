@@ -556,7 +556,7 @@ function WaitingList() {  //대기탭 미정
 
 function FindReceipe() { //영수증조회탭 서버에서 불러온 데이터로 구성될 예정
   let [data, setData] = useState([
-    { date: '2023-01-06', value: '오후 4:49', menu: ['막창2개', '밥2인분', '김'] },
+    { date: '2023-01-06', value: '오후 4:49', menu: ['쌀국수 | 3 | 36000', '짜사이 | 2 | 4000', '삼선짬뽕 | 2 | 18000'] },
     { date: '2023-01-06', value: '오후 4:50', menu: ['곱창2개', '밥2인분', '치킨'] },
     { date: '2023-01-06', value: '오후 4:51', menu: ['내장', '김치찌개', '피자'] },
     { date: '2023-01-06', value: '오후 4:52', menu: ['양고기', '밥2인분', '청양고추'] },
@@ -577,7 +577,7 @@ function FindReceipe() { //영수증조회탭 서버에서 불러온 데이터�
                 <Table.Row>
                   <Table.HeaderCell>index</Table.HeaderCell>
                   <Table.HeaderCell>date</Table.HeaderCell>
-                  <Table.HeaderCell>value</Table.HeaderCell>
+                  <Table.HeaderCell>time</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
               <Table.Body >
@@ -600,20 +600,31 @@ function FindReceipe() { //영수증조회탭 서버에서 불러온 데이터�
         <Grid.Column>
           <Segment>조회</Segment>
           <Segment>
+            <List>
             {/* <h1>이것은</h1>
                     <h1>영수증</h1> */}
-            <h2>{viewData.date}</h2>
-            <h2>{viewData.value}</h2>
+            <h3>[주문영수증] 안성 석정 아이라이포</h3>
+            <h3>============================</h3>
+            <h5>매장 주소: 경기 안성시 중앙로 328 가동 103,104호</h5>
+            <h5>매장 번호:152-129301-519209</h5>
+            <h4>주문 날짜: {viewData.date}</h4>
+            <h5>주문 시각: {viewData.value}</h5>
+            <h5>상품명 /t수량 /t 금액</h5>
             {viewData.menu && viewData.menu.map((e) => {
               return (
-                <Card>
-                  <Card.Content header={e} />
-                </Card>
+                <List.Item>
+                  <List.Content>
+                    <List.Description as='a'>
+                      {e}
+                    </List.Description>
+                  </List.Content>
+                </List.Item>
               )
             })}
+            </List>
           </Segment>
           <Segment>
-            <h1>총 36,000원</h1>
+            <h1>58000 Won</h1>
           </Segment>
           <Segment>
             <Button primary>환불처리</Button>
