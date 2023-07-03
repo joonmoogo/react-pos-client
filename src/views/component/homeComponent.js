@@ -194,6 +194,7 @@ function TableGroup(props) { // 기본
                       <Table.HeaderCell>상품명</Table.HeaderCell>
                       <Table.HeaderCell>가격</Table.HeaderCell>
                       <Table.HeaderCell>수량</Table.HeaderCell>
+                      <Table.HeaderCell></Table.HeaderCell>
 
                     </Table.Row>
                   </Table.Header>
@@ -207,7 +208,6 @@ function TableGroup(props) { // 기본
                     {JSON.parse(myStorage.getItem((clickedTable).toString())) != null ?
                       <>
                         {
-
                           JSON.parse(myStorage.getItem((clickedTable).toString())).map((e) => {
                             return (
 
@@ -216,6 +216,7 @@ function TableGroup(props) { // 기본
                                 <Table.Cell>{e.product}</Table.Cell>
                                 <Table.Cell>{e.price}</Table.Cell>
                                 <Table.Cell>{e.count}</Table.Cell>
+                                <Table.Cell>X</Table.Cell>
                               </TableRow>
 
                             )
@@ -229,6 +230,7 @@ function TableGroup(props) { // 기본
                                 <Table.Cell>{e.product}</Table.Cell>
                                 <Table.Cell>{e.price}</Table.Cell>
                                 <Table.Cell>{e.count}</Table.Cell>
+                                <Table.Cell>X</Table.Cell>
                               </TableRow>
                             )
                           })
@@ -241,19 +243,16 @@ function TableGroup(props) { // 기본
                             <Table.Cell>{e.product}</Table.Cell>
                             <Table.Cell>{e.price}</Table.Cell>
                             <Table.Cell>{e.count}</Table.Cell>
+                            <Table.Cell>X</Table.Cell>
                           </TableRow>
 
                         )
-
                       })
-
                     }
-
                   </Table.Body>
                 </Table>
               </Segment>
               <Segment>
-
                 <Header as='h3'>{`가격: ${myStorage.getItem(`${selectedTable.tableNumber}sum`) ? JSON.parse(myStorage.getItem(`${selectedTable.tableNumber}sum`)) + total : total} Won`}</Header >
               </Segment>
             </Grid.Column>
@@ -266,12 +265,9 @@ function TableGroup(props) { // 기본
               }}>X</Button></Segment>
               <Segment>
                 <Card.Group itemsPerRow={2}>
-
                   {menuList.map((e, i) => {
                     return (
-
                       <Card color="teal" onClick={() => {
-
                         e.tableNumber = selectedTable.tableNumber;
                         e.time = new Date().getTime();
                         e.count = e.count + 1;
@@ -280,23 +276,18 @@ function TableGroup(props) { // 기본
                         // (e.count ==1 ? temporaryOrder.push(e) : null)
                         if (e.count == 1) temporaryOrder.push(e);
                         setTemporaryOrder([...temporaryOrder]);
-
                       }}>
                         <Card.Content>
                           <Card.Header content={e.product}></Card.Header>
                           <Card.Meta content={e.price}></Card.Meta>
                         </Card.Content>
                       </Card>
-
                     )
                   })
                   }
-
-
                 </Card.Group>
-
               </Segment>
-
+              
               <Segment>
                 <Button primary onClick={() => {
                   alert('주문');

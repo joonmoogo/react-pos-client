@@ -92,48 +92,64 @@ function EditMarketInfo() {
 }
 
 function EditMenu() {
+  const myStorage = localStorage.getItem('menu')? localStorage.getItem('menu'):null;
+  const [menues,setMenues] = useState([
+  {name:'삼선짬뽕',menu:"메인 메뉴",price:'9000'},
+  {name:'쌀국수',menu:"메인 메뉴",price:'12000'},
+  {name:'군만두',menu:"사이드 메뉴",price:'3000'},
+  {name:'짜사이',menu:"사이드 메뉴",price:'2000'},
+  {name:'코코넛',menu:"주류 및 음료",price:'1000'},
+  {name:'반미',menu:"사이드 메뉴",price:'1500'}]);
   return (
     <>
-
-<Table basic='very'>
+    <Table basic='very'>
     <Table.Header>
       <Table.Row>
         <Table.HeaderCell>Name</Table.HeaderCell>
         <Table.HeaderCell>Menu</Table.HeaderCell>
         <Table.HeaderCell>Price</Table.HeaderCell>
+        <Table.HeaderCell></Table.HeaderCell>
       </Table.Row>
     </Table.Header>
-
+    {menues.map((e,i)=>{
+      return(
     <Table.Body>
-      <Table.Row onClick={()=>{
-        console.log('it was clicked');
-      }}>
-        <Table.Cell>삼선짬뽕</Table.Cell>
-        <Table.Cell>메인 메뉴</Table.Cell>
-        <Table.Cell>13000</Table.Cell>
-      </Table.Row>
       <Table.Row>
-        <Table.Cell>군만두</Table.Cell>
-        <Table.Cell>사이드 메뉴</Table.Cell>
-        <Table.Cell>3000</Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>쌀국수</Table.Cell>
-        <Table.Cell>메인 메뉴</Table.Cell>
-        <Table.Cell>15000</Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>생맥주</Table.Cell>
-        <Table.Cell>주류</Table.Cell>
-        <Table.Cell>4000</Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>오늘의 메뉴 광어회</Table.Cell>
-        <Table.Cell>기타</Table.Cell>
-        <Table.Cell>40000</Table.Cell>
+        <Table.Cell>{e.name}</Table.Cell>
+        <Table.Cell>{e.menu}</Table.Cell>
+        <Table.Cell>{e.price}</Table.Cell>
+        <Table.Cell><Button onClick={()=>{
+          console.log(`${e.name} delete button was clicked`);
+          let filtered = menues.filter((el)=> el.name !== e.name )
+          console.log(filtered);
+          setMenues(filtered);
+        }}>X</Button></Table.Cell>
       </Table.Row>
     </Table.Body>
-  </Table>
+      )
+    })}
+      </Table>
+
+    <Form>
+    <Form.Group widths='equal'>
+      <Form.Input id='name' fluid placeholder='이름' />
+      <Form.Input id='menu' fluid placeholder='메뉴'  />
+      <Form.Input id='price' fluid placeholder='가격'  />
+      <Button onClick={()=>{
+        console.log('add button was clcicked');
+        const name = document.querySelector('#name');
+        const menu = document.querySelector('#menu');
+        const price = document.querySelector('#price');
+        const added = {name: name.value, menu: menu.value, price:price.value};
+        console.log(added);
+        menues.push(added);
+        console.log(menues);
+        setMenues([...menues]);
+      }}>add</Button>
+    </Form.Group>
+  </Form>
+
+
       <h1></h1>
       {/* <Button onClick={() => {
         axios.get('https://port-0-server-for-tableorder-r8xoo2mlehe66wy.sel3.cloudtype.app/data').then((res) => {
@@ -162,7 +178,6 @@ function EditTable() {
     console.log(`x:${data.x.toFixed(0)} y:${data.y.toFixed(0)} w:${e.target.parentElement.style.width} h:${e.target.parentElement.style.height}`);
   };
   const handleEnd = (event, data) => {
-
     console.log(data);
     setOpacity(false);
   };
@@ -198,7 +213,6 @@ function EditTable() {
               e.w = (event.target.parentElement.style.width);
               e.privateKey = Math.floor(Math.random() * 99999999);
             }}
-
           >
             <div
 
@@ -209,8 +223,6 @@ function EditTable() {
                 onClick={() => { 'i was clicked' }}
                 color="green"
                 style={{ height: '80px', width: '90px', overflow: 'auto', resize: 'both' }}>
-
-
                 <Card.Content >
                   <Card.Header content={`${i + 1}T`} />
                   <Card.Meta content={e.tableName} />
