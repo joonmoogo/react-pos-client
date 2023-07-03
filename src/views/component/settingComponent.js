@@ -122,17 +122,27 @@ function EditMenu() {
         <Table.Cell>메인 메뉴</Table.Cell>
         <Table.Cell>15000</Table.Cell>
       </Table.Row>
+      <Table.Row>
+        <Table.Cell>생맥주</Table.Cell>
+        <Table.Cell>주류</Table.Cell>
+        <Table.Cell>4000</Table.Cell>
+      </Table.Row>
+      <Table.Row>
+        <Table.Cell>오늘의 메뉴 광어회</Table.Cell>
+        <Table.Cell>기타</Table.Cell>
+        <Table.Cell>40000</Table.Cell>
+      </Table.Row>
     </Table.Body>
   </Table>
       <h1></h1>
-      <Button onClick={() => {
+      {/* <Button onClick={() => {
         axios.get('https://port-0-server-for-tableorder-r8xoo2mlehe66wy.sel3.cloudtype.app/data').then((res) => {
           console.log(res.data)
         })
           .catch(() => {
             console.log('실패함')
           })
-      }}>변경</Button>
+      }}>변경</Button> */}
     </>
   )
 

@@ -6,24 +6,24 @@ import Calendar from "react-calendar";
 import moment from "moment/moment";
 import './homeComponent.css'
 import { EditUserInfo, EditMarketInfo, EditMenu, EditTable, SalesStatistics, ReviewComment, EditPreferences, SystemInfo, QrCode, } from "./settingComponent";
-import socket from "../../socket-client";
+// import socket from "../../socket-client";
 import { Notify } from "notiflix";
 // const audio = new Audio('https://www.fesliyanstudios.com/play-mp3/5450');
 
 
 
 let myStorage = window.localStorage; // 로컬스토리지 선언
-socket.on('userOrder', (data) => {
-  if (data) {
-    console.log(data);
-    myStorage.setItem(data[0].tableNumber, JSON.stringify(data));
-    Notify.success('주문들어왔습니다.');
-    // audio.play();
-  }
-  else {
-    return null;
-  }
-})
+// socket.on('userOrder', (data) => {
+//   if (data) {
+//     console.log(data);
+//     myStorage.setItem(data[0].tableNumber, JSON.stringify(data));
+//     Notify.success('주문들어왔습니다.');
+//     // audio.play();
+//   }
+//   else {
+//     return null;
+//   }
+// })
 
 //로컬스토리지는 도메인만 같으면 값을 공유함
 //그러므로 사용자의 아이디로 url을 달리 해야할듯
