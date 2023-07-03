@@ -78,6 +78,8 @@ function TableGroup(props) { // 기본
     { product: '반미', price: 1500, count: 0 },
   ]);
 
+  let [option,setOption]=useState(['메인 메뉴', '사이드 메뉴', '주류']);
+  let [tabMenu, setTabMenu] = useState('메인 메뉴');
   //서버에서 받을 데이터 가입시 기본 설정
 
   function clearMenuCount() {
@@ -264,6 +266,16 @@ function TableGroup(props) { // 기본
                 setTotal(0)
               }}>X</Button></Segment>
               <Segment>
+                <Menu fluid tabular color='teal'>
+                  {option.map((e,i)=>{
+                    return(
+                      <Menu.Item key={e} onClick={()=>{
+                        setTabMenu(e)
+                      }}
+                      active={tabMenu==e}>{e}</Menu.Item>
+                    )
+                  })}
+                </Menu>
                 <Card.Group itemsPerRow={2}>
                   {menuList.map((e, i) => {
                     return (
