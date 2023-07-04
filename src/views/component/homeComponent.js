@@ -302,8 +302,12 @@ function TableGroup(props) { // 기본
                 <Button primary onClick={() => {
                   alert('결제')
                   console.log(JSON.parse(myStorage.getItem(selectedTable.tableNumber)));
-                  console.log(new Date());
+                  
+                  const date = new Date();
+                  console.log(date)
                   console.log('서버에 결제요청');
+                  
+                  myStorage.setItem(`receipt ${new Date()}`,JSON.stringify(temporaryOrder));
                   setTemporaryOrder([]);
                   setClickedTable();
                   myStorage.removeItem(clickedTable.toString())
@@ -523,7 +527,9 @@ function WaitingList() {  //대기탭 미정
 }
 
 function FindReceipe() { //영수증조회탭 서버에서 불러온 데이터로 구성될 예정
-  let [data, setData] = useState([
+  let localData = Object.keys(localStorage);
+  console.log(localData);
+  let filtered = localData ? localData.filter((e)=>e.includes('receipt')) : [
     { date: '2023-01-06', value: '오후 4:49', menu: ['쌀국수 | 3 | 36000', '짜사이 | 2 | 4000', '삼선짬뽕 | 2 | 18000'] },
     { date: '2023-01-06', value: '오후 4:50', menu: ['곱창2개', '밥2인분', '치킨'] },
     { date: '2023-01-06', value: '오후 4:51', menu: ['내장', '김치찌개', '피자'] },
@@ -532,8 +538,20 @@ function FindReceipe() { //영수증조회탭 서버에서 불러온 데이터�
     { date: '2023-01-06', value: '오후 4:54', menu: ['마라탕', '밥2인분', '간장계란밥'] },
     { date: '2023-01-06', value: '오후 4:55', menu: ['칭따오', '밥2인분', '청양고추'] },
     { date: '2023-01-06', value: '오후 4:54', menu: ['마라탕', '밥2인분', '간장계란밥'] },
-  ])
+  ] ;
+  console.log(filtered);
+  let [data, setData] = useState(filtered)
   let [viewData, setViewData] = useState([]);
+  console.log(`this is ${viewData}`);
+  let viewdatasmenu = viewData? (JSON.parse(myStorage.getItem(viewData))) : null;
+  console.log(viewdatasmenu);
+  function getTotal(){
+    let sum = 0;
+    viewdatasmenu&&viewdatasmenu.map((e,i)=>{
+      sum += e.price * e.count;
+    })
+    return sum;
+  }
   return (
     <Grid columns='equal' relaxed>
       <Grid.Row>
@@ -556,8 +574,7 @@ function FindReceipe() { //영수증조회탭 서버에서 불러온 데이터�
                       console.log(viewData.menu)
                     }}>
                       <Table.Cell>{i + 1}</Table.Cell>
-                      <Table.Cell>{e.date}</Table.Cell>
-                      <Table.Cell>{e.value}</Table.Cell>
+                      <Table.Cell>{e}</Table.Cell>
                     </Table.Row>
                   )
                 })}
@@ -575,15 +592,15 @@ function FindReceipe() { //영수증조회탭 서버에서 불러온 데이터�
             <h3>============================</h3>
             <h5>매장 주소: 경기 안성시 중앙로 328 가동 103,104호</h5>
             <h5>매장 번호:152-129301-519209</h5>
-            <h4>주문 날짜: {viewData.date}</h4>
-            <h5>주문 시각: {viewData.value}</h5>
+            <h4>주문 날짜: {viewData}</h4>
+            <h5>주문 시각: {viewData}</h5>
             <h5>상품명 /t수량 /t 금액</h5>
-            {viewData.menu && viewData.menu.map((e) => {
+            {viewdatasmenu&& viewdatasmenu.map((e) => {
               return (
                 <List.Item>
                   <List.Content>
                     <List.Description as='a'>
-                      {e}
+                      {`${e.product} ${e.count} ${e.price}`}
                     </List.Description>
                   </List.Content>
                 </List.Item>
@@ -592,7 +609,7 @@ function FindReceipe() { //영수증조회탭 서버에서 불러온 데이터�
             </List>
           </Segment>
           <Segment>
-            <h1>58000 Won</h1>
+            <h1>{`${getTotal()} won `}</h1>
           </Segment>
           <Segment>
             <Button primary>환불처리</Button>
