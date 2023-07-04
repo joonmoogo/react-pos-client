@@ -92,20 +92,25 @@ function EditMarketInfo() {
 }
 
 function EditMenu() {
-  const [menues,setMenues] = useState([
-  {name:'삼선짬뽕',menu:"메인 메뉴",price:'9000'},
-  {name:'쌀국수',menu:"메인 메뉴",price:'12000'},
-  {name:'군만두',menu:"사이드 메뉴",price:'3000'},
-  {name:'짜사이',menu:"사이드 메뉴",price:'2000'},
-  {name:'코코넛',menu:"주류",price:'1000'},
-  {name:'반미',menu:"사이드 메뉴",price:'1500'}]);
+  const localMenu = JSON.parse(localStorage.getItem('menu'));
+  const initialMenues = localMenu? localMenu : [
+    { product: '삼선짬뽕', price: 9000, count: 0, option:'메인 메뉴'},
+    { product: '군만두', price: 3000, count: 0, option:'사이드 메뉴' },
+    { product: '쌀국수', price: 12000, count: 0, option:'메인 메뉴' },
+    { product: '짜사이', price: 2000, count: 0, option:'사이드 메뉴' },
+    { product: '코코넛', price: 1000, count: 0, option:'주류' },
+    { product: '반미', price: 1500, count: 0, option:'사이드 메뉴' },
+  ] ;
+  const [menues,setMenues] = useState(initialMenues);
+  
+  
   return (
     <>
     <Table basic='very'>
     <Table.Header>
       <Table.Row>
-        <Table.HeaderCell>Name</Table.HeaderCell>
-        <Table.HeaderCell>Menu</Table.HeaderCell>
+        <Table.HeaderCell>Product</Table.HeaderCell>
+        <Table.HeaderCell>Option</Table.HeaderCell>
         <Table.HeaderCell>Price</Table.HeaderCell>
         <Table.HeaderCell></Table.HeaderCell>
       </Table.Row>
@@ -114,12 +119,12 @@ function EditMenu() {
       return(
     <Table.Body>
       <Table.Row>
-        <Table.Cell>{e.name}</Table.Cell>
-        <Table.Cell>{e.menu}</Table.Cell>
+        <Table.Cell>{e.product}</Table.Cell>
+        <Table.Cell>{e.option}</Table.Cell>
         <Table.Cell>{e.price}</Table.Cell>
         <Table.Cell><Button onClick={()=>{
-          console.log(`${e.name} delete button was clicked`);
-          let filtered = menues.filter((el)=> el.name !== e.name )
+          console.log(`${e.product} delete button was clicked`);
+          let filtered = menues.filter((el)=> el.product !== e.product )
           console.log(filtered);
           setMenues(filtered);
         }}>X</Button></Table.Cell>
@@ -131,15 +136,15 @@ function EditMenu() {
 
     <Form>
     <Form.Group widths='equal'>
-      <Form.Input id='name' fluid placeholder='이름' />
-      <Form.Input id='menu' fluid placeholder='메뉴'  />
-      <Form.Input id='price' fluid placeholder='가격'  />
+      <Form.Input id='product' fluid placeholder='상품 이름' />
+      <Form.Input id='option' fluid placeholder='상품 옵션'  />
+      <Form.Input id='price' fluid placeholder='상품 가격'  />
       <Button onClick={()=>{
         console.log('add button was clcicked');
-        const name = document.querySelector('#name');
-        const menu = document.querySelector('#menu');
+        const product = document.querySelector('#product');
+        const option = document.querySelector('#option');
         const price = document.querySelector('#price');
-        const added = {name: name.value, menu: menu.value, price:price.value};
+        const added = {product: product.value, option: option.value, price:price.value, count:0};
         console.log(added);
         menues.push(added);
         console.log(menues);
@@ -152,6 +157,8 @@ function EditMenu() {
       <h1></h1>
       <Button onClick={()=>{
         console.log('button was clicekd');
+        localStorage.setItem('menu',JSON.stringify(menues));
+        alert('변경 완료');
       }}>변경</Button>
     </>
   )

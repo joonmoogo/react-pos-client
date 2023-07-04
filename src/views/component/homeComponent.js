@@ -68,9 +68,9 @@ function TableGroup(props) { // 기본
   //두 가지를 같이 사용한 라이브러리 redux persist라는게 존재함. => 참고하자.
 
   let [clickedTable, setClickedTable] = useState();
-  const localMenu = myStorage.getItem('menu');
+  const localMenu = JSON.parse(myStorage.getItem('menu'));
 
-  const initialMenuList = localMenu? JSON.parse(localMenu) : [
+  const initialMenuList = localMenu? localMenu : [
     { product: '삼선짬뽕', price: 9000, count: 0, option:'메인 메뉴'},
     { product: '군만두', price: 3000, count: 0, option:'사이드 메뉴' },
     { product: '쌀국수', price: 12000, count: 0, option:'메인 메뉴' },
@@ -80,19 +80,23 @@ function TableGroup(props) { // 기본
   ] 
   let [menuList, setMenuList] = useState(initialMenuList);
 
-  let [option,setOption]=useState(['메인 메뉴', '사이드 메뉴', '주류']);
+  let localOption = [];
+  
+  function getLocalOption(){
+    localMenu.map((e,i)=>{
+      if(!(localOption.includes(e.option))){
+        localOption.push(e.option);
+      }
+    })
+    return localOption;
+  }
+
   let [tabMenu, setTabMenu] = useState('메인 메뉴');
   //서버에서 받을 데이터 가입시 기본 설정
 
+  
   function clearMenuCount() {
-    setMenuList([
-      { product: '삼선짬뽕', price: 9000, count: 0 },
-      { product: '군만두', price: 3000, count: 0 },
-      { product: '쌀국수', price: 12000, count: 0 },
-      { product: '짜사이', price: 2000, count: 0 },
-      { product: '코코넛', price: 1000, count: 0 },
-      { product: '반미', price: 1500, count: 0 },
-    ])
+    setMenuList(initialMenuList);
   }
   // count개수 초기화 해주는 함수
 
@@ -240,7 +244,7 @@ function TableGroup(props) { // 기본
               }}>X</Button></Segment>
               <Segment>
                 <Menu fluid tabular color='teal'>
-                  {option.map((e,i)=>{
+                  {getLocalOption().map((e,i)=>{
                     return(
                       <Menu.Item key={e} onClick={()=>{
                         setTabMenu(e)
@@ -251,6 +255,7 @@ function TableGroup(props) { // 기본
                 </Menu>
                 <Card.Group itemsPerRow={2}>
                   {menuList.map((e, i) => { 
+                    if(e.option == tabMenu){
                     return (
                       <Card color="teal" onClick={() => {
                         e.tableNumber = selectedTable.tableNumber;
@@ -270,6 +275,7 @@ function TableGroup(props) { // 기본
                         </Card.Content>
                       </Card>
                     )
+                    }
                   })
                   }
                 </Card.Group>
