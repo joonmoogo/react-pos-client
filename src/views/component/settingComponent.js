@@ -92,13 +92,12 @@ function EditMarketInfo() {
 }
 
 function EditMenu() {
-  const myStorage = localStorage.getItem('menu')? localStorage.getItem('menu'):null;
   const [menues,setMenues] = useState([
   {name:'삼선짬뽕',menu:"메인 메뉴",price:'9000'},
   {name:'쌀국수',menu:"메인 메뉴",price:'12000'},
   {name:'군만두',menu:"사이드 메뉴",price:'3000'},
   {name:'짜사이',menu:"사이드 메뉴",price:'2000'},
-  {name:'코코넛',menu:"주류 및 음료",price:'1000'},
+  {name:'코코넛',menu:"주류",price:'1000'},
   {name:'반미',menu:"사이드 메뉴",price:'1500'}]);
   return (
     <>
@@ -151,14 +150,9 @@ function EditMenu() {
 
 
       <h1></h1>
-      {/* <Button onClick={() => {
-        axios.get('https://port-0-server-for-tableorder-r8xoo2mlehe66wy.sel3.cloudtype.app/data').then((res) => {
-          console.log(res.data)
-        })
-          .catch(() => {
-            console.log('실패함')
-          })
-      }}>변경</Button> */}
+      <Button onClick={()=>{
+        console.log('button was clicekd');
+      }}>변경</Button>
     </>
   )
 

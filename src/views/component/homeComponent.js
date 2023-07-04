@@ -68,15 +68,17 @@ function TableGroup(props) { // 기본
   //두 가지를 같이 사용한 라이브러리 redux persist라는게 존재함. => 참고하자.
 
   let [clickedTable, setClickedTable] = useState();
+  const localMenu = myStorage.getItem('menu');
 
-  let [menuList, setMenuList] = useState([
-    { product: '삼선짬뽕', price: 9000, count: 0 },
-    { product: '군만두', price: 3000, count: 0 },
-    { product: '쌀국수', price: 12000, count: 0 },
-    { product: '짜사이', price: 2000, count: 0 },
-    { product: '코코넛', price: 1000, count: 0 },
-    { product: '반미', price: 1500, count: 0 },
-  ]);
+  const initialMenuList = localMenu? JSON.parse(localMenu) : [
+    { product: '삼선짬뽕', price: 9000, count: 0, option:'메인 메뉴'},
+    { product: '군만두', price: 3000, count: 0, option:'사이드 메뉴' },
+    { product: '쌀국수', price: 12000, count: 0, option:'메인 메뉴' },
+    { product: '짜사이', price: 2000, count: 0, option:'사이드 메뉴' },
+    { product: '코코넛', price: 1000, count: 0, option:'주류' },
+    { product: '반미', price: 1500, count: 0, option:'사이드 메뉴' },
+  ] 
+  let [menuList, setMenuList] = useState(initialMenuList);
 
   let [option,setOption]=useState(['메인 메뉴', '사이드 메뉴', '주류']);
   let [tabMenu, setTabMenu] = useState('메인 메뉴');
@@ -112,26 +114,16 @@ function TableGroup(props) { // 기본
   // let a = useSelector((state)=>{return state});
   let [tableColor, setTableColor] = useState();
 
-  // function total(e){
-  //   let total = 0;
-  //   if(e ){
-  //   let item = JSON.parse(myStorage.getItem(e));
-  //   item.map((e)=>{
-  //     total += e.price;
-  //   })
-  //   return total;
-  // }
 
-  //   return 0;
-  // }
 
-  function getTotal() {
-    JSON.parse(myStorage.getItem((clickedTable).toString())).map((e) => {
-      setTotal(total + e.price);
+  function getTotal(){
+    let sum = 0;
+    temporaryOrder.map((e,i)=>{
+      sum += e.price * e.count;
     })
+    return sum;
   }
 
-  let [total, setTotal] = useState(0);
   let margin = 30;
   return (
     <>
@@ -148,7 +140,14 @@ function TableGroup(props) { // 기본
                   // style={{backgroundColor:'teal'}} 
                   style={{ width: `${e.w ? e.w : '90px'}`, height: `${e.h ? e.h : '80px'}`, overflow: 'hidden', position: 'absolute', top: `${e.y}px`, left: `${e.x}px` }} // 이거 수정하셈 테이블세팅 
                   onClick={() => {
+                    const items = JSON.parse(myStorage.getItem(e.tableNumber));
                     setClickedTable(`${e.tableNumber}`);
+                    if(items){
+                      setTemporaryOrder(items);
+                    }
+                    console.log(clickedTable);
+                    console.log(temporaryOrder);
+                    
                   }}>
                   <Card.Content >
                     <Card.Header content={`${e.tableNumber} T`} />
@@ -207,55 +206,30 @@ function TableGroup(props) { // 기본
                         <Table.Cell>13,000</Table.Cell>
                       </TableRow> */}
 
-                    {JSON.parse(myStorage.getItem((clickedTable).toString())) != null ?
-                      <>
-                        {
-                          JSON.parse(myStorage.getItem((clickedTable).toString())).map((e) => {
-                            return (
-
-                              <TableRow>
-
-                                <Table.Cell>{e.product}</Table.Cell>
-                                <Table.Cell>{e.price}</Table.Cell>
-                                <Table.Cell>{e.count}</Table.Cell>
-                                <Table.Cell>X</Table.Cell>
-                              </TableRow>
-
-                            )
-                          })
-                        }
-                        {
-                          temporaryOrder.map((e) => {
-
-                            return (
-                              <TableRow>
-                                <Table.Cell>{e.product}</Table.Cell>
-                                <Table.Cell>{e.price}</Table.Cell>
-                                <Table.Cell>{e.count}</Table.Cell>
-                                <Table.Cell>X</Table.Cell>
-                              </TableRow>
-                            )
-                          })
-                        }
-                      </>
-                      :
-                      temporaryOrder.map((e) => {
+                    {temporaryOrder.map((e) => { // state의 내용만 출력
                         return (
-                          <TableRow>
+                          <TableRow onClick={()=>{
+                            console.log(`${e.product} was clicked`);
+                          }}>
                             <Table.Cell>{e.product}</Table.Cell>
                             <Table.Cell>{e.price}</Table.Cell>
                             <Table.Cell>{e.count}</Table.Cell>
-                            <Table.Cell>X</Table.Cell>
+                            <Table.Cell onClick={()=>{
+                              console.log(`${e.product} delete button was clicked`);
+                              let filtered = temporaryOrder.filter((el)=> el.time !== e.time);
+                              console.log(filtered);
+                              setTemporaryOrder(filtered);
+                              clearMenuCount();
+                            }}>❌</Table.Cell>
                           </TableRow>
-
                         )
-                      })
-                    }
+                      })}
+                    
                   </Table.Body>
                 </Table>
               </Segment>
               <Segment>
-                <Header as='h3'>{`가격: ${myStorage.getItem(`${selectedTable.tableNumber}sum`) ? JSON.parse(myStorage.getItem(`${selectedTable.tableNumber}sum`)) + total : total} Won`}</Header >
+                <Header as='h3'>{`가격: ${getTotal()} Won`}</Header >
               </Segment>
             </Grid.Column>
             <Grid.Column>
@@ -263,7 +237,6 @@ function TableGroup(props) { // 기본
                 setClickedTable();
                 setTemporaryOrder([]);
                 clearMenuCount();
-                setTotal(0)
               }}>X</Button></Segment>
               <Segment>
                 <Menu fluid tabular color='teal'>
@@ -277,17 +250,19 @@ function TableGroup(props) { // 기본
                   })}
                 </Menu>
                 <Card.Group itemsPerRow={2}>
-                  {menuList.map((e, i) => {
+                  {menuList.map((e, i) => { 
                     return (
                       <Card color="teal" onClick={() => {
                         e.tableNumber = selectedTable.tableNumber;
                         e.time = new Date().getTime();
                         e.count = e.count + 1;
-                        setTotal(total + e.price);
                         // temporaryOrder.push(e);
                         // (e.count ==1 ? temporaryOrder.push(e) : null)
-                        if (e.count == 1) temporaryOrder.push(e);
+                        if (e.count == 1) 
+                        {temporaryOrder.push(e);}
                         setTemporaryOrder([...temporaryOrder]);
+                        console.log(temporaryOrder)
+                        console.log(e);
                       }}>
                         <Card.Content>
                           <Card.Header content={e.product}></Card.Header>
@@ -305,20 +280,9 @@ function TableGroup(props) { // 기본
                   alert('주문');
                   setClickedTable();
                   setTemporaryOrder([]);
-                  clearMenuCount();
-                  myStorage.getItem(`${selectedTable.tableNumber}sum`) ?
-                    myStorage.setItem(`${selectedTable.tableNumber}sum`, JSON.parse(myStorage.getItem(`${selectedTable.tableNumber}sum`)) + total)
-                    : myStorage.setItem(`${selectedTable.tableNumber}sum`, total);
-                  setTotal(0)
+                  clearMenuCount();                 
                   let localItem = JSON.parse(myStorage.getItem(selectedTable.tableNumber));
-                  localItem == null ? //스토리지에 아이템이 없다면?
-                    <>
-                      {myStorage.setItem(selectedTable.tableNumber, `${JSON.stringify(temporaryOrder)}`)}
-                    </>
-                    :
-                    <>
-                      {myStorage.setItem(selectedTable.tableNumber, `${JSON.stringify([...localItem, ...temporaryOrder])}`)}
-                    </>
+                  myStorage.setItem(selectedTable.tableNumber, `${JSON.stringify(temporaryOrder)}`)
                   {
                     let kitchen = myStorage.getItem('kitchen');
                     // myStorage.setItem('kitchen',myStorage.getItem(kitchen))
@@ -332,14 +296,11 @@ function TableGroup(props) { // 기본
                 <Button primary onClick={() => {
                   alert('결제')
                   console.log(JSON.parse(myStorage.getItem(selectedTable.tableNumber)));
-                  console.log(JSON.parse(myStorage.getItem(`${selectedTable.tableNumber}sum`)));
                   console.log(new Date());
                   console.log('서버에 결제요청');
                   setTemporaryOrder([]);
                   setClickedTable();
-                  setTotal(0)
                   myStorage.removeItem(clickedTable.toString())
-                  myStorage.removeItem(`${clickedTable}sum`.toString());
 
                 }}>결제</Button>
 
@@ -347,10 +308,8 @@ function TableGroup(props) { // 기본
                   alert('주문취소');
                   setClickedTable();
                   setTemporaryOrder([]);
-                  setTotal(0)
                   myStorage.removeItem(clickedTable.toString());
                   myStorage.removeItem(`kitchen${clickedTable}`.toString());
-                  myStorage.removeItem(`${clickedTable}sum`.toString());
                 }}>주문취소</Button>
               </Segment>
 
