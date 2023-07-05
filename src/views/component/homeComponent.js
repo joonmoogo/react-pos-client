@@ -28,29 +28,33 @@ let myStorage = window.localStorage; // 로컬스토리지 선언
 //로컬스토리지는 도메인만 같으면 값을 공유함
 //그러므로 사용자의 아이디로 url을 달리 해야할듯
 //  ex) localhost:3000/start/joonmoogo
-let tableSetting = myStorage.getItem('tableSetting') ? JSON.parse(myStorage.getItem('tableSetting')) : [
-  { tableNumber: 1, tableName: 'red' },
-  { tableNumber: 2, tableName: 'yellow' },
-  { tableNumber: 3, tableName: 'olive' },
-  { tableNumber: 4, tableName: 'green' },
-  { tableNumber: 5, tableName: 'teal' },
-  { tableNumber: 6, tableName: 'blue' },
-  { tableNumber: 7, tableName: 'violet' },
-  { tableNumber: 8, tableName: 'purple' },
-  { tableNumber: 9, tableName: 'pink' },
-  { tableNumber: 10, tableName: '예약' },
-  { tableNumber: 11, tableName: 'yellow' },
-  { tableNumber: 12, tableName: '예약' },
-  { tableNumber: 13, tableName: '혼밥' },
-  { tableNumber: 14, tableName: '혼밥' },
-  { tableNumber: 15, tableName: '혼밥' },
-];
+
 
 
 
 let counterSetting = myStorage.getItem('counterSetting') ? JSON.parse(myStorage.getItem('counterSetting')) : [{ tableNumber: 10, tableName: '예약' }];
 
 function TableGroup(props) { // 기본
+  let localTableList = JSON.parse(myStorage.getItem('tableSetting'));
+  let initialTableList = localTableList? localTableList : [
+    { tableNumber: 1, tableName: 'red' },
+    { tableNumber: 2, tableName: 'yellow' },
+    { tableNumber: 3, tableName: 'olive' },
+    { tableNumber: 4, tableName: 'green' },
+    { tableNumber: 5, tableName: 'teal' },
+    { tableNumber: 6, tableName: 'blue' },
+    { tableNumber: 7, tableName: 'violet' },
+    { tableNumber: 8, tableName: 'purple' },
+    { tableNumber: 9, tableName: 'pink' },
+    { tableNumber: 10, tableName: '예약' },
+    { tableNumber: 11, tableName: 'yellow' },
+    { tableNumber: 12, tableName: '예약' },
+    { tableNumber: 13, tableName: '혼밥' },
+    { tableNumber: 14, tableName: '혼밥' },
+    { tableNumber: 15, tableName: '혼밥' },
+  ];
+
+  let tableSetting = initialTableList;
 
   let [table, setTable] = useState(tableSetting);
   let [counter, setCounter] = useState(counterSetting);
@@ -768,7 +772,6 @@ function Manager() {
           {state == 'ReviewComment' ? <ReviewComment /> : null}
           {state == 'EditPreferences' ? <EditPreferences /> : null}
           {state == 'SystemInfo' ? <SystemInfo /> : null}
-          {state == 'QrCode' ? <QrCode item={tableSetting} /> : null}
         </Segment>
       </>
   )
