@@ -53,17 +53,17 @@ function EditMarketInfo() {
       <Form>
         <Form.Field>
           <label>상호명</label>
-          <input placeholder='Name' value='행복 맥주' />
+          <input id="company" placeholder='Name' value='행복 맥주' />
         </Form.Field>
         <Form.Field>
           <label>오픈 시간</label>
-          <input placeholder='Opening time' value='18:00pm' />
+          <input id="openingTime" placeholder='Opening time' value='18:00pm' />
         </Form.Field>
         <Form.Field>
         </Form.Field>
         <Form.Field>
           <label>마감 시간</label>
-          <input placeholder='마감 시간' value='00:00am' />
+          <input id='closingTime'placeholder='마감 시간' value='00:00am' />
         </Form.Field>
         <Form.Field>
           <label>check</label>
@@ -74,15 +74,22 @@ function EditMarketInfo() {
         </Form.Field>
         <Form.Field>
           <label>주소</label>
-          <input placeholder='Address' value='안성시 비룡2길 32' />
+          <input id="address" placeholder='Address' value='안성시 비룡2길 32' />
         </Form.Field>
         <Form.Field>
           <Checkbox label='I agree to the Terms and Conditions' />
         </Form.Field>
         <Form reply >
           <label>가게 소개</label>
-          <TextArea value='맥주맛집' />
-          <Button content='Add Reply' labelPosition='left' icon='edit' primary />
+          <TextArea id='companyIntroduce' value='맥주맛집' />
+          <Button content='Add Reply' labelPosition='left' icon='edit' primary onClick={()=>{
+            const company = document.querySelector('#company').value;
+            const openingTime = document.querySelector('#openingTime').value;
+            const closingTime = document.querySelector('#closingTime').value;
+            const address = document.querySelector('#address').value;
+            const companyIntroduce = document.querySelector('#companyIntroduce').value;
+            localStorage.setItem('company',JSON.stringify({company : company, openingTime : openingTime, closingTime : closingTime, address : address, companyIntroduce : companyIntroduce}));
+          }} />
         </Form>
       </Form>
 
@@ -93,14 +100,7 @@ function EditMarketInfo() {
 
 function EditMenu() {
   const localMenu = JSON.parse(localStorage.getItem('menu'));
-  const initialMenues = localMenu? localMenu : [
-    { product: '삼선짬뽕', price: 9000, count: 0, option:'메인 메뉴'},
-    { product: '군만두', price: 3000, count: 0, option:'사이드 메뉴' },
-    { product: '쌀국수', price: 12000, count: 0, option:'메인 메뉴' },
-    { product: '짜사이', price: 2000, count: 0, option:'사이드 메뉴' },
-    { product: '코코넛', price: 1000, count: 0, option:'주류' },
-    { product: '반미', price: 1500, count: 0, option:'사이드 메뉴' },
-  ] ;
+  const initialMenues = localMenu? localMenu : [] ;
   const [menues,setMenues] = useState(initialMenues);
   
   

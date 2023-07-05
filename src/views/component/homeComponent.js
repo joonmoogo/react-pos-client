@@ -36,23 +36,7 @@ let counterSetting = myStorage.getItem('counterSetting') ? JSON.parse(myStorage.
 
 function TableGroup(props) { // 기본
   let localTableList = JSON.parse(myStorage.getItem('tableSetting'));
-  let initialTableList = localTableList? localTableList : [
-    { tableNumber: 1, tableName: 'red' },
-    { tableNumber: 2, tableName: 'yellow' },
-    { tableNumber: 3, tableName: 'olive' },
-    { tableNumber: 4, tableName: 'green' },
-    { tableNumber: 5, tableName: 'teal' },
-    { tableNumber: 6, tableName: 'blue' },
-    { tableNumber: 7, tableName: 'violet' },
-    { tableNumber: 8, tableName: 'purple' },
-    { tableNumber: 9, tableName: 'pink' },
-    { tableNumber: 10, tableName: '예약' },
-    { tableNumber: 11, tableName: 'yellow' },
-    { tableNumber: 12, tableName: '예약' },
-    { tableNumber: 13, tableName: '혼밥' },
-    { tableNumber: 14, tableName: '혼밥' },
-    { tableNumber: 15, tableName: '혼밥' },
-  ];
+  let initialTableList = localTableList? localTableList : [];
 
   let tableSetting = initialTableList;
 
@@ -73,21 +57,12 @@ function TableGroup(props) { // 기본
 
   let [clickedTable, setClickedTable] = useState();
   const localMenu = JSON.parse(myStorage.getItem('menu'));
-
-  const initialMenuList = localMenu? localMenu : [
-    { product: '삼선짬뽕', price: 9000, count: 0, option:'메인 메뉴'},
-    { product: '군만두', price: 3000, count: 0, option:'사이드 메뉴' },
-    { product: '쌀국수', price: 12000, count: 0, option:'메인 메뉴' },
-    { product: '짜사이', price: 2000, count: 0, option:'사이드 메뉴' },
-    { product: '코코넛', price: 1000, count: 0, option:'주류' },
-    { product: '반미', price: 1500, count: 0, option:'사이드 메뉴' },
-  ] 
+  const initialMenuList = localMenu? localMenu : [] 
   let [menuList, setMenuList] = useState(initialMenuList);
 
   let localOption = [];
-  
   function getLocalOption(){
-    localMenu.map((e,i)=>{
+    initialMenuList.map((e,i)=>{
       if(!(localOption.includes(e.option))){
         localOption.push(e.option);
       }
@@ -222,7 +197,7 @@ function TableGroup(props) { // 기본
                             <Table.Cell>{e.product}</Table.Cell>
                             <Table.Cell>{e.price}</Table.Cell>
                             <Table.Cell>{e.count}</Table.Cell>
-                            <Table.Cell onClick={()=>{
+                            <Table.Cell style={{ cursor: 'pointer' }} onClick={()=>{
                               console.log(`${e.product} delete button was clicked`);
                               let filtered = temporaryOrder.filter((el)=> el.time !== e.time);
                               console.log(filtered);
@@ -311,7 +286,7 @@ function TableGroup(props) { // 기본
                   console.log(date)
                   console.log('서버에 결제요청');
                   
-                  myStorage.setItem(`receipt ${new Date()}`,JSON.stringify(temporaryOrder));
+                  myStorage.setItem(`receipt | ${moment().format('LL')} | ${moment().format('LT')} | ${new Date()}`,JSON.stringify(temporaryOrder));
                   setTemporaryOrder([]);
                   setClickedTable();
                   myStorage.removeItem(clickedTable.toString())
@@ -436,116 +411,65 @@ function ReservationList() { // 예약탭 서버에서 불러온 데이터로 �
 }
 
 function WaitingList() {  //대기탭 미정
-  const paragraph = <ImageComponent src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />
+  let waiting = JSON.parse(localStorage.getItem('waiting'));
+  let initialWaiting = waiting? waiting : [];
+  let [people,setPeople] = useState(initialWaiting);
 
   return (
     <>
-      <Item.Group link>
-        <Item>
+      {people&&people.map((e,i)=>{
+        return(
+          <Item.Group link>
+
+          <Item>
           <Item.Image size='tiny' src='https://react.semantic-ui.com/images/avatar/large/stevie.jpg' />
 
           <Item.Content>
-            <Item.Header>Stevie Feliciano</Item.Header>
-            <Item.Description>{paragraph}</Item.Description>
+            <Item.Header>{e.name}</Item.Header>
+            <Item.Description>{e.count}</Item.Description>
           </Item.Content>
         </Item>
+        </Item.Group>
+        )
+      })}
+            
 
-        <Item>
-          <Item.Image size='tiny' src='https://react.semantic-ui.com/images/avatar/large/jenny.jpg' />
-
-          <Item.Content>
-            <Item.Header>Veronika Ossi</Item.Header>
-            <Item.Description>{paragraph}</Item.Description>
-          </Item.Content>
-        </Item>
-
-        <Item>
-          <Item.Image size='tiny' src='https://react.semantic-ui.com/images/avatar/large/veronika.jpg' />
-
-          <Item.Content>
-            <Item.Header>Jenny Hess</Item.Header>
-            <Item.Description>{paragraph}</Item.Description>
-          </Item.Content>
-        </Item>
-
-        <Item>
-          <Item.Image size='tiny' src='https://react.semantic-ui.com/images/avatar/large/stevie.jpg' />
-
-          <Item.Content>
-            <Item.Header>Stevie Feliciano</Item.Header>
-            <Item.Description>{paragraph}</Item.Description>
-          </Item.Content>
-        </Item>
-
-        <Item>
-          <Item.Image size='tiny' src='https://react.semantic-ui.com/images/avatar/large/jenny.jpg' />
-
-          <Item.Content>
-            <Item.Header>Veronika Ossi</Item.Header>
-            <Item.Description>{paragraph}</Item.Description>
-          </Item.Content>
-        </Item>
-
-        <Item>
-          <Item.Image size='tiny' src='https://react.semantic-ui.com/images/avatar/large/veronika.jpg' />
-
-          <Item.Content>
-            <Item.Header>Jenny Hess</Item.Header>
-            <Item.Description>{paragraph}</Item.Description>
-          </Item.Content>
-        </Item>
-        <Item>
-          <Item.Image size='tiny' src='https://react.semantic-ui.com/images/avatar/large/veronika.jpg' />
-
-          <Item.Content>
-            <Item.Header>Jenny Hess</Item.Header>
-            <Item.Description>{paragraph}</Item.Description>
-          </Item.Content>
-        </Item>
-        <Item>
-          <Item.Image size='tiny' src='https://react.semantic-ui.com/images/avatar/large/veronika.jpg' />
-
-          <Item.Content>
-            <Item.Header>Jenny Hess</Item.Header>
-            <Item.Description>{paragraph}</Item.Description>
-          </Item.Content>
-        </Item>
-        <Item>
-          <Item.Image size='tiny' src='https://react.semantic-ui.com/images/avatar/large/veronika.jpg' />
-
-          <Item.Content>
-            <Item.Header>Jenny Hess</Item.Header>
-            <Item.Description>{paragraph}</Item.Description>
-          </Item.Content>
-        </Item>
-
-
-      </Item.Group>
-      <Button color='teal' fluid size='large' onClick={() => {
-        console.log('button was clicked');
-      }}>
-        대기열 추가
-      </Button>
+      
+      <Form>
+          <Form.Group>
+            <Form.Input
+              placeholder='이름'
+              name='이름'
+              id='name'
+            />
+            <Form.Input
+              placeholder='인원 수'
+              name='인원 수'
+              id='count'
+            />
+            <Form.Button fluid color="teal" content='Submit' onClick={()=>{
+              const name = document.querySelector('#name').value;
+              const count = document.querySelector('#count').value;
+              people.push({name:name, count:count});
+              setPeople([...people]);
+              
+            }} />
+          </Form.Group>
+        </Form>
+      
     </>
   )
 }
 
 function FindReceipe() { //영수증조회탭 서버에서 불러온 데이터로 구성될 예정
+  const company = JSON.parse(myStorage.getItem('company'));
+  const initialCompany = company ? company : '';
   let localData = Object.keys(localStorage);
   console.log(localData);
-  let filtered = localData ? localData.filter((e)=>e.includes('receipt')) : [
-    { date: '2023-01-06', value: '오후 4:49', menu: ['쌀국수 | 3 | 36000', '짜사이 | 2 | 4000', '삼선짬뽕 | 2 | 18000'] },
-    { date: '2023-01-06', value: '오후 4:50', menu: ['곱창2개', '밥2인분', '치킨'] },
-    { date: '2023-01-06', value: '오후 4:51', menu: ['내장', '김치찌개', '피자'] },
-    { date: '2023-01-06', value: '오후 4:52', menu: ['양고기', '밥2인분', '청양고추'] },
-    { date: '2023-01-06', value: '오후 4:53', menu: ['양배추', '오미자', '청양고추'] },
-    { date: '2023-01-06', value: '오후 4:54', menu: ['마라탕', '밥2인분', '간장계란밥'] },
-    { date: '2023-01-06', value: '오후 4:55', menu: ['칭따오', '밥2인분', '청양고추'] },
-    { date: '2023-01-06', value: '오후 4:54', menu: ['마라탕', '밥2인분', '간장계란밥'] },
-  ] ;
+  let filtered = localData ? localData.filter((e)=>e.includes('receipt')).sort() : [] ;
   console.log(filtered);
   let [data, setData] = useState(filtered)
-  let [viewData, setViewData] = useState([]);
+  let [viewData, setViewData] = useState();
   console.log(`this is ${viewData}`);
   let viewdatasmenu = viewData? (JSON.parse(myStorage.getItem(viewData))) : null;
   console.log(viewdatasmenu);
@@ -575,10 +499,12 @@ function FindReceipe() { //영수증조회탭 서버에서 불러온 데이터�
                   return (
                     <Table.Row key={i} onClick={() => {
                       setViewData(e);
-                      console.log(viewData.menu)
+                      console.log(viewData)
+                      console.log(typeof(viewData));
                     }}>
                       <Table.Cell>{i + 1}</Table.Cell>
-                      <Table.Cell>{e}</Table.Cell>
+                      <Table.Cell>{e.split('|')[1]}</Table.Cell>
+                      <Table.Cell>{e.split('|')[2]}</Table.Cell>
                     </Table.Row>
                   )
                 })}
@@ -592,19 +518,20 @@ function FindReceipe() { //영수증조회탭 서버에서 불러온 데이터�
             <List>
             {/* <h1>이것은</h1>
                     <h1>영수증</h1> */}
-            <h3>[주문영수증] 안성 석정 아이라이포</h3>
+            <h3>[주문영수증]   {initialCompany.company}</h3>
             <h3>============================</h3>
-            <h5>매장 주소: 경기 안성시 중앙로 328 가동 103,104호</h5>
-            <h5>매장 번호:152-129301-519209</h5>
-            <h4>주문 날짜: {viewData}</h4>
-            <h5>주문 시각: {viewData}</h5>
+            <h5>{initialCompany.address}</h5>
+            <h5>152-129301-519209</h5>
+            <h5>open : {initialCompany.openingTime} | close:{initialCompany.closingTime}</h5>
+            <h4>주문 날짜: {viewData&&viewData.split('|')[1]}</h4>
+            <h5>주문 시각: {viewData&&viewData.split('|')[2]}</h5>
             <h5>상품명 /t수량 /t 금액</h5>
             {viewdatasmenu&& viewdatasmenu.map((e) => {
               return (
                 <List.Item>
                   <List.Content>
-                    <List.Description as='a'>
-                      {`${e.product} ${e.count} ${e.price}`}
+                    <List.Description as='h3'>
+                      {`⁘ ${e.product} ${e.count} * ${e.price} = ${e.count * e.price}`}
                     </List.Description>
                   </List.Content>
                 </List.Item>
@@ -633,7 +560,7 @@ function isOrder() {
 function OrderList() { //주방탭
 
   console.log(Object.keys(localStorage));
-  let kitchenOrder = Object.keys(localStorage).filter((e) => e.length >= 6 && e.length < 11).sort();
+  let kitchenOrder = Object.keys(localStorage).filter((e) => e.includes('kitchen')).sort();
   let [st, setSt] = useState(kitchenOrder);
   console.log(kitchenOrder);
   return (
