@@ -265,7 +265,7 @@ function TableGroup(props) { // 기본
                   alert('주문');
                   setClickedTable();
                   setTemporaryOrder([]);
-                  clearMenuCount();                 
+                  clearMenuCount();
                   let localItem = JSON.parse(myStorage.getItem(selectedTable.tableNumber));
                   myStorage.setItem(selectedTable.tableNumber, `${JSON.stringify(temporaryOrder)}`)
                   {
@@ -289,6 +289,7 @@ function TableGroup(props) { // 기본
                   myStorage.setItem(`receipt | ${moment().format('LL')} | ${moment().format('LT')} | ${new Date()}`,JSON.stringify(temporaryOrder));
                   setTemporaryOrder([]);
                   setClickedTable();
+                  clearMenuCount();
                   myStorage.removeItem(clickedTable.toString())
 
                 }}>결제</Button>
@@ -432,9 +433,6 @@ function WaitingList() {  //대기탭 미정
         </Item.Group>
         )
       })}
-            
-
-      
       <Form>
           <Form.Group>
             <Form.Input

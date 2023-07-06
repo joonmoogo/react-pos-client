@@ -1,10 +1,22 @@
-import { React, useState, createRef } from "react";
+import { React, useState, createRef, useEffect } from "react";
 import { Label, Comment, Table, List, Image as ImageComponent, Item, Card, Menu, Message, Grid, Header, Button, Form, Segment, Image, Container, Sticky } from "semantic-ui-react";
 import { Route, Link, useNavigate } from 'react-router-dom'
 import { TableGroup, ReservationList, WaitingList, FindReceipe, OrderList, ReviewComment, Manager } from './component/homeComponent.js'
+import naver_id_login from "../naver.login.js";
+function Home()  {
 
-function Home() {
-
+  // function naverSignInCallBack(){
+  //   console.log(naver_id_login.getProfileData('email'));
+  //   console.log(naver_id_login.getProfileData('name'));
+  //   console.log(naver_id_login.getProfileData('age'));
+  // }
+  // naverSignInCallBack();
+  useEffect(()=>{
+    alert(naver_id_login.oauthParams.access_token);
+    console.log(naver_id_login);
+  },[])
+  
+  // 네이버 사용자 프로필 조회
   let navigate = useNavigate();
   let [menu, setMenu] = useState('홀');
   let [tableGroup, setTableGroup] = useState(false);

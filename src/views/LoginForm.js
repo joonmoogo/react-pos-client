@@ -2,8 +2,10 @@ import React from 'react'
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
 import { Link, useNavigate } from 'react-router-dom'
 import './loginForm.css'
+import naver_id_login from '../naver.login'
 
 function LoginForm() {
+
   let navigate = useNavigate();
   return (
     <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
@@ -35,10 +37,14 @@ function LoginForm() {
         </Message>
         <Message>
           <Image style={{float:'left',marginRight:'10px'}} size='small' src='/img/kakao_login_medium_narrow.png'></Image>
-          <Image size='small' src='/img/btnG_naver.png'></Image>
+          <Button id='naver_id_login' size='small' src='/img/btnG_naver.png' onClick={()=>{
+            console.log('naver button was clicked');
+            naver_id_login.init_naver_id_login();
+          }}></Button>
         </Message>
       </Grid.Column>
     </Grid>
   );
 }
+
 export default LoginForm
