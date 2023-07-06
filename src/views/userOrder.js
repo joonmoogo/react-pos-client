@@ -5,7 +5,7 @@ import socket from "../socket-client";
 import { Notify, Report } from "notiflix";
 import axios from 'axios';
 
-const API_KEY = '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';
+const API_KEY = process.env.API_KEY;
 
 
 
