@@ -3,6 +3,8 @@ import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui
 import { Link, useNavigate } from 'react-router-dom'
 import './loginForm.css'
 import naver_id_login from '../naver_login'
+import SocialKakao from '../kakao_login'
+
 
 function LoginForm() {
 
@@ -39,7 +41,8 @@ function LoginForm() {
           <Link to='/signUp'>회원가입 | </Link>
         </Message>
         <Message>
-          <Image style={{float:'left',marginRight:'10px',cursor:'pointer'}} size='small' src='/img/kakao_login_medium_narrow.png'></Image>
+          {/* <Image style={{float:'left',marginRight:'10px',cursor:'pointer'}} size='small' src='/img/kakao_login_medium_narrow.png'></Image> */}
+          <div>{<SocialKakao/>}</div>
           <div id='naver_id_login'></div>
         </Message>
       </Grid.Column>
