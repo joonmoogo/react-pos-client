@@ -23,14 +23,7 @@ const audio = new Audio("https://www.fesliyanstudios.com/play-mp3/387");
 
 function App() {
   let table = localStorage.getItem('tableSetting') ? JSON.parse(localStorage.getItem('tableSetting')) : 0;
-  let menu = [
-    { product: '삼선짬뽕', price: 9000, count: 0 },
-    { product: '군만두', price: 3000, count: 0 },
-    { product: '쌀국수', price: 12000, count: 0 },
-    { product: '짜사이', price: 2000, count: 0 },
-    { product: '코코넛', price: 1000, count: 0 },
-    { product: '반미', price: 1500, count: 0 },
-  ];
+ 
 
   console.log(table);
   return (
