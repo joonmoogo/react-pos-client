@@ -2,7 +2,7 @@ import { React, useState, createRef, useEffect } from "react";
 import { Label, Comment, Table, List, Image as ImageComponent, Item, Card, Menu, Message, Grid, Header, Button, Form, Segment, Image, Container, Sticky } from "semantic-ui-react";
 import { Route, Link, useNavigate } from 'react-router-dom'
 import { TableGroup, ReservationList, WaitingList, FindReceipe, OrderList, ReviewComment, Manager } from './component/homeComponent.js'
-import naver_id_login from "../naver.login.js";
+import naver_id_login from "../naver_login.js";
 function Home()  {
 
   // function naverSignInCallBack(){
