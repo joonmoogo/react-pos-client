@@ -9,7 +9,7 @@ import { EditUserInfo, EditMarketInfo, EditMenu, EditTable, SalesStatistics, Rev
 // import socket from "../../socket-client";
 import { Notify } from "notiflix";
 // const audio = new Audio('https://www.fesliyanstudios.com/play-mp3/5450');
-
+import InfoButton from "./infoButton";
 
 
 let myStorage = window.localStorage; // 로컬스토리지 선언
@@ -308,11 +308,10 @@ function TableGroup(props) { // 기본
             </Grid.Column>
           </Grid.Row>
         </Grid>}
-
+        {!clickedTable?<InfoButton/>:null}
 
 
     </>
-
   )
 }
 
