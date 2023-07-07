@@ -3,6 +3,7 @@ import { Label, Comment, Table, List, Image as ImageComponent, Item, Card, Menu,
 import { Route, Link, useNavigate } from 'react-router-dom'
 import { TableGroup, ReservationList, WaitingList, FindReceipe, OrderList, ReviewComment, Manager } from './component/homeComponent.js'
 import naver_id_login from "../naver_login.js";
+import axios from "axios";
 function Home()  {
 
   // function naverSignInCallBack(){
@@ -11,9 +12,32 @@ function Home()  {
   //   console.log(naver_id_login.getProfileData('age'));
   // }
   // naverSignInCallBack();
+  axios.defaults.withCredentials = true;
+
   useEffect(()=>{
-    alert(naver_id_login.oauthParams.access_token);
-    console.log(naver_id_login);
+    const naverToken = naver_id_login.oauthParams.access_token;
+    async function getNaver (){
+      await axios.get(`https://openapi.naver.com/v1/nid/getUserProfile.json?access_token=${naverToken}`,{
+        headers: {
+          "Access-Control-Allow-Origin": `*`,
+          'Access-Control-Allow-Credentials':"true",
+        },
+        withCredentials:true,
+       
+      }).then((data)=>{
+        console.log(JSON.parse(data));
+      })
+  
+      console.log(naver_id_login.profileParams);
+      if(naverToken) alert(naverToken);
+      console.log(naver_id_login.oauthParams)
+    
+    }
+    getNaver();
+    alert(naverToken);
+    
+    
+    
   },[])
   
   // 네이버 사용자 프로필 조회
