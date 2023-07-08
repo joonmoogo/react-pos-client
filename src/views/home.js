@@ -16,24 +16,24 @@ function Home()  {
 
   useEffect(()=>{
     const naverToken = naver_id_login.oauthParams.access_token;
-    async function getNaver (){
-      await axios.get(`https://openapi.naver.com/v1/nid/getUserProfile.json?access_token=${naverToken}`,{
-        headers: {
-          "Access-Control-Allow-Origin": `*`,
-          'Access-Control-Allow-Credentials':"true",
-        },
-        withCredentials:true,
+    // async function getNaver (){
+    //   await axios.get(`https://openapi.naver.com/v1/nid/getUserProfile.json?access_token=${naverToken}`,{
+    //     headers: {
+    //       "Access-Control-Allow-Origin": `*`,
+    //       'Access-Control-Allow-Credentials':"true",
+    //     },
+    //     withCredentials:true,
        
-      }).then((data)=>{
-        console.log(JSON.parse(data));
-      })
+    //   }).then((data)=>{
+    //     console.log(JSON.parse(data));
+    //   })
   
-      console.log(naver_id_login.profileParams);
-      if(naverToken) alert(naverToken);
-      console.log(naver_id_login.oauthParams)
+    //   console.log(naver_id_login.profileParams);
+    //   if(naverToken) alert(naverToken);
+    //   // console.log(naver_id_login.oauthParams)
     
-    }
-    getNaver();
+    // }
+    // getNaver();
     alert(naverToken);
     
     
