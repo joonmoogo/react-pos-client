@@ -1,7 +1,6 @@
 import { React, useState } from "react";
 import { TableRow, Tab, Label, Comment, Table, List, Image as ImageComponent, Item, Card, Menu, Message, Grid, Header, Button, Form, Segment, Image, Container, Sticky } from "semantic-ui-react";
-import './component/homeComponent.css'
-import socket from "../socket-client";
+import socket from "../modules/socket-client"
 import { Notify, Report } from "notiflix";
 import axios from 'axios';
 

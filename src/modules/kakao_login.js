@@ -1,5 +1,5 @@
 import KakaoLogin from "react-kakao-login";
-import icon from '../src/kakao_login_medium_narrow.png';
+import icon from '../assets/kakao_login_medium_narrow.png'
 import { Navigate, useNavigate } from "react-router-dom";
 
 const SocialKakao =()=>{

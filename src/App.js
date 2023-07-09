@@ -1,6 +1,4 @@
-import logo from './logo.svg';
-
-
+import logo from './assets/logo.svg'
 import './App.css';
 import LoginForm from './views/LoginForm';
 import SignUp from './views/SignUp';
@@ -13,7 +11,6 @@ import Loading from './views/Loading';
 import UserOrder from './views/userOrder';
 import Dictaphone from './views/voice';
 import Kiosk from './views/kiosk';
-const audio = new Audio("https://www.fesliyanstudios.com/play-mp3/387");
 
 
 // document.body.addEventListener('mousedown',()=>{
@@ -23,22 +20,21 @@ const audio = new Audio("https://www.fesliyanstudios.com/play-mp3/387");
 
 function App() {
   let table = localStorage.getItem('tableSetting') ? JSON.parse(localStorage.getItem('tableSetting')) : 0;
- 
-
   console.log(table);
   return (
-    // <LoginForm></LoginForm>
     <>
-      {/* fragment 문법 = <> </> */}
       <Routes>
         <Route path='/' element={<LoginForm></LoginForm>} />
         <Route path='/main' element={<Main></Main>} />
         <Route path='/detail' element={<div>디테일 페이지임</div>} />
         <Route path='/signUp' element={<SignUp></SignUp>} />
-        <Route path='/test' element={<UserOrder option={1}></UserOrder>} />
         <Route path='*' element={<div>페이지가 만료됨</div>} />
         <Route path='/home' element={<Home></Home>} />
-        <Route path='/voice' element={<Dictaphone></Dictaphone>} />
+
+        {/* table order or experimental services */}
+
+        {/* <Route path='/test' element={<UserOrder option={1}></UserOrder>} /> */}
+        {/* <Route path='/voice' element={<Dictaphone></Dictaphone>} />
         <Route path='/kiosk' element={<Kiosk></Kiosk>} />
 
         {table != 0 ? table.map((e, i) => {
@@ -46,7 +42,7 @@ function App() {
             <Route path={`/home/order/${e.privateKey}`} element={<Loading option={i}></Loading>} />
           )
         }) : null}
-        <Route path={`/home/order/${localStorage.getItem('secretNumber1')}`} element={<UserOrder option={1}></UserOrder>} />
+        <Route path={`/home/order/${localStorage.getItem('secretNumber1')}`} element={<UserOrder option={1}></UserOrder>} /> */}
 
       </Routes>
     </>

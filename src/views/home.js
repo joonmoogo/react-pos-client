@@ -1,9 +1,15 @@
 import { React, useState, createRef, useEffect } from "react";
 import { Label, Comment, Table, List, Image as ImageComponent, Item, Card, Menu, Message, Grid, Header, Button, Form, Segment, Image, Container, Sticky } from "semantic-ui-react";
 import { Route, Link, useNavigate } from 'react-router-dom'
-import { TableGroup, ReservationList, WaitingList, FindReceipe, OrderList, ReviewComment, Manager } from './component/homeComponent.js'
-import naver_id_login from "../naver_login.js";
+// import { TableGroup, ReservationList, WaitingList, FindReceipe, OrderList, ReviewComment, Manager } from '../components/homeComponent.js'
+import TableGroup from '../components/homeComponent/tableGroup'
+import WaitingList from "../components/homeComponent/waitingList";
+import ReservationList from "../components/homeComponent/reservationList";
+import OrderList from "../components/homeComponent/orderList";
+import Manager from "../components/homeComponent/manager";
+import FindReceipe from "../components/homeComponent/findReceipt";
 import axios from "axios";
+import naver_id_login from '../modules/naver_login'
 function Home()  {
 
   // function naverSignInCallBack(){

@@ -4,19 +4,19 @@ import { Route, Link, useNavigate } from 'react-router-dom'
 import { useSelector } from "react-redux";
 import Calendar from "react-calendar";
 import moment from "moment/moment";
-import './homeComponent.css'
+import '../styles/calendar.css'
 import { EditUserInfo, EditMarketInfo, EditMenu, EditTable, SalesStatistics, ReviewComment, EditPreferences, SystemInfo, QrCode, } from "./settingComponent";
 // import socket from "../../socket-client";
 import { Notify } from "notiflix";
 // const audio = new Audio('https://www.fesliyanstudios.com/play-mp3/5450');
-import InfoButton from "./infoButton";
+import InfoButton from "../components/homeComponent/infoButton";
 
 
-let myStorage = window.localStorage; // 로컬스토리지 선언
+// let localStorage = window.localStorage; // 로컬스토리지 선언
 // socket.on('userOrder', (data) => {
 //   if (data) {
 //     console.log(data);
-//     myStorage.setItem(data[0].tableNumber, JSON.stringify(data));
+//     localStorage.setItem(data[0].tableNumber, JSON.stringify(data));
 //     Notify.success('주문들어왔습니다.');
 //     // audio.play();
 //   }
@@ -32,11 +32,11 @@ let myStorage = window.localStorage; // 로컬스토리지 선언
 
 
 
-let counterSetting = myStorage.getItem('counterSetting') ? JSON.parse(myStorage.getItem('counterSetting')) : [{ tableNumber: 10, tableName: '예약' }];
 
 function TableGroup(props) { // 기본
-  let localTableList = JSON.parse(myStorage.getItem('tableSetting'));
-  let initialTableList = localTableList? localTableList : [];
+  let counterSetting = localStorage.getItem('counterSetting') ? JSON.parse(localStorage.getItem('counterSetting')) : [{ tableNumber: 10, tableName: '예약' }];
+  let localTableList = JSON.parse(localStorage.getItem('tableSetting'));
+  let initialTableList = localTableList ? localTableList : [];
 
   let tableSetting = initialTableList;
 
@@ -56,14 +56,14 @@ function TableGroup(props) { // 기본
   //두 가지를 같이 사용한 라이브러리 redux persist라는게 존재함. => 참고하자.
 
   let [clickedTable, setClickedTable] = useState();
-  const localMenu = JSON.parse(myStorage.getItem('menu'));
-  const initialMenuList = localMenu? localMenu : [] 
+  const localMenu = JSON.parse(localStorage.getItem('menu'));
+  const initialMenuList = localMenu ? localMenu : []
   let [menuList, setMenuList] = useState(initialMenuList);
 
   let localOption = [];
-  function getLocalOption(){
-    initialMenuList.map((e,i)=>{
-      if(!(localOption.includes(e.option))){
+  function getLocalOption() {
+    initialMenuList.map((e, i) => {
+      if (!(localOption.includes(e.option))) {
         localOption.push(e.option);
       }
     })
@@ -73,7 +73,7 @@ function TableGroup(props) { // 기본
   let [tabMenu, setTabMenu] = useState('메인 메뉴');
   //서버에서 받을 데이터 가입시 기본 설정
 
-  
+
   function clearMenuCount() {
     setMenuList(initialMenuList);
   }
@@ -99,9 +99,9 @@ function TableGroup(props) { // 기본
 
 
 
-  function getTotal(){
+  function getTotal() {
     let sum = 0;
-    temporaryOrder.map((e,i)=>{
+    temporaryOrder.map((e, i) => {
       sum += e.price * e.count;
     })
     return sum;
@@ -123,21 +123,21 @@ function TableGroup(props) { // 기본
                   // style={{backgroundColor:'teal'}} 
                   style={{ width: `${e.w ? e.w : '90px'}`, height: `${e.h ? e.h : '80px'}`, overflow: 'hidden', position: 'absolute', top: `${e.y}px`, left: `${e.x}px` }} // 이거 수정하셈 테이블세팅 
                   onClick={() => {
-                    const items = JSON.parse(myStorage.getItem(e.tableNumber));
+                    const items = JSON.parse(localStorage.getItem(e.tableNumber));
                     setClickedTable(`${e.tableNumber}`);
-                    if(items){
+                    if (items) {
                       setTemporaryOrder(items);
                     }
                     console.log(clickedTable);
                     console.log(temporaryOrder);
-                    
+
                   }}>
                   <Card.Content >
                     <Card.Header content={`${e.tableNumber} T`} />
                     <Card.Meta content={`${e.tableName}`} />
-                    {myStorage.getItem(e.tableNumber.toString()) == null
+                    {localStorage.getItem(e.tableNumber.toString()) == null
                       ? <Card.Description content='' />
-                      : JSON.parse(myStorage.getItem(e.tableNumber)).map((e) => {
+                      : JSON.parse(localStorage.getItem(e.tableNumber)).map((e) => {
                         return (
                           <Card.Description style={{ color: 'teal' }} content={`${e.product} ${e.count}`} />
                         )
@@ -190,24 +190,24 @@ function TableGroup(props) { // 기본
                       </TableRow> */}
 
                     {temporaryOrder.map((e) => { // state의 내용만 출력
-                        return (
-                          <TableRow onClick={()=>{
-                            console.log(`${e.product} was clicked`);
-                          }}>
-                            <Table.Cell>{e.product}</Table.Cell>
-                            <Table.Cell>{e.price}</Table.Cell>
-                            <Table.Cell>{e.count}</Table.Cell>
-                            <Table.Cell style={{ cursor: 'pointer' }} onClick={()=>{
-                              console.log(`${e.product} delete button was clicked`);
-                              let filtered = temporaryOrder.filter((el)=> el.time !== e.time);
-                              console.log(filtered);
-                              setTemporaryOrder(filtered);
-                              clearMenuCount();
-                            }}>❌</Table.Cell>
-                          </TableRow>
-                        )
-                      })}
-                    
+                      return (
+                        <TableRow onClick={() => {
+                          console.log(`${e.product} was clicked`);
+                        }}>
+                          <Table.Cell>{e.product}</Table.Cell>
+                          <Table.Cell>{e.price}</Table.Cell>
+                          <Table.Cell>{e.count}</Table.Cell>
+                          <Table.Cell style={{ cursor: 'pointer' }} onClick={() => {
+                            console.log(`${e.product} delete button was clicked`);
+                            let filtered = temporaryOrder.filter((el) => el.time !== e.time);
+                            console.log(filtered);
+                            setTemporaryOrder(filtered);
+                            clearMenuCount();
+                          }}>❌</Table.Cell>
+                        </TableRow>
+                      )
+                    })}
+
                   </Table.Body>
                 </Table>
               </Segment>
@@ -223,56 +223,55 @@ function TableGroup(props) { // 기본
               }}>X</Button></Segment>
               <Segment>
                 <Menu fluid tabular color='teal'>
-                  {getLocalOption().map((e,i)=>{
-                    return(
-                      <Menu.Item key={e} onClick={()=>{
+                  {getLocalOption().map((e, i) => {
+                    return (
+                      <Menu.Item key={e} onClick={() => {
                         setTabMenu(e)
                       }}
-                      active={tabMenu==e}>{e}</Menu.Item>
+                        active={tabMenu == e}>{e}</Menu.Item>
                     )
                   })}
                 </Menu>
                 <Card.Group itemsPerRow={2}>
-                  {menuList.map((e, i) => { 
-                    if(e.option == tabMenu){
-                    return (
-                      <Card color="teal" onClick={() => {
-                        e.tableNumber = selectedTable.tableNumber;
-                        e.time = new Date().getTime();
-                        e.count = e.count + 1;
-                        // temporaryOrder.push(e);
-                        // (e.count ==1 ? temporaryOrder.push(e) : null)
-                        if (e.count == 1) 
-                        {temporaryOrder.push(e);}
-                        setTemporaryOrder([...temporaryOrder]);
-                        console.log(temporaryOrder)
-                        console.log(e);
-                      }}>
-                        <Card.Content>
-                          <Card.Header content={e.product}></Card.Header>
-                          <Card.Meta content={e.price}></Card.Meta>
-                        </Card.Content>
-                      </Card>
-                    )
+                  {menuList.map((e, i) => {
+                    if (e.option == tabMenu) {
+                      return (
+                        <Card color="teal" onClick={() => {
+                          e.tableNumber = selectedTable.tableNumber;
+                          e.time = new Date().getTime();
+                          e.count = e.count + 1;
+                          // temporaryOrder.push(e);
+                          // (e.count ==1 ? temporaryOrder.push(e) : null)
+                          if (e.count == 1) { temporaryOrder.push(e); }
+                          setTemporaryOrder([...temporaryOrder]);
+                          console.log(temporaryOrder)
+                          console.log(e);
+                        }}>
+                          <Card.Content>
+                            <Card.Header content={e.product}></Card.Header>
+                            <Card.Meta content={e.price}></Card.Meta>
+                          </Card.Content>
+                        </Card>
+                      )
                     }
                   })
                   }
                 </Card.Group>
               </Segment>
-              
+
               <Segment>
                 <Button primary onClick={() => {
                   alert('주문');
                   setClickedTable();
                   setTemporaryOrder([]);
                   clearMenuCount();
-                  let localItem = JSON.parse(myStorage.getItem(selectedTable.tableNumber));
-                  myStorage.setItem(selectedTable.tableNumber, `${JSON.stringify(temporaryOrder)}`)
+                  let localItem = JSON.parse(localStorage.getItem(selectedTable.tableNumber));
+                  localStorage.setItem(selectedTable.tableNumber, `${JSON.stringify(temporaryOrder)}`)
                   {
-                    let kitchen = myStorage.getItem('kitchen');
-                    // myStorage.setItem('kitchen',myStorage.getItem(kitchen))
+                    let kitchen = localStorage.getItem('kitchen');
+                    // localStorage.setItem('kitchen',localStorage.getItem(kitchen))
 
-                    myStorage.setItem(`kitchen${selectedTable.tableNumber}`, myStorage.getItem(selectedTable.tableNumber));
+                    localStorage.setItem(`kitchen${selectedTable.tableNumber}`, localStorage.getItem(selectedTable.tableNumber));
 
                   }
 
@@ -280,17 +279,17 @@ function TableGroup(props) { // 기본
 
                 <Button primary onClick={() => {
                   alert('결제')
-                  console.log(JSON.parse(myStorage.getItem(selectedTable.tableNumber)));
-                  
+                  console.log(JSON.parse(localStorage.getItem(selectedTable.tableNumber)));
+
                   const date = new Date();
                   console.log(date)
                   console.log('서버에 결제요청');
-                  
-                  myStorage.setItem(`receipt | ${moment().format('LL')} | ${moment().format('LT')} | ${new Date()}`,JSON.stringify(temporaryOrder));
+
+                  localStorage.setItem(`receipt | ${moment().format('LL')} | ${moment().format('LT')} | ${new Date()}`, JSON.stringify(temporaryOrder));
                   setTemporaryOrder([]);
                   setClickedTable();
                   clearMenuCount();
-                  myStorage.removeItem(clickedTable.toString())
+                  localStorage.removeItem(clickedTable.toString())
 
                 }}>결제</Button>
 
@@ -298,8 +297,8 @@ function TableGroup(props) { // 기본
                   alert('주문취소');
                   setClickedTable();
                   setTemporaryOrder([]);
-                  myStorage.removeItem(clickedTable.toString());
-                  myStorage.removeItem(`kitchen${clickedTable}`.toString());
+                  localStorage.removeItem(clickedTable.toString());
+                  localStorage.removeItem(`kitchen${clickedTable}`.toString());
                 }}>주문취소</Button>
               </Segment>
 
@@ -308,7 +307,7 @@ function TableGroup(props) { // 기본
             </Grid.Column>
           </Grid.Row>
         </Grid>}
-        {!clickedTable?<InfoButton/>:null}
+      {!clickedTable ? <InfoButton /> : null}
 
 
     </>
@@ -412,67 +411,67 @@ function ReservationList() { // 예약탭 서버에서 불러온 데이터로 �
 
 function WaitingList() {  //대기탭 미정
   let waiting = JSON.parse(localStorage.getItem('waiting'));
-  let initialWaiting = waiting? waiting : [];
-  let [people,setPeople] = useState(initialWaiting);
+  let initialWaiting = waiting ? waiting : [];
+  let [people, setPeople] = useState(initialWaiting);
 
   return (
     <>
-      {people&&people.map((e,i)=>{
-        return(
+      {people && people.map((e, i) => {
+        return (
           <Item.Group link>
 
-          <Item>
-          <Item.Image size='tiny' src='https://react.semantic-ui.com/images/avatar/large/stevie.jpg' />
+            <Item>
+              <Item.Image size='tiny' src='https://react.semantic-ui.com/images/avatar/large/stevie.jpg' />
 
-          <Item.Content>
-            <Item.Header>{e.name}</Item.Header>
-            <Item.Description>{e.count}</Item.Description>
-          </Item.Content>
-        </Item>
-        </Item.Group>
+              <Item.Content>
+                <Item.Header>{e.name}</Item.Header>
+                <Item.Description>{e.count}</Item.Description>
+              </Item.Content>
+            </Item>
+          </Item.Group>
         )
       })}
       <Form>
-          <Form.Group>
-            <Form.Input
-              placeholder='이름'
-              name='이름'
-              id='name'
-            />
-            <Form.Input
-              placeholder='인원 수'
-              name='인원 수'
-              id='count'
-            />
-            <Form.Button fluid color="teal" content='Submit' onClick={()=>{
-              const name = document.querySelector('#name').value;
-              const count = document.querySelector('#count').value;
-              people.push({name:name, count:count});
-              setPeople([...people]);
-              
-            }} />
-          </Form.Group>
-        </Form>
-      
+        <Form.Group>
+          <Form.Input
+            placeholder='이름'
+            name='이름'
+            id='name'
+          />
+          <Form.Input
+            placeholder='인원 수'
+            name='인원 수'
+            id='count'
+          />
+          <Form.Button fluid color="teal" content='Submit' onClick={() => {
+            const name = document.querySelector('#name').value;
+            const count = document.querySelector('#count').value;
+            people.push({ name: name, count: count });
+            setPeople([...people]);
+
+          }} />
+        </Form.Group>
+      </Form>
+
     </>
   )
 }
 
 function FindReceipe() { //영수증조회탭 서버에서 불러온 데이터로 구성될 예정
-  const company = JSON.parse(myStorage.getItem('company'));
+  const company = JSON.parse(localStorage.getItem('company'));
   const initialCompany = company ? company : '';
   let localData = Object.keys(localStorage);
   console.log(localData);
-  let filtered = localData ? localData.filter((e)=>e.includes('receipt')).sort() : [] ;
+  let filtered = localData ? localData.filter((e) => e.includes('receipt')).sort() : [];
   console.log(filtered);
   let [data, setData] = useState(filtered)
   let [viewData, setViewData] = useState();
   console.log(`this is ${viewData}`);
-  let viewdatasmenu = viewData? (JSON.parse(myStorage.getItem(viewData))) : null;
+  let viewdatasmenu = viewData ? (JSON.parse(localStorage.getItem(viewData))) : null;
   console.log(viewdatasmenu);
-  function getTotal(){
+  function getTotal() {
     let sum = 0;
-    viewdatasmenu&&viewdatasmenu.map((e,i)=>{
+    viewdatasmenu && viewdatasmenu.map((e, i) => {
       sum += e.price * e.count;
     })
     return sum;
@@ -497,7 +496,7 @@ function FindReceipe() { //영수증조회탭 서버에서 불러온 데이터�
                     <Table.Row key={i} onClick={() => {
                       setViewData(e);
                       console.log(viewData)
-                      console.log(typeof(viewData));
+                      console.log(typeof (viewData));
                     }}>
                       <Table.Cell>{i + 1}</Table.Cell>
                       <Table.Cell>{e.split('|')[1]}</Table.Cell>
@@ -513,27 +512,27 @@ function FindReceipe() { //영수증조회탭 서버에서 불러온 데이터�
           <Segment>조회</Segment>
           <Segment>
             <List>
-            {/* <h1>이것은</h1>
+              {/* <h1>이것은</h1>
                     <h1>영수증</h1> */}
-            <h3>[주문영수증]   {initialCompany.company}</h3>
-            <h3>============================</h3>
-            <h5>{initialCompany.address}</h5>
-            <h5>152-129301-519209</h5>
-            <h5>open : {initialCompany.openingTime} | close:{initialCompany.closingTime}</h5>
-            <h4>주문 날짜: {viewData&&viewData.split('|')[1]}</h4>
-            <h5>주문 시각: {viewData&&viewData.split('|')[2]}</h5>
-            <h5>상품명 /t수량 /t 금액</h5>
-            {viewdatasmenu&& viewdatasmenu.map((e) => {
-              return (
-                <List.Item>
-                  <List.Content>
-                    <List.Description as='h3'>
-                      {`⁘ ${e.product} ${e.count} * ${e.price} = ${e.count * e.price}`}
-                    </List.Description>
-                  </List.Content>
-                </List.Item>
-              )
-            })}
+              <h3>[주문영수증]   {initialCompany.company}</h3>
+              <h3>============================</h3>
+              <h5>{initialCompany.address}</h5>
+              <h5>152-129301-519209</h5>
+              <h5>open : {initialCompany.openingTime} | close:{initialCompany.closingTime}</h5>
+              <h4>주문 날짜: {viewData && viewData.split('|')[1]}</h4>
+              <h5>주문 시각: {viewData && viewData.split('|')[2]}</h5>
+              <h5>상품명 /t수량 /t 금액</h5>
+              {viewdatasmenu && viewdatasmenu.map((e) => {
+                return (
+                  <List.Item>
+                    <List.Content>
+                      <List.Description as='h3'>
+                        {`⁘ ${e.product} ${e.count} * ${e.price} = ${e.count * e.price}`}
+                      </List.Description>
+                    </List.Content>
+                  </List.Item>
+                )
+              })}
             </List>
           </Segment>
           <Segment>
@@ -551,7 +550,7 @@ function FindReceipe() { //영수증조회탭 서버에서 불러온 데이터�
 }
 
 function isOrder() {
-  return (myStorage.length ? true : false);
+  return (localStorage.length ? true : false);
 }
 
 function OrderList() { //주방탭
@@ -569,10 +568,10 @@ function OrderList() { //주방탭
             <Segment>
               <Header as='h2' icon='food' content={e + '번 주문서'} />
               <Button onClick={() => {
-                myStorage.removeItem(e);
+                localStorage.removeItem(e);
                 setSt(kitchenOrder.splice(e, 1));
               }} floated="right">✔</Button>
-              {JSON.parse(myStorage.getItem(e)).map((e) => {
+              {JSON.parse(localStorage.getItem(e)).map((e) => {
 
                 return (
                   <List.Item>

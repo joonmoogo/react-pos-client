@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
 import { Link, useNavigate } from 'react-router-dom'
 import './loginForm.css'
-import naver_id_login from '../naver_login'
-import SocialKakao from '../kakao_login'
+import naver_id_login from '../modules/naver_login'
+import SocialKakao from '../modules/kakao_login'
 
 
 function LoginForm() {
