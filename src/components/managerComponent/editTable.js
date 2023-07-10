@@ -3,7 +3,7 @@ import { TextArea, Label, Input, Divider, Checkbox, Rail, Icon, Comment, Table, 
 
 import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
 
-function EditTable() {
+export default function EditTable() {
     const nodeRef = useRef(null);
     const [table, setTable] = useState([]);
     const [counter, setCounter] = useState([]);
@@ -105,4 +105,3 @@ function EditTable() {
         </>
     )
 }
-export default EditTable;

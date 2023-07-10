@@ -15,9 +15,9 @@ let obj2 = createSlice({
 })
 
 export default configureStore({
-    reducer:{
-        obj : obj.reducer,
-        obj1 : obj1.reducer,
-        obj2 : obj2.reducer
+    reducer: {
+        obj: obj.reducer,
+        obj1: obj1.reducer,
+        obj2: obj2.reducer
     }
 })

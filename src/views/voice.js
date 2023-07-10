@@ -1,21 +1,21 @@
-import { React, useState, useEffect } from 'react';
+import { React, useEffect } from 'react';
 // import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-import { Message, Grid, Header, Button, Form, Segment, Image, Container, Icon } from "semantic-ui-react";
+import { Icon } from "semantic-ui-react";
 import axios from 'axios';
 const API_KEY = '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';
 const text = document.querySelector('#text');
 
 function Dictaphone() {
 
-  let [text, setText] = useState('hi');
+  // let [text, setText] = useState('hi');
   console.log(text);
-  let textArr = [text];
+  // let textArr = [text];
 
-  const textToSpeech = async (response) => {
-    console.log('textToSpeech');
-    const utterance = new SpeechSynthesisUtterance(response);
-    synth.speak(utterance);
-  }
+  // const textToSpeech = async (response) => {
+  //   console.log('textToSpeech');
+  //   const utterance = new SpeechSynthesisUtterance(response);
+  //   synth.speak(utterance);
+  // }
   let restaurantName = '핑거푸드';
   let restaurantType = 'Chinese restaurant';
   let menu = [

@@ -1,8 +1,8 @@
-import { React, useRef, useState } from "react";
-import { TextArea, Label, Input, Divider, Checkbox, Rail, Icon, Comment, Table, List, Image as ImageComponent, Item, Card, Menu, Message, Grid, Header, Button, Form, Segment, Image, Container, TableRow, Flag } from "semantic-ui-react";
+import { React } from "react";
+import { Checkbox, Button, Form } from "semantic-ui-react";
 
 
-function EditUserInfo() {
+export default function EditUserInfo() {
     return (
         <Form>
             <Form.Field>
@@ -41,4 +41,3 @@ function EditUserInfo() {
         </Form>
     )
 }
-export default EditUserInfo;

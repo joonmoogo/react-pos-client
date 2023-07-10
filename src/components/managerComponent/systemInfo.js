@@ -1,7 +1,7 @@
-import { React, useRef, useState } from "react";
-import { TextArea, Label, Input, Divider, Checkbox, Rail, Icon, Comment, Table, List, Image as ImageComponent, Item, Card, Menu, Message, Grid, Header, Button, Form, Segment, Image, Container, TableRow, Flag } from "semantic-ui-react";
+import { React } from "react";
+import { Divider, Icon, Table, Header } from "semantic-ui-react";
 
-function SystemInfo() {
+export default function SystemInfo() {
     let country = window.navigator.language;
     let a = window.navigator.geolocation;
     let user = window.navigator.userAgent;
@@ -38,4 +38,3 @@ function SystemInfo() {
     )
 
 }
-export default SystemInfo;

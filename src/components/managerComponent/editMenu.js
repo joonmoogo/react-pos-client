@@ -1,8 +1,8 @@
-import { React, useRef, useState } from "react";
-import { TextArea, Label, Input, Divider, Checkbox, Rail, Icon, Comment, Table, List, Image as ImageComponent, Item, Card, Menu, Message, Grid, Header, Button, Form, Segment, Image, Container, TableRow, Flag } from "semantic-ui-react";
+import { React, useState } from "react";
+import { Table, Button, Form } from "semantic-ui-react";
 
 
-function EditMenu() {
+export default function EditMenu() {
     const localMenu = JSON.parse(localStorage.getItem('menu'));
     const initialMenues = localMenu ? localMenu : [];
     const [menues, setMenues] = useState(initialMenues);
@@ -68,4 +68,3 @@ function EditMenu() {
     )
 
 }
-export default EditMenu;

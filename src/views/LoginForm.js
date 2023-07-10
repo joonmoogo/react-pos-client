@@ -9,9 +9,9 @@ import SocialKakao from '../modules/kakao_login'
 function LoginForm() {
 
   let navigate = useNavigate();
-  useEffect(()=>{
+  useEffect(() => {
     naver_id_login.init_naver_id_login();
-  },[])
+  }, [])
   return (
     <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
       <Grid.Column style={{ maxWidth: 450 }}>
@@ -42,7 +42,7 @@ function LoginForm() {
         </Message>
         <Message>
           {/* <Image style={{float:'left',marginRight:'10px',cursor:'pointer'}} size='small' src='/img/kakao_login_medium_narrow.png'></Image> */}
-          <div>{<SocialKakao/>}</div>
+          <div>{<SocialKakao />}</div>
           <div id='naver_id_login'></div>
         </Message>
       </Grid.Column>

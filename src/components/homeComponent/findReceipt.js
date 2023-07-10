@@ -1,10 +1,10 @@
 import { React, useState } from "react";
-import { Accordion, Rail, Icon, Comment, Table, List, Image as ImageComponent, Item, Card, Menu, Message, Grid, Header, Button, Form, Segment, Image, Container, TableRow } from "semantic-ui-react";
+import { Table, List, Grid, Button, Segment } from "semantic-ui-react";
 
 
 
 
-function FindReceipe() { //영수증조회탭 서버에서 불러온 데이터로 구성될 예정
+export default function FindReceipe() { //영수증조회탭 서버에서 불러온 데이터로 구성될 예정
     const company = JSON.parse(localStorage.getItem('company'));
     const initialCompany = company ? company : '';
     let localData = Object.keys(localStorage);
@@ -16,6 +16,7 @@ function FindReceipe() { //영수증조회탭 서버에서 불러온 데이터�
     console.log(`this is ${viewData}`);
     let viewdatasmenu = viewData? (JSON.parse(localStorage.getItem(viewData))) : null;
     console.log(viewdatasmenu);
+
     function getTotal(){
       let sum = 0;
       viewdatasmenu&&viewdatasmenu.map((e,i)=>{
@@ -95,4 +96,3 @@ function FindReceipe() { //영수증조회탭 서버에서 불러온 데이터�
       </Grid>
     )
   }
-export default FindReceipe;

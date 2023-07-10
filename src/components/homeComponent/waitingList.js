@@ -1,9 +1,9 @@
 import { React, useState } from "react";
-import { Accordion, Rail, Icon, Comment, Table, List, Image as ImageComponent, Item, Card, Menu, Message, Grid, Header, Button, Form, Segment, Image, Container, TableRow } from "semantic-ui-react";
+import { Item, Form } from "semantic-ui-react";
 
 
 
-function WaitingList() {  //대기탭 미정
+export default function WaitingList() {  //대기탭 미정
     let waiting = JSON.parse(localStorage.getItem('waiting'));
     let initialWaiting = waiting ? waiting : [];
     let [people, setPeople] = useState(initialWaiting);
@@ -51,4 +51,3 @@ function WaitingList() {  //대기탭 미정
     )
 }
 
-export default WaitingList;

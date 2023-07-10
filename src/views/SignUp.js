@@ -1,9 +1,8 @@
-import React, { Component, useState } from 'react'
-import { TextArea, Image, Menu, Message, Container, Button, Checkbox, Form, Segment, Label } from 'semantic-ui-react'
+import React, { useState } from 'react'
+import { Menu, Container, Button, Checkbox, Form } from 'semantic-ui-react'
 
 function SignUp() {
     let [menu, setMenu] = useState('register');
-    let [option, setOption] = useState([]);
     return (
         <>
             <Menu stackable pointing secondary>
@@ -21,7 +20,7 @@ function SignUp() {
                     }}>추가정보</Menu.Item>
             </Menu>
             {
-                menu == 'register' ? <SignUpForm></SignUpForm> : <About></About>
+                menu === 'register' ? <SignUpForm></SignUpForm> : <About></About>
             }
         </>
     )
@@ -96,7 +95,7 @@ function SignUpForm() {
     )
 }
 function About() {
-    const sizes = ['mini', 'tiny', 'small', 'large', 'big', 'huge', 'massive']
+    // const sizes = ['mini', 'tiny', 'small', 'large', 'big', 'huge', 'massive']
 
     return (
         <div>

@@ -1,11 +1,11 @@
 import { React, useState } from "react";
-import { Accordion, Rail, Icon, Comment, Table, List, Image as ImageComponent, Item, Card, Menu, Message, Grid, Header, Button, Form, Segment, Image, Container, TableRow } from "semantic-ui-react";
+import { Table, Image as ImageComponent, Item, Grid, Button, Segment } from "semantic-ui-react";
 
 import Calendar from "react-calendar";
 import moment from "moment/moment";
 import '../../styles/calendar.css'
 
-function ReservationList() { // 예약탭 서버에서 불러온 데이터로 구성될 예정
+export default function ReservationList() { // 예약탭 서버에서 불러온 데이터로 구성될 예정
     const [value, setValue] = useState(new Date());
     const paragraph = <ImageComponent src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />
 
@@ -93,4 +93,3 @@ function ReservationList() { // 예약탭 서버에서 불러온 데이터로 �
         </>
     )
 }
-export default ReservationList;

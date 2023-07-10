@@ -1,6 +1,6 @@
 import React from "react";
-import { Message, Grid, Header, Button, Form, Segment, Image, Container } from "semantic-ui-react";
-import { Link, useNavigate } from 'react-router-dom'
+import { Grid, Header, Button, Form, Segment, Image } from "semantic-ui-react";
+import { useNavigate } from 'react-router-dom'
 
 function Main() {
   let navigate = useNavigate();

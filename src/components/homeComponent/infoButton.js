@@ -1,8 +1,7 @@
-import { Transition,Rating,Popup,Accordion, Rail, Icon, Comment, Table, List, Image as ImageComponent, Item, Card, Menu, Message, Grid, Header, Button, Form, Segment, Image, Container, TableRow } from "semantic-ui-react";
-import { useState } from "react";
-import Draggable from "react-draggable";
+import { Popup,List, Button } from "semantic-ui-react";
+
 import '../../styles/animation.css';
-function InfoButton(){
+export default function InfoButton(){
  
     return(
         <div style={{}}>
@@ -36,4 +35,3 @@ function InfoButton(){
 }
 
 
-export default InfoButton;

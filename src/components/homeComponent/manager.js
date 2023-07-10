@@ -1,6 +1,6 @@
 import { React, useState } from "react";
-import { Accordion, Rail, Icon, Comment, Table, List, Image as ImageComponent, Item, Card, Menu, Message, Grid, Header, Button, Form, Segment, Image, Container, TableRow } from "semantic-ui-react";
-import { Route, Link, useNavigate } from 'react-router-dom'
+import { Icon, Item, Header, Button, Segment } from "semantic-ui-react";
+import { useNavigate } from 'react-router-dom'
 
 import EditUserInfo from "../managerComponent/editUserInfo";
 import EditMarketInfo from "../managerComponent/editMarketInfo";
@@ -10,9 +10,8 @@ import SalesStatistics from "../managerComponent/salesStatistics";
 import ReviewComment from "../managerComponent/reviewComment";
 import EditPreferences from "../managerComponent/editPreferences";
 import SystemInfo from "../managerComponent/systemInfo";
-import QrCode from "../managerComponent/qrCode";
 
-function Manager() {
+export default function Manager() {
     let [state, setState] = useState([])
     let [option, setOption] = useState();
     let navigate = useNavigate();
@@ -121,5 +120,3 @@ function Manager() {
             </>
     )
 }
-
-export default Manager;

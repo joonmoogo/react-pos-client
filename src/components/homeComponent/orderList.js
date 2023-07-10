@@ -1,8 +1,8 @@
 import { React, useState } from "react";
-import { Accordion, Rail, Icon, Comment, Table, List, Image as ImageComponent, Item, Card, Menu, Message, Grid, Header, Button, Form, Segment, Image, Container, TableRow } from "semantic-ui-react";
+import { List, Header, Button, Segment } from "semantic-ui-react";
 
 
-function OrderList() { //주방탭
+export default function OrderList() { //주방탭
 
     console.log(Object.keys(localStorage));
     let kitchenOrder = Object.keys(localStorage).filter((e) => e.includes('kitchen')).sort();
@@ -38,4 +38,3 @@ function OrderList() { //주방탭
         </Segment>
     )
 }
-export default OrderList;
