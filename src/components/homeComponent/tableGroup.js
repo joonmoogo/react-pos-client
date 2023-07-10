@@ -1,12 +1,12 @@
 import { React, useState } from "react";
-import { Accordion, Rail, Icon, Comment, Table, List, Image as ImageComponent, Item, Card, Menu, Message, Grid, Header, Button, Form, Segment, Image, Container, TableRow } from "semantic-ui-react";
+import { Table, Card, Menu, Grid, Header, Button, Segment, TableRow } from "semantic-ui-react";
 
 import moment from "moment/moment";
 
 import InfoButton from "./infoButton";
 
 
-function TableGroup(props) { // 기본
+export default function TableGroup(props) { // 기본
     let counterSetting = localStorage.getItem('counterSetting') ? JSON.parse(localStorage.getItem('counterSetting')) : [{ tableNumber: 10, tableName: '예약' }];
     let localTableList = JSON.parse(localStorage.getItem('tableSetting'));
     let initialTableList = localTableList ? localTableList : [];
@@ -286,4 +286,3 @@ function TableGroup(props) { // 기본
         </>
     )
 }
-export default TableGroup;
