@@ -1,8 +1,6 @@
 import { React, useState } from "react";
 import { Table, Card, Menu, Grid, Header, Button, Segment, TableRow } from "semantic-ui-react";
-
-import moment from "moment/moment";
-
+import { timeUtil } from "../../utils/moment";
 import InfoButton from "./infoButton";
 
 
@@ -258,7 +256,7 @@ export default function TableGroup(props) { // 기본
                                     console.log(date)
                                     console.log('서버에 결제요청');
 
-                                    localStorage.setItem(`receipt | ${moment().format('LL')} | ${moment().format('LT')} | ${new Date()}`, JSON.stringify(temporaryOrder));
+                                    localStorage.setItem(`receipt | ${timeUtil.getMonth()}월${timeUtil.getDate()}일 | ${timeUtil.getTime()} | ${new Date()}`, JSON.stringify(temporaryOrder));
                                     setTemporaryOrder([]);
                                     setClickedTable();
                                     clearMenuCount();

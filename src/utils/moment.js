@@ -1,4 +1,4 @@
-const timeUtil = {
+export const timeUtil = {
     
     getMonth : ()=>{
         return format.engToHan(new Date().toDateString().split(' ')[1]);
