@@ -6,21 +6,24 @@ import Main from './views/Main';
 import Home from './views/home';
 import { useParams, Routes, Route, Link } from 'react-router-dom'
 import { Container, Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
+import clickSound from './assets/clickSound';
 import Loading from './views/Loading';
 import UserOrder from './views/userOrder';
 import Dictaphone from './views/voice';
 import Kiosk from './views/kiosk';
 
-
 // document.body.addEventListener('mousedown',()=>{
-//   audio.play();
+//   clickSound.play();
 // })
 
 
 function App() {
+  
   let table = localStorage.getItem('tableSetting') ? JSON.parse(localStorage.getItem('tableSetting')) : 0;
   console.log(table);
+  
+  
   return (
     <>
       <Routes>
@@ -47,6 +50,7 @@ function App() {
       </Routes>
     </>
   );
+  
 }
 
 export default App;
