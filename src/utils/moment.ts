@@ -1,27 +1,30 @@
-export const timeUtil = {
+type time = string|undefined;
+type eng = string[]|undefined;
+type han = string|undefined;
+export default class TimeUtil  {
     
-    getMonth : ()=>{
-        return format.engToHan(new Date().toDateString().split(' ')[1]);
-    },
-    getDate : ()=>{
+    static getMonth() : time {
+        return Format.engToHan(new Date().toDateString().split(' ')[1]);
+    }
+    static getDate() : time{
         return `${new Date().toDateString().split(' ')[2]}`;
-    },
-    getYear : ()=>{
+    }
+    static getYear(): time{
         return `${new Date().toDateString().split(' ')[3]}`;
-    },
-    getDayOfTheWeek : ()=>{
-        return format.engToHan(new Date().toDateString().split(' ')[0]);
-    },
-    getTime: () => {
+    }
+    static getDayOfTheWeek(): time{
+        return Format.engToHan(new Date().toDateString().split(' ')[0]);
+    }
+    static getTime(): time{
         const time =  new Date().toTimeString().split(' ');
         const splitedTime = time[0].split(':')
-        return format.toAmPm(splitedTime);
-    },
+        return Format.toAmPm(splitedTime);
+    }
 
 }
 
-const format = {
-    engToHan: (string) => {
+class Format {
+    static engToHan(string : string) : string|undefined{
         switch (string) {
             case 'Mon':
               return '월요일';
@@ -62,24 +65,26 @@ const format = {
             case 'Dec':
               return '12';
           }
-        },
-    toAmPm : (array)=>{
-        let number = array[0];
+        }
+
+    static toAmPm(array : eng) : han{
+        if(array===undefined) return undefined;
+        let number = parseInt(array[0]);
+        let result : string = '';
         if(number<=12){
-            number =  `${number}:${array[1]} AM`;
+            result =  `${number}:${array[1]} AM`;
         }
         else if(number>12){
             const updated = number % 12;
-            number =  `${updated}:${array[1]} PM`;
+            result =  `${updated}:${array[1]} PM`;
         }
-        return number;
+        return result;
     }
-    
-
 }
 
-console.log(timeUtil.getDate());
-console.log(timeUtil.getDayOfTheWeek());
-console.log(timeUtil.getMonth());
-console.log(timeUtil.getTime());
-console.log(timeUtil.getYear());
+
+console.log(TimeUtil.getDate());
+console.log(TimeUtil.getDayOfTheWeek());
+console.log(TimeUtil.getMonth());
+console.log(TimeUtil.getTime());
+console.log(TimeUtil.getYear());

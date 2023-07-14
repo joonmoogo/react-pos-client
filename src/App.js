@@ -7,8 +7,8 @@ import Home from './views/home';
 import { useParams, Routes, Route, Link } from 'react-router-dom'
 import { Container, Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
 import { useState,useEffect } from 'react';
-import clickSound from './assets/clickSound';
-import Loading from './views/Loading';
+import clickSound from './assets/clickSound.js';
+import Loading from './views/Loading.js';
 import UserOrder from './views/userOrder';
 import Dictaphone from './views/voice';
 import Kiosk from './views/kiosk';

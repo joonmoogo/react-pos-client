@@ -9,6 +9,7 @@ import Manager from "../components/homeComponent/manager";
 import FindReceipe from "../components/homeComponent/findReceipt";
 import axios from "axios";
 import naver_id_login from '../modules/naver_login'
+
 function Home() {
 
   // function naverSignInCallBack(){
@@ -21,6 +22,7 @@ function Home() {
 
   useEffect(() => {
     const naverToken = naver_id_login.oauthParams.access_token;
+ 
     // async function getNaver (){
     //   await axios.get(`https://openapi.naver.com/v1/nid/getUserProfile.json?access_token=${naverToken}`,{
     //     headers: {

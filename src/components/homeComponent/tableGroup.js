@@ -1,7 +1,7 @@
 import { React, useState } from "react";
 import { Table, Card, Menu, Grid, Header, Button, Segment, TableRow } from "semantic-ui-react";
-import { timeUtil } from "../../utils/moment";
 import InfoButton from "./infoButton";
+import ReceiptFactory from "../../utils/ReceiptFactory.ts";
 
 
 export default function TableGroup(props) { // 기본
@@ -82,12 +82,9 @@ export default function TableGroup(props) { // 기본
     return (
         <>
             {!clickedTable ?
-
                 <>
                     <Card.Group>
                         {table.map((e, i) => {
-
-
                             return (
                                 <Card
                                     color="green"
@@ -255,8 +252,7 @@ export default function TableGroup(props) { // 기본
                                     const date = new Date();
                                     console.log(date)
                                     console.log('서버에 결제요청');
-
-                                    localStorage.setItem(`receipt | ${timeUtil.getMonth()}월${timeUtil.getDate()}일 | ${timeUtil.getTime()} | ${new Date()}`, JSON.stringify(temporaryOrder));
+                                    ReceiptFactory.setReceipt(temporaryOrder);
                                     setTemporaryOrder([]);
                                     setClickedTable();
                                     clearMenuCount();
