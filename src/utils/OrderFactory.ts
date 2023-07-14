@@ -1,6 +1,7 @@
 import TimeUtil from "./moment";
 
 type list = string[] | string;
+let timeUtil = new TimeUtil();
 
 export default class OrderFactory{
     clickedTable : number|undefined;
@@ -10,7 +11,7 @@ export default class OrderFactory{
     }
 
     static setReceipt(list : list ) : void {
-        localStorage.setItem(`receipt | ${TimeUtil.getMonth()}월${TimeUtil.getDate()}일 | ${TimeUtil.getTime()} | ${new Date()}`, JSON.stringify(list));
+        localStorage.setItem(`receipt | ${timeUtil.getMonth()}월${timeUtil.getDate()}일 | ${timeUtil.getTime()} | ${new Date()}`, JSON.stringify(list));
     }
     setOrder(list : list):void{
         localStorage.setItem(`${this.clickedTable}`,JSON.stringify(list));

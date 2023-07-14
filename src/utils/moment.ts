@@ -1,21 +1,24 @@
 type time = string|undefined;
 type eng = string[]|undefined;
 type han = string|undefined;
+
 export default class TimeUtil  {
+
+    date : string[]  = new Date().toDateString().split(' ');
     
-    static getMonth() : time {
-        return Format.engToHan(new Date().toDateString().split(' ')[1]);
+    getMonth() : time {
+        return Format.engToHan(this.date[1]);
     }
-    static getDate() : time{
-        return `${new Date().toDateString().split(' ')[2]}`;
+    getDate() : time{
+        return this.date[2];
     }
-    static getYear(): time{
-        return `${new Date().toDateString().split(' ')[3]}`;
+    getYear(): time{
+        return this.date[3];
     }
-    static getDayOfTheWeek(): time{
-        return Format.engToHan(new Date().toDateString().split(' ')[0]);
+    getDayOfTheWeek(): time{
+        return Format.engToHan(this.date[0]);
     }
-    static getTime(): time{
+    getTime(): time{
         const time =  new Date().toTimeString().split(' ');
         const splitedTime = time[0].split(':')
         return Format.toAmPm(splitedTime);
