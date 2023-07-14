@@ -10,7 +10,6 @@ export default function TableGroup(props) { // 기본
     let initialTableList = localTableList ? localTableList : [];
 
     let tableSetting = initialTableList;
-    let orderFactory = new OrderFactory();
 
     let [table, setTable] = useState(tableSetting);
     let [counter, setCounter] = useState(counterSetting);
@@ -233,8 +232,10 @@ export default function TableGroup(props) { // 기본
                                 <Button primary onClick={() => {
                                     
                                     const orderFactory = new OrderFactory(clickedTable);
-                                    orderFactory.setOrder(temporaryOrder);
-                                    orderFactory.setKitchenOrder(temporaryOrder);    
+                                    orderFactory.getOrder(temporaryOrder).setLocalStorage();
+                                    orderFactory.getKitchenOrder(temporaryOrder).setLocalStorage();
+                                    // orderFactory.setOrder(temporaryOrder);
+                                    // orderFactory.setKitchenOrder(temporaryOrder);    
                                     alert('주문');
                                     setClickedTable();
                                     setTemporaryOrder([]);
@@ -248,7 +249,9 @@ export default function TableGroup(props) { // 기본
                                     const date = new Date();
                                     console.log(date)
                                     console.log('서버에 결제요청');
-                                    OrderFactory.setReceipt(temporaryOrder);
+                                    const orderFactory = new OrderFactory(clickedTable);
+                                    orderFactory.getReceipt(temporaryOrder).setLocalStorage();
+                                    // OrderFactory.setReceipt(temporaryOrder);
                                     setTemporaryOrder([]);
                                     setClickedTable();
                                     clearMenuCount();
