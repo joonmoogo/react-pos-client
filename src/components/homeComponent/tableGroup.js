@@ -1,7 +1,7 @@
 import { React, useState } from "react";
 import { Table, Card, Menu, Grid, Header, Button, Segment, TableRow } from "semantic-ui-react";
 import InfoButton from "./infoButton";
-import ReceiptFactory from "../../utils/ReceiptFactory.ts";
+import OrderFactory from "../../utils/OrderFactory.ts";
 
 
 export default function TableGroup(props) { // 기본
@@ -10,6 +10,7 @@ export default function TableGroup(props) { // 기본
     let initialTableList = localTableList ? localTableList : [];
 
     let tableSetting = initialTableList;
+    let orderFactory = new OrderFactory();
 
     let [table, setTable] = useState(tableSetting);
     let [counter, setCounter] = useState(counterSetting);
@@ -96,9 +97,9 @@ export default function TableGroup(props) { // 기본
                                         if (items) {
                                             setTemporaryOrder(items);
                                         }
-                                        console.log(clickedTable);
-                                        console.log(temporaryOrder);
-
+                                        console.log(e.tableNumber);
+                                        
+                                        
                                     }}>
                                     <Card.Content >
                                         <Card.Header content={`${e.tableNumber} T`} />
@@ -205,6 +206,7 @@ export default function TableGroup(props) { // 기본
                                         if (e.option == tabMenu) {
                                             return (
                                                 <Card color="teal" onClick={() => {
+                                                    console.log(clickedTable);
                                                     e.tableNumber = selectedTable.tableNumber;
                                                     e.time = new Date().getTime();
                                                     e.count = e.count + 1;
@@ -229,20 +231,14 @@ export default function TableGroup(props) { // 기본
 
                             <Segment>
                                 <Button primary onClick={() => {
+                                    
+                                    const orderFactory = new OrderFactory(clickedTable);
+                                    orderFactory.setOrder(temporaryOrder);
+                                    orderFactory.setKitchenOrder(temporaryOrder);    
                                     alert('주문');
                                     setClickedTable();
                                     setTemporaryOrder([]);
                                     clearMenuCount();
-                                    let localItem = JSON.parse(localStorage.getItem(selectedTable.tableNumber));
-                                    localStorage.setItem(selectedTable.tableNumber, `${JSON.stringify(temporaryOrder)}`)
-                                    {
-                                        let kitchen = localStorage.getItem('kitchen');
-                                        // localStorage.setItem('kitchen',localStorage.getItem(kitchen))
-
-                                        localStorage.setItem(`kitchen${selectedTable.tableNumber}`, localStorage.getItem(selectedTable.tableNumber));
-
-                                    }
-
                                 }}>주문</Button>
 
                                 <Button primary onClick={() => {
@@ -252,7 +248,7 @@ export default function TableGroup(props) { // 기본
                                     const date = new Date();
                                     console.log(date)
                                     console.log('서버에 결제요청');
-                                    ReceiptFactory.setReceipt(temporaryOrder);
+                                    OrderFactory.setReceipt(temporaryOrder);
                                     setTemporaryOrder([]);
                                     setClickedTable();
                                     clearMenuCount();
