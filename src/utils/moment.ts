@@ -71,7 +71,8 @@ class Format {
         }
 
     static toAmPm(array : eng) : han{
-        if(array===undefined) return undefined;
+        if(array===undefined) throw Error('array is undefined');
+        
         let number = parseInt(array[0]);
         let result : string = '';
         if(number<=12){

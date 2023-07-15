@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Menu, Container, Button, Checkbox, Form } from 'semantic-ui-react'
+import  Validator  from '../utils/validation.ts';
 
 function SignUp() {
     let [menu, setMenu] = useState('register');
@@ -20,12 +21,14 @@ function SignUp() {
                     }}>추가정보</Menu.Item>
             </Menu>
             {
-                menu === 'register' ? <SignUpForm></SignUpForm> : <About></About>
+                menu === 'register' ? <SignUpForm/>: <About/>
             }
         </>
     )
 }
 function SignUpForm() {
+
+    let [id,setId] = useState();
     return (
         <div>
             <Container text>
@@ -34,13 +37,21 @@ function SignUpForm() {
                     <Form.Field>
 
                         <Form.Input
+                            onChange={(event)=>{
+                                console.log(event.target.value);
+                                console.log(Validator.isIdValid(event.target.value));
+                            }}
                             fluid
                             label='아이디'
                             placeholder='영문, 숫자 5-11자'
-                        // error={{ content: 'Please enter your first name', pointing: 'below' }}
+                            // error={{ content: 'Please enter your first name', pointing: 'below' }}
                         >
                         </Form.Input>
                         <Form.Input
+                            onChange={(event)=>{
+                                console.log(event.target.value);
+                                console.log(Validator.isPasswordValid(event.target.value));
+                            }}
                             fluid
                             label='비밀번호'
                             placeholder='숫자, 영문, 특수문자 조합 최소 8자'
@@ -52,6 +63,10 @@ function SignUpForm() {
                         >
                         </Form.Input>
                         <Form.Input
+                            onChange={(event)=>{
+                                console.log(event.target.value);
+                                console.log(Validator.isEmailValid(event.target.value));
+                            }}
                             fluid
                             label='이메일'
                             placeholder=''
@@ -61,6 +76,10 @@ function SignUpForm() {
 
                         {/* Form.Input에 error를 추가함으로 노출 */}
                         <Form.Input
+                            onChange={(event)=>{
+                                console.log(event.target.value);
+                                console.log(Validator.isPhonenumberValid(event.target.value));
+                            }}
                             fluid
                             label='전화번호'
                             placeholder='숫자만'
@@ -88,7 +107,9 @@ function SignUpForm() {
                     </Form.Field>
                     <Form.Field>
                     </Form.Field>
-                    <Button color='teal' type='submit'>다음으로</Button>
+                    <Button color='teal' type='submit' onClick={()=>{
+                        // setMenu('about');
+                    }}>다음으로</Button>
                 </Form>
             </Container>
         </div>
