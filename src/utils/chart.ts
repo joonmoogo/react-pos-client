@@ -40,20 +40,25 @@ const SAMPLE = [
             timestamp: 1689150320509,
         }    
     ]
+    let localData = Object.keys(localStorage);
+    console.log(localData);
+    let filtered = localData ? localData.filter((e)=>e.includes('receipt')).sort() : [] ;
+    const sampledata = filtered;
+    
+    // sample data
+
 
 export default class ChartUtil{
 
-    getSales(date:string) : number {
-        let total = 0;
-        SAMPLE.map((e)=>{
-            if(e.date === date) {
-                total += (parseInt(e.count) * parseInt(e.price));
-            }
-        })
-        return total;
+    static getSales(date:string) : number {
+        
+        return 10;
+    }
+    static getSalesMonth(sDate:string, eDate:string) : number{
+        return 2022;
     }
 
-    getArrayByDate(date:string) : any[] {
+    static getArrayByDate(date:string) : any[] {
         let array : any[] = [];
         SAMPLE.map((e) =>{
             if(e.date === date){
@@ -63,27 +68,24 @@ export default class ChartUtil{
         return array;
     }
     
-    getAverage(sTime:string, eTime:string) : void {
+    static getAverage(sTime:string, eTime:string) : void {
         let average = 0;
         SAMPLE.map((e,i)=>{
 
         })
     }
-    getMaxVal(stime:string, eTime:string): void{
+    static getMaxVal(stime:string, eTime:string): void{
 
     }
-    getMinVal(sTime:string, eTime:string): void{
+    static getMinVal(sTime:string, eTime:string): void{
 
     }
-    searchByName(name:string): void{
+    static searchByName(name:string): void{
 
     }
-    searchByIndex(index:string): void{
+    static searchByIndex(index:string): void{
 
     }
-
-
-
 }   
 // function 매출 구하기 ( 날짜 ) return '날짜'의 매출
 // function 매출 평균 구하기 (시작 날짜, 종료 날짜) return 평균
