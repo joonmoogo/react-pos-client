@@ -41,7 +41,7 @@ const SAMPLE = [
         }    
     ]
 
-const chartUtil = {
+export default class ChartUtil{
 
     getSales(date:string) : number {
         let total = 0;
@@ -51,7 +51,7 @@ const chartUtil = {
             }
         })
         return total;
-    },
+    }
 
     getArrayByDate(date:string) : any[] {
         let array : any[] = [];
@@ -61,26 +61,26 @@ const chartUtil = {
             }
         })
         return array;
-    },
+    }
     
-    getAverage : (sTime:string, eTime:string) => {
+    getAverage(sTime:string, eTime:string) : void {
         let average = 0;
         SAMPLE.map((e,i)=>{
 
         })
-    },
-    getMaxVal : (stime:string, eTime:string) => {
+    }
+    getMaxVal(stime:string, eTime:string): void{
 
-    },
-    getMinVal : (sTime:string, eTime:string) => {
+    }
+    getMinVal(sTime:string, eTime:string): void{
 
-    },
-    searchByName : (name:string) => {
+    }
+    searchByName(name:string): void{
 
-    },
-    searchByIndex : (index:string) => {
+    }
+    searchByIndex(index:string): void{
 
-    },
+    }
 
 
 
@@ -94,7 +94,4 @@ const chartUtil = {
 //
 //
 
-console.log(chartUtil.getSales('2022-07-25'))
-console.log(chartUtil.getArrayByDate('2022-07-25'))
 
-export default chartUtil;
