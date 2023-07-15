@@ -32,17 +32,26 @@ class Order{
     setLocalStorage(): void{
         localStorage.setItem(`${this.clickedTable}`,JSON.stringify(this.list));
     }
+    
 }
 
 class KitchenOrder extends Order{
+    name: string = `kitchen${this.clickedTable}`
     setLocalStorage(): void {
-        localStorage.setItem(`kitchen${this.clickedTable}`,JSON.stringify(this.list));
+        localStorage.setItem(this.name,JSON.stringify(this.list));
+    }
+    getList() : list{
+        return this.list; 
     }
 }
 
 class Receipt extends Order{
+    name : string = `receipt | ${timeUtil.getMonth()}월${timeUtil.getDate()}일 | ${timeUtil.getTime()} | ${new Date()}`
     setLocalStorage(): void {
-        localStorage.setItem(`receipt | ${timeUtil.getMonth()}월${timeUtil.getDate()}일 | ${timeUtil.getTime()} | ${new Date()}`, JSON.stringify(this.list));
+        localStorage.setItem(this.name, JSON.stringify(this.list));
+    }
+    getList() : list{
+        return this.list;
     }
 }
 

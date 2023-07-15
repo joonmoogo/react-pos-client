@@ -12,8 +12,8 @@ export default class Validator{
         return emailRegex.test(email);
     }
     static isPhonenumberValid(phonenumber:string) : boolean{
-        const phoneNumberRegex: RegExp = /^01([0|1|6|7|8|9])-?\d{3,4}-?\d{4}$/;
-        return phoneNumberRegex.test(phonenumber);
+        const phonenumberRegex: RegExp = /^01([0|1|6|7|8|9])-?\d{3,4}-?\d{4}$/;
+        return phonenumberRegex.test(phonenumber);
     }
 }
 
