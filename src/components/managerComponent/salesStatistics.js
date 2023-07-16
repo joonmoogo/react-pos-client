@@ -1,9 +1,8 @@
 import { React } from "react";
 import { Grid,Image,Icon,Divider,Header,Table } from "semantic-ui-react";
-import ChartUtil from '../../utils/chart.ts'
+import {ChartUtil} from '../../utils/chart.ts';
 
 export default function SalesStatistics() {
-    console.log(ChartUtil.getSales('2022-07-15'));
     return (
         <>
     <Divider horizontal>

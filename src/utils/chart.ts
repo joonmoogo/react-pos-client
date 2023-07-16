@@ -1,92 +1,131 @@
-const SAMPLE = [
-        {
-            date:'2022-07-24',
-            time:'4:54 PM',
-            product: "마징가",
-            option: "메인 메뉴",
-            price: "1234",
-            count: '6',
-            tableNumber: 1,
-            timestamp: 1689150320509,
-        },
-        {
-            date:'2022-07-25',
-            time : '4:55 PM',
-            product: "마마마",
-            option: "사이드 메뉴",
-            price: "2345",
-            count: '3',
-            tableNumber: 1,
-            timestamp: 1689150320509,
-        },
-        {
-            date:'2022-07-25',
-            time : '4:55 PM',
-            product: "마마마",
-            option: "사이드 메뉴",
-            price: "2345",
-            count: '3',
-            tableNumber: 1,
-            timestamp: 1689150320509,
-        },
-        {
-            date:'2022-07-26',
-            time : '4:56 PM',
-            product: "마마마이",
-            option: "사이드 메뉴",
-            price: "3456",
-            count: '3',
-            tableNumber: '1',
-            timestamp: 1689150320509,
-        }    
-    ]
-    let localData = Object.keys(localStorage);
-    console.log(localData);
-    let filtered = localData ? localData.filter((e)=>e.includes('receipt')).sort() : [] ;
-    const sampledata = filtered;
+class ReceiptUtil{
+
+    static localData : string[] = Object.keys(localStorage);
+    // 로컬스토리지의 모든 키
+    static filteredData : string[] = this.localData ? this.localData.filter((e)=>e.includes(`receipt`)).sort() : [] ;
+    // 로컬스토리지에서 receipt 포함하는 키
+    static getAllData(): string[] {
+        let returnData : string[] = [];
+        this.filteredData.map((receipt)=>{
+                const data = localStorage.getItem(receipt);
+                // key안의 value 가져오기
+                if(data){
+                    // value가 있다면 JSON Parsing
+                    const parsedData = JSON.parse(data);
+                    console.log(parsedData);
+                    returnData.push(parsedData);
+                }
+        })
+        return returnData ; // 배열 리턴
+    }
+
+    static getDataByDate(month: string , date: string): string[][] {
+        const filteredByDate = this.filteredData.filter((receipt) =>
+        receipt.includes(month)&&receipt.includes(date)
+        );
+        let returnData: string[][] = [];
+        filteredByDate.forEach((receipt) => {
+          const data = localStorage.getItem(receipt);
+          if (data) {
+            const parsedData = JSON.parse(data);
+            returnData.push(parsedData);
+          }
+        });
+        console.log(`${month}month -${date}date data `)
+        return returnData;
+      }
     
-    // sample data
+      static getDataByMonth(month: string): string[][] {
+        const filteredByMonth = this.filteredData.filter((receipt) =>
+          receipt.includes(month)
+        );
+        let returnData: string[][] = [];
+        filteredByMonth.forEach((receipt) => {
+          const data = localStorage.getItem(receipt);
+          if (data) {
+            const parsedData = JSON.parse(data);
+            returnData.push(parsedData);
+          }
+        });
+        console.log(`${month} month data`)
+        return returnData;
+      }
+}
+console.log(ReceiptUtil.getDataByMonth('7'));
 
+// 위의 함수들은 이중 배열을 리턴함... 쓰레기 코드
 
-export default class ChartUtil{
-
-    static getSales(date:string) : number {
-        
-        return 10;
+class ChartUtil {
+    
+    static getSalesTotal(array : string[][]): number {
+        let total : number = 0;
+        array.map((innerArray : string[])=>{
+            innerArray.map((e : any)=>{
+                total += (parseInt(e.count) * parseInt(e.price))
+            })
+        })
+        return total;
     }
-    static getSalesMonth(sDate:string, eDate:string) : number{
-        return 2022;
-    }
-
-    static getArrayByDate(date:string) : any[] {
-        let array : any[] = [];
-        SAMPLE.map((e) =>{
-            if(e.date === date){
-                array.push(e);
+  
+    static getAverage(array: string[][]): number {
+        let total: number = 0;
+        let count: number = 0;
+      
+        array.forEach((innerArray: string[]) => {
+          innerArray.forEach((e: any) => {
+            total += parseInt(e.count) * parseInt(e.price);
+            count++;
+          });
+        });
+      
+        if (count === 0) {
+          return 0;
+        }
+      
+        const average: number = total / count;
+        return average;
+      }
+  
+      static getMaxVal(array: string[][]): number {
+        let maxVal: number = Number.NEGATIVE_INFINITY;
+      
+        array.forEach((innerArray: string[]) => {
+          innerArray.forEach((e: any) => {
+            const val: number = parseInt(e.count) * parseInt(e.price);
+            if (val > maxVal) {
+              maxVal = val;
             }
-        })
-        return array;
-    }
-    
-    static getAverage(sTime:string, eTime:string) : void {
-        let average = 0;
-        SAMPLE.map((e,i)=>{
+          });
+        });
+      
+        return maxVal;
+      }
+      
+      static getMinVal(array: string[][]): number {
+        let minVal: number = Number.POSITIVE_INFINITY;
+      
+        array.forEach((innerArray: string[]) => {
+          innerArray.forEach((e: any) => {
+            const val: number = parseInt(e.count) * parseInt(e.price);
+            if (val < minVal) {
+              minVal = val;
+            }
+          });
+        });
+      
+        return minVal;
+      }
+  }
 
-        })
-    }
-    static getMaxVal(stime:string, eTime:string): void{
+  console.log(ChartUtil.getSalesTotal(ReceiptUtil.getDataByDate('7','15')));
 
-    }
-    static getMinVal(sTime:string, eTime:string): void{
 
-    }
-    static searchByName(name:string): void{
 
-    }
-    static searchByIndex(index:string): void{
 
-    }
-}   
+export{
+    ChartUtil,
+    ReceiptUtil,
+}
 // function 매출 구하기 ( 날짜 ) return '날짜'의 매출
 // function 매출 평균 구하기 (시작 날짜, 종료 날짜) return 평균
 // function 매출 최대 값 구하기 (시작 날짜, 종료 날짜 ) return 최대값;
