@@ -4,10 +4,9 @@ import { List, Header, Button, Segment } from "semantic-ui-react";
 
 export default function OrderList() { //주방탭
 
-    console.log(Object.keys(localStorage));
     let kitchenOrder = Object.keys(localStorage).filter((e) => e.includes('kitchen')).sort();
     let [st, setSt] = useState(kitchenOrder);
-    console.log(kitchenOrder);
+
     return (
         <Segment>
             <Header as='h5' block >주방임</Header>
