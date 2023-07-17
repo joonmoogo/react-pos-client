@@ -1,6 +1,5 @@
 import { React } from "react";
 import { Grid,Image,Icon,Divider,Header,Table } from "semantic-ui-react";
-import {ChartUtil} from '../../utils/ReceiptUtil.js';
 
 export default function SalesStatistics() {
     return (

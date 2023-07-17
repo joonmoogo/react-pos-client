@@ -1,5 +1,6 @@
 import { React, useState } from "react";
-import { Table, List, Grid, Button, Segment } from "semantic-ui-react";
+import { Form,Divider,Table, List, Grid, Button, Segment } from "semantic-ui-react";
+import ReceiptUtil from '../../utils/ReceiptUtil.ts';
 
 
 
@@ -7,16 +8,9 @@ import { Table, List, Grid, Button, Segment } from "semantic-ui-react";
 export default function FindReceipe() { //영수증조회탭 서버에서 불러온 데이터로 구성될 예정
     const company = JSON.parse(localStorage.getItem('company'));
     const initialCompany = company ? company : '';
-    let localData = Object.keys(localStorage);
-    console.log(localData);
-    let filtered = localData ? localData.filter((e)=>e.includes('receipt')).sort() : [] ;
-    console.log(filtered);
-    let [data, setData] = useState(filtered)
+    let [data, setData] = useState(ReceiptUtil.filteredData)
     let [viewData, setViewData] = useState();
-    console.log(`this is ${viewData}`);
     let viewdatasmenu = viewData? (JSON.parse(localStorage.getItem(viewData))) : null;
-    console.log(viewdatasmenu);
-
     function getTotal(){
       let sum = 0;
       viewdatasmenu&&viewdatasmenu.map((e,i)=>{
@@ -41,7 +35,7 @@ export default function FindReceipe() { //영수증조회탭 서버에서 불러
                 <Table.Body >
                   {data.map((e, i) => {
                     return (
-                      <Table.Row key={i} onClick={() => {
+                      <Table.Row style={{cursor:'pointer'}}  key={i} onClick={() => {
                         setViewData(e);
                         console.log(viewData)
                         console.log(typeof(viewData));
@@ -54,6 +48,37 @@ export default function FindReceipe() { //영수증조회탭 서버에서 불러
                   })}
                 </Table.Body>
               </Table>
+            </Segment>
+            <Segment size="mini">
+            <Form size='mini' >
+              <Form.Group widths='equal'>
+                <Form.Field
+                  id='month'
+                  control='input'
+                  placeholder='month'
+                  onChange={(event)=>{
+                    const uservalue = event.target.value;
+                    const date = document.querySelector('#date');
+                    if(!date.value){
+                      setData(ReceiptUtil.filterByMonth(uservalue));
+                    }
+                }}
+                />
+                <Form.Field
+                  id='date'
+                  control='input'
+                  placeholder='date'
+                  onChange={(event)=>{
+                    const userValue = event.target.value;
+                    const month = document.querySelector('#month');
+                    if(month.value){
+                      setData(ReceiptUtil.filterByDate(month.value,userValue));
+                    }
+                  }}
+                />
+              </Form.Group>
+              <Divider hidden />
+            </Form>
             </Segment>
           </Grid.Column>
           <Grid.Column>
