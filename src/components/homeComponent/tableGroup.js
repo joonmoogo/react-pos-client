@@ -234,8 +234,7 @@ export default function TableGroup(props) { // 기본
                                     const orderFactory = new OrderFactory(clickedTable);
                                     orderFactory.getOrder(temporaryOrder).setLocalStorage();
                                     orderFactory.getKitchenOrder(temporaryOrder).setLocalStorage();
-                                    // orderFactory.setOrder(temporaryOrder);
-                                    // orderFactory.setKitchenOrder(temporaryOrder);    
+
                                     alert('주문');
                                     setClickedTable();
                                     setTemporaryOrder([]);
@@ -251,7 +250,6 @@ export default function TableGroup(props) { // 기본
                                     console.log('서버에 결제요청');
                                     const orderFactory = new OrderFactory(clickedTable);
                                     orderFactory.getReceipt(temporaryOrder).setLocalStorage();
-                                    // OrderFactory.setReceipt(temporaryOrder);
                                     setTemporaryOrder([]);
                                     setClickedTable();
                                     clearMenuCount();

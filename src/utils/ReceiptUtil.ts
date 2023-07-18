@@ -1,16 +1,28 @@
 export default class ReceiptUtil{
 
-  static localData : string[] = Object.keys(localStorage);
-  static filteredData : string[] = this.localData ? this.localData.filter((e)=>e.includes(`receipt`)).sort() : [] ;
+  static getLocalData() : string[]{
+    const data = Object.keys(localStorage);
+    if(data){
+      return data;
+    }
+    throw Error('localStorage is empty');
+
+  }
+  static getFilteredData() : string[] {
+    const data = this.getLocalData();
+    return data ? data.filter((e)=>e.includes(`receipt`)).sort() : [] ;
+  }
 
   static filterByDate(month:string,date:string):string[]{
-    return this.filteredData.filter((receipt) =>
+    const data = this.getFilteredData();
+    return data.filter((receipt) =>
     receipt.includes(`${month}월`)&&receipt.includes(`${date}일`)
   );
   }
 
   static filterByMonth(month:string) : string[]{
-    return this.filteredData.filter((receipt) =>
+    const data = this.getFilteredData();
+    return data.filter((receipt) =>
     receipt.includes(`${month}월`)
   );
   }
