@@ -85,8 +85,3 @@ class Format {
         return result;
     }
 }
-// console.log(TimeUtil.getDate());
-// console.log(TimeUtil.getDayOfTheWeek());
-// console.log(TimeUtil.getMonth());
-// console.log(TimeUtil.getTime());
-// console.log(TimeUtil.getYear());
