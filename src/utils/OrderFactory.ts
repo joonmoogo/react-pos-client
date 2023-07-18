@@ -2,7 +2,6 @@ import TimeUtil from "./moment";
 
 type list = string[] | string;
 type tableNum = number | undefined;
-let timeUtil = new TimeUtil();
 
 export default class OrderFactory{
     clickedTable : number|undefined;
@@ -36,7 +35,10 @@ class Order{
 }
 
 class KitchenOrder extends Order{
-    name: string = `kitchen${this.clickedTable}`
+    name: string = `kitchen${super.clickedTable}`
+    constructor(clickedTable:tableNum, list:list){
+        super(clickedTable,list);
+    }
     setLocalStorage(): void {
         localStorage.setItem(this.name,JSON.stringify(this.list));
     }
@@ -46,7 +48,11 @@ class KitchenOrder extends Order{
 }
 
 class Receipt extends Order{
-    name : string = `receipt | ${timeUtil.getMonth()}월${timeUtil.getDate()}일 | ${timeUtil.getTime()} | ${new Date()}`
+    timeUtil = new TimeUtil();
+    name : string = `receipt | ${this.timeUtil.getMonth()}월${this.timeUtil.getDate()}일 | ${this.timeUtil.getTime()} | ${new Date()}`;
+    constructor(clickedTable:tableNum, list:list){
+        super(clickedTable,list);
+    }
     setLocalStorage(): void {
         localStorage.setItem(this.name, JSON.stringify(this.list));
     }
