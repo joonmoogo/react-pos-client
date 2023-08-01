@@ -1,6 +1,18 @@
 import React, { useState } from 'react'
 import { Menu, Container, Button, Checkbox, Form } from 'semantic-ui-react'
-import  Validator  from '../utils/validation.ts';
+import Validator  from '../utils/validation.ts';
+import axios from 'axios';
+
+const postData = async (url,data) => {
+    try {
+      const response = await axios.post(url,null,{params:data});
+      return response.data; // 서버의 응답 데이터를 반환할 수도 있습니다.
+    } catch (error) {
+      // 에러 처리를 원한다면 여기서 처리합니다.
+      console.error('POST 요청 에러:', error.request.responseText);
+      throw error; // 에러를 상위 호출자에게 다시 던져줄 수도 있습니다.
+    }
+  };
 
 function SignUp() {
     let [menu, setMenu] = useState('register');
@@ -28,7 +40,13 @@ function SignUp() {
 }
 function SignUpForm() {
 
-    let [id,setId] = useState();
+    const userSaveUrl = '/users';
+
+
+    let [nickname,setNickname] = useState();
+    let [email,setEmail] = useState();
+    let [password,setPassword] = useState();
+    let [phoneNumber,setPhoneNumber] = useState();
     return (
         <div>
             <Container text>
@@ -40,9 +58,10 @@ function SignUpForm() {
                             onChange={(event)=>{
                                 console.log(event.target.value);
                                 console.log(Validator.isIdValid(event.target.value));
+                                setNickname(event.target.value);
                             }}
                             fluid
-                            label='아이디'
+                            label='닉네임'
                             placeholder='영문, 숫자 5-11자'
                             // error={{ content: 'Please enter your first name', pointing: 'below' }}
                         >
@@ -50,7 +69,21 @@ function SignUpForm() {
                         <Form.Input
                             onChange={(event)=>{
                                 console.log(event.target.value);
+                                console.log(Validator.isEmailValid(event.target.value));
+                                setEmail(event.target.value);
+                            }}
+                            fluid
+                            label='이메일'
+                            placeholder='example@example.com'
+                        >
+                        </Form.Input>
+
+
+                        <Form.Input
+                            onChange={(event)=>{
+                                console.log(event.target.value);
                                 console.log(Validator.isPasswordValid(event.target.value));
+                                setPassword(event.target.value);
                             }}
                             fluid
                             label='비밀번호'
@@ -62,23 +95,13 @@ function SignUpForm() {
                             placeholder='비밀번호 재입력'
                         >
                         </Form.Input>
-                        <Form.Input
-                            onChange={(event)=>{
-                                console.log(event.target.value);
-                                console.log(Validator.isEmailValid(event.target.value));
-                            }}
-                            fluid
-                            label='이메일'
-                            placeholder=''
-                        // error
-                        >
-                        </Form.Input>
 
                         {/* Form.Input에 error를 추가함으로 노출 */}
                         <Form.Input
                             onChange={(event)=>{
                                 console.log(event.target.value);
                                 console.log(Validator.isPhonenumberValid(event.target.value));
+                                setPhoneNumber(event.target.value);
                             }}
                             fluid
                             label='전화번호'
@@ -108,7 +131,20 @@ function SignUpForm() {
                     <Form.Field>
                     </Form.Field>
                     <Button color='teal' type='submit' onClick={()=>{
-                        // setMenu('about');
+                        const uservalue = {
+                            email:email,
+                            password:password,
+                            nickname:nickname,
+                            phoneNumber:phoneNumber
+                        }
+                        console.log(uservalue);
+                        postData(userSaveUrl,uservalue)
+                        .then(responseData =>{
+                            console.log(responseData);
+                        })
+                        .catch(error =>{
+                            console.log(error);
+                        })
                     }}>다음으로</Button>
                 </Form>
             </Container>

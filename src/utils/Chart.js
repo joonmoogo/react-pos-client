@@ -22,7 +22,7 @@ export default function VerticalBarDemo() {
         const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
         const data = {
-            labels: ['yesterday','today','tomorrow'],
+            labels: ['week','today','month',],
             datasets: [
                 {
                     label: 'daily sales',
