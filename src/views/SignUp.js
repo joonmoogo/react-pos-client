@@ -1,18 +1,9 @@
 import React, { useState } from 'react'
 import { Menu, Container, Button, Checkbox, Form } from 'semantic-ui-react'
 import Validator  from '../utils/validation.ts';
-import axios from 'axios';
+import {saveUser} from '../controllers/UserController.ts'
+import {checkEmail,checkNickName,checkPhoneNumber} from '../controllers/CheckController.ts'
 
-const postData = async (url,data) => {
-    try {
-      const response = await axios.post(url,null,{params:data});
-      return response.data; // 서버의 응답 데이터를 반환할 수도 있습니다.
-    } catch (error) {
-      // 에러 처리를 원한다면 여기서 처리합니다.
-      console.error('POST 요청 에러:', error.request.responseText);
-      throw error; // 에러를 상위 호출자에게 다시 던져줄 수도 있습니다.
-    }
-  };
 
 function SignUp() {
     let [menu, setMenu] = useState('register');
@@ -40,8 +31,6 @@ function SignUp() {
 }
 function SignUpForm() {
 
-    const userSaveUrl = '/users';
-
 
     let [nickname,setNickname] = useState();
     let [email,setEmail] = useState();
@@ -56,9 +45,14 @@ function SignUpForm() {
 
                         <Form.Input
                             onChange={(event)=>{
-                                console.log(event.target.value);
-                                console.log(Validator.isIdValid(event.target.value));
-                                setNickname(event.target.value);
+                                const userValue = event.target.value;
+                                console.log(userValue);
+                                console.log(Validator.isIdValid(userValue));
+                                setNickname(userValue);
+                                if(Validator.isIdValid(userValue)){
+                                    checkNickName({nickname:userValue});
+                                }
+                                
                             }}
                             fluid
                             label='닉네임'
@@ -68,9 +62,13 @@ function SignUpForm() {
                         </Form.Input>
                         <Form.Input
                             onChange={(event)=>{
-                                console.log(event.target.value);
-                                console.log(Validator.isEmailValid(event.target.value));
-                                setEmail(event.target.value);
+                                const userValue = event.target.value;
+                                console.log(userValue);
+                                console.log(Validator.isEmailValid(userValue));
+                                setEmail(userValue);
+                                if(Validator.isEmailValid(userValue)){
+                                    checkEmail({email:userValue});
+                                }
                             }}
                             fluid
                             label='이메일'
@@ -81,9 +79,10 @@ function SignUpForm() {
 
                         <Form.Input
                             onChange={(event)=>{
-                                console.log(event.target.value);
-                                console.log(Validator.isPasswordValid(event.target.value));
-                                setPassword(event.target.value);
+                                const userValue = event.target.value;
+                                console.log(userValue);
+                                console.log(Validator.isPasswordValid(userValue));
+                                setPassword(userValue);
                             }}
                             fluid
                             label='비밀번호'
@@ -99,9 +98,13 @@ function SignUpForm() {
                         {/* Form.Input에 error를 추가함으로 노출 */}
                         <Form.Input
                             onChange={(event)=>{
-                                console.log(event.target.value);
-                                console.log(Validator.isPhonenumberValid(event.target.value));
-                                setPhoneNumber(event.target.value);
+                                const userValue = event.target.value;
+                                console.log(userValue);
+                                console.log(Validator.isPhonenumberValid(userValue));
+                                setPhoneNumber(userValue);
+                                if(Validator.isPhonenumberValid(userValue)){
+                                    checkPhoneNumber({phoneNumber:userValue});
+                                }
                             }}
                             fluid
                             label='전화번호'
@@ -137,8 +140,9 @@ function SignUpForm() {
                             nickname:nickname,
                             phoneNumber:phoneNumber
                         }
+                        
                         console.log(uservalue);
-                        postData(userSaveUrl,uservalue)
+                        saveUser(uservalue)
                         .then(responseData =>{
                             console.log(responseData);
                         })

@@ -4,6 +4,9 @@ import { Link, useNavigate } from 'react-router-dom'
 import './loginForm.css'
 import naver_id_login from '../modules/naver_login'
 import SocialKakao from '../modules/kakao_login'
+import {authorize} from '../controllers/AuthController.ts'
+import {getStores} from '../controllers/StoreController.ts';
+import {getUser} from '../controllers/UserController.ts'
 
 
 function LoginForm() {
@@ -20,19 +23,25 @@ function LoginForm() {
         </Header>
         <Form size='large'>
           <Segment stacked>
-            <Form.Input fluid icon='user' iconPosition='left' placeholder='E-mail address' />
-            <Form.Input
-              fluid
-              icon='lock'
-              iconPosition='left'
-              placeholder='Password'
-              type='password'
+            <Form.Input fluid icon='user' iconPosition='left' placeholder='E-mail address' id='loginEmail' />
+            <Form.Input fluid icon='lock' iconPosition='left' placeholder='Password' type='password' id='loginPassword'
             />
             <Button color='teal' fluid size='large' onClick={() => {
-              navigate('/main');
+              const email = document.querySelector('#loginEmail');
+              const password = document.querySelector('#loginPassword');
+              const userinfo = {email : email.value , password : password.value};
+              authorize(userinfo);
+
             }}>
               로그인
             </Button>
+            <button onClick={()=>{
+              getStores();
+            }}>getStores</button>
+            <button onClick={()=>{
+              getUser();
+            }}>getUser</button>
+
           </Segment>
         </Form>
         <Message>
