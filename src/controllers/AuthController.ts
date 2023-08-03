@@ -8,14 +8,15 @@ export const authorize = async (data : UserLoginDTO ) : Promise<any> => {
       if(responseCode == 200){
         console.log(response.headers.access_token);
         localStorage.setItem('hknuToken',JSON.stringify(response.headers.access_token));
-        alert('login good');
+        alert('accepted');
       }
-      return response.data; // 서버의 응답 데이터를 반환할 수도 있습니다.
+      return true; 
     } catch (error : any) {
-      // 에러 처리를 원한다면 여기서 처리합니다.
+      
       const responseCode = (error.response.status);
       if(responseCode==401){
         console.error('POST 요청 에러:', error.request.responseText);
       }
+      return false;
     }
   };

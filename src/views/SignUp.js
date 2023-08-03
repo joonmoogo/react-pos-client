@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Menu, Container, Button, Checkbox, Form } from 'semantic-ui-react'
-import Validator  from '../utils/validation.ts';
-import {saveUser} from '../controllers/UserController.ts'
-import {checkEmail,checkNickName,checkPhoneNumber} from '../controllers/CheckController.ts'
+import Validator from '../utils/validation.ts';
+import { saveUser } from '../controllers/UserController.ts'
+import { checkEmail, checkNickName, checkPhoneNumber } from '../controllers/CheckController.ts'
 
 
 function SignUp() {
@@ -24,7 +24,7 @@ function SignUp() {
                     }}>추가정보</Menu.Item>
             </Menu>
             {
-                menu === 'register' ? <SignUpForm/>: <About/>
+                menu === 'register' ? <SignUpForm /> : <About />
             }
         </>
     )
@@ -32,57 +32,88 @@ function SignUp() {
 function SignUpForm() {
 
 
-    let [nickname,setNickname] = useState();
-    let [email,setEmail] = useState();
-    let [password,setPassword] = useState();
-    let [phoneNumber,setPhoneNumber] = useState();
+    let [nickname, setNickname] = useState();
+    let [nicknameCheck, setNicknameCheck] = useState();
+    let [email, setEmail] = useState();
+    let [emailCheck, setEmailCheck] = useState();
+    let [password, setPassword] = useState();
+    let [passwordCheck, setPasswordCheck] = useState();
+    let [authorizePassword, setAuthorizePassword] = useState();
+    let [phoneNumber, setPhoneNumber] = useState();
+    let [phoneNumberCheck, setPhoneNumberCheck] = useState();
+
     return (
         <div>
             <Container text>
-                <Form size='large' success warning error>
+                <Form size='large'>
                     {/* Form에 success나 warning을 추가함으로 노출됨 */}
                     <Form.Field>
 
                         <Form.Input
-                            onChange={(event)=>{
+                            icon={(nicknameCheck==true) && 'check'}
+                            onChange={(event) => {
                                 const userValue = event.target.value;
                                 console.log(userValue);
-                                console.log(Validator.isIdValid(userValue));
+
                                 setNickname(userValue);
-                                if(Validator.isIdValid(userValue)){
-                                    checkNickName({nickname:userValue});
+                                if (Validator.isIdValid(userValue)) {
+                                    setNicknameCheck(true);
+                                    checkNickName({ nickname: userValue }).then((response) => {
+                                        if (response == true) {
+
+                                        }
+                                        else {
+                                            setNicknameCheck(false);
+                                        }
+                                    })
                                 }
-                                
                             }}
+                            id='nicknameForm'
                             fluid
                             label='닉네임'
                             placeholder='영문, 숫자 5-11자'
-                            // error={{ content: 'Please enter your first name', pointing: 'below' }}
-                        >
-                        </Form.Input>
+                            error={(nicknameCheck == false) && {
+                                content: '이미 존재하는 닉네임입니다.',
+                                pointing: 'below'
+                            }}
+                        ></Form.Input>
                         <Form.Input
-                            onChange={(event)=>{
+                            icon={(emailCheck==true) && 'check'}
+                            onChange={(event) => {
                                 const userValue = event.target.value;
                                 console.log(userValue);
                                 console.log(Validator.isEmailValid(userValue));
                                 setEmail(userValue);
-                                if(Validator.isEmailValid(userValue)){
-                                    checkEmail({email:userValue});
+                                if (Validator.isEmailValid(userValue)) {
+                                    checkEmail({ email: userValue }).then((response) => {
+                                        response ? setEmailCheck(true) : setEmailCheck(false);
+                                    })
                                 }
                             }}
                             fluid
                             label='이메일'
                             placeholder='example@example.com'
+                            error={(emailCheck == false) && {
+                                content: '이미 가입된 이메일입니다.',
+                                pointing: 'below'
+                            }}
                         >
                         </Form.Input>
 
 
                         <Form.Input
-                            onChange={(event)=>{
+                            icon={(passwordCheck==true) && 'check'}
+                            onChange={(event) => {
                                 const userValue = event.target.value;
                                 console.log(userValue);
                                 console.log(Validator.isPasswordValid(userValue));
                                 setPassword(userValue);
+                                if(Validator.isPasswordValid(userValue)){
+                                    setPasswordCheck(true);
+                                }
+                                else{
+                                    setPasswordCheck(false);
+                                }
                             }}
                             fluid
                             label='비밀번호'
@@ -92,63 +123,73 @@ function SignUpForm() {
                         <Form.Input
                             fluid
                             placeholder='비밀번호 재입력'
+                            icon={(authorizePassword==true) && 'check'}
+
+                            onChange={(event)=>{
+                                const userValue = event.target.value;
+                                if(userValue == password){
+                                    setAuthorizePassword(true);
+                                }
+                                else{
+                                    setAuthorizePassword(false);
+                                }
+                            }}
                         >
                         </Form.Input>
 
                         {/* Form.Input에 error를 추가함으로 노출 */}
                         <Form.Input
-                            onChange={(event)=>{
+                            icon={(phoneNumberCheck==true) && 'check'}
+                            onChange={(event) => {
                                 const userValue = event.target.value;
                                 console.log(userValue);
                                 console.log(Validator.isPhonenumberValid(userValue));
                                 setPhoneNumber(userValue);
-                                if(Validator.isPhonenumberValid(userValue)){
-                                    checkPhoneNumber({phoneNumber:userValue});
+                                if (Validator.isPhonenumberValid(userValue)) {
+                                    checkPhoneNumber({ phoneNumber: userValue }).then((response) => {
+                                        response ? setPhoneNumberCheck(true) : setPhoneNumberCheck(false);
+                                    })
                                 }
                             }}
                             fluid
                             label='전화번호'
                             placeholder='숫자만'
-                        // error
-                        //   error={{ content: 'Please enter your first name', pointing: 'below' }}
-                        // 팝업 메시지 출력
+                            error={(phoneNumberCheck == false) && {
+                                content: '이미 등록된 번호입니다',
+                                pointing: 'below'
+                            }}
+                       
                         ></Form.Input>
-                        {/* <Message
-                            success
-                            header='Form Completed'
-                            content="You're all signed up for the newsletter"
-                        /> */}
-                        {/* <Message
-                            warning
-                            header='Could you check something!'
-                            list={[
-                                'That e-mail has been subscribed, but you have not yet clicked the verification link in your e-mail.',
-                            ]}
-                        />
-                        <Message
-                            error
-                            header='Action Forbidden'
-                            content='You can only sign up for an account once with a given e-mail address.'
-                        /> */}
+                        
                     </Form.Field>
                     <Form.Field>
                     </Form.Field>
-                    <Button color='teal' type='submit' onClick={()=>{
+                    <Button color='teal' type='submit' onClick={() => {
                         const uservalue = {
-                            email:email,
-                            password:password,
-                            nickname:nickname,
-                            phoneNumber:phoneNumber
+                            email: email,
+                            password: password,
+                            nickname: nickname,
+                            phoneNumber: phoneNumber
                         }
-                        
                         console.log(uservalue);
-                        saveUser(uservalue)
-                        .then(responseData =>{
-                            console.log(responseData);
-                        })
-                        .catch(error =>{
-                            console.log(error);
-                        })
+                        if (
+                            Validator.isEmailValid(email) &&
+                            Validator.isIdValid(nickname) &&
+                            Validator.isPasswordValid(password) &&
+                            Validator.isPhonenumberValid(phoneNumber)
+                        ) {
+                            saveUser(uservalue)
+                                .then(responseData => {
+                                    console.log(responseData);
+                                })
+                                .catch(error => {
+                                    console.log(error);
+                                })
+                        }
+                        else {
+                            console.error('check, not valid input form');
+                        }
+
                     }}>다음으로</Button>
                 </Form>
             </Container>
@@ -156,13 +197,10 @@ function SignUpForm() {
     )
 }
 function About() {
-    // const sizes = ['mini', 'tiny', 'small', 'large', 'big', 'huge', 'massive']
-
     return (
         <div>
             <Container text>
                 <Form size='large' success warning error>
-                    {/* Form에 success나 warning을 추가함으로 노출됨 */}
                     <Form.Field>
                         <Form.Input
                             fluid
@@ -174,7 +212,6 @@ function About() {
                             fluid
                             label='오픈 시간'
                             placeholder='09:00'
-                        // error={{ content: 'Please enter your first name', pointing: 'below' }}
                         >
                         </Form.Input>
                         <Form.Input
@@ -195,27 +232,6 @@ function About() {
                             placeholder='입력'
                         >
                         </Form.Input>
-
-
-
-
-                        {/* <Message
-                                success
-                                header='Form Completed'
-                                content="You're all signed up for the newsletter"
-                            /> */}
-                        {/* <Message
-                                warning
-                                header='Could you check something!'
-                                list={[
-                                    'That e-mail has been subscribed, but you have not yet clicked the verification link in your e-mail.',
-                                ]}
-                            />
-                            <Message
-                                error
-                                header='Action Forbidden'
-                                content='You can only sign up for an account once with a given e-mail address.'
-                            /> */}
                     </Form.Field>
                     <Form.Field>
                         <Checkbox label='I agree to the Terms and Conditions' />

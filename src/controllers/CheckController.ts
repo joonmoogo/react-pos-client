@@ -6,7 +6,7 @@ export const checkEmail = async (email : string ) : Promise<any> => {
       console.log(`server response :${response.data}`);
       return response.data;
     } catch (error : any) {
-      // 에러 처리를 원한다면 여기서 처리합니다.
+      
       console.error(error);
     }
   };
@@ -17,7 +17,7 @@ export const checkEmail = async (email : string ) : Promise<any> => {
       console.log(`server response :${response.data}`);
       return response.data;
     } catch (error : any) {
-      // 에러 처리를 원한다면 여기서 처리합니다.
+      
       console.error(error);
     }
   };
@@ -28,7 +28,7 @@ export const checkEmail = async (email : string ) : Promise<any> => {
       console.log(`server response :${response.data}`);
       return response.data;
     } catch (error : any) {
-      // 에러 처리를 원한다면 여기서 처리합니다.
+      
       console.error(error);
     }
   };

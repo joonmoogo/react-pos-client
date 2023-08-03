@@ -1,13 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useState } from 'react'
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
 import { Link, useNavigate } from 'react-router-dom'
 import './loginForm.css'
 import naver_id_login from '../modules/naver_login'
 import SocialKakao from '../modules/kakao_login'
 import {authorize} from '../controllers/AuthController.ts'
-import {getStores} from '../controllers/StoreController.ts';
-import {getUser} from '../controllers/UserController.ts'
-
+import {LoginErrorMessage} from '../components/errorMessageComponent/loginError'
 
 function LoginForm() {
 
@@ -15,6 +13,7 @@ function LoginForm() {
   useEffect(() => {
     naver_id_login.init_naver_id_login();
   }, [])
+  let [loginError,setLoginError] = useState();
   return (
     <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
       <Grid.Column style={{ maxWidth: 450 }}>
@@ -30,18 +29,19 @@ function LoginForm() {
               const email = document.querySelector('#loginEmail');
               const password = document.querySelector('#loginPassword');
               const userinfo = {email : email.value , password : password.value};
-              authorize(userinfo);
-
+              authorize(userinfo).then((value)=>{
+                if(value){
+                  navigate('/main'); 
+                }
+                else{
+                  setLoginError(true);
+                }
+              })
             }}>
               로그인
             </Button>
-            <button onClick={()=>{
-              getStores();
-            }}>getStores</button>
-            <button onClick={()=>{
-              getUser();
-            }}>getUser</button>
-
+            {loginError?<LoginErrorMessage/>:null}
+            
           </Segment>
         </Form>
         <Message>
