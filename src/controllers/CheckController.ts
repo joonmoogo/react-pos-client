@@ -6,7 +6,6 @@ export const checkEmail = async (email : string ) : Promise<any> => {
       console.log(`server response :${response.data}`);
       return response.data;
     } catch (error : any) {
-      
       console.error(error);
     }
   };
@@ -17,7 +16,6 @@ export const checkEmail = async (email : string ) : Promise<any> => {
       console.log(`server response :${response.data}`);
       return response.data;
     } catch (error : any) {
-      
       console.error(error);
     }
   };
@@ -28,7 +26,6 @@ export const checkEmail = async (email : string ) : Promise<any> => {
       console.log(`server response :${response.data}`);
       return response.data;
     } catch (error : any) {
-      
       console.error(error);
     }
   };

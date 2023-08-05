@@ -13,8 +13,7 @@ export const getStores = async () : Promise<any> => {
       const response = await axios.get('/stores',{headers});
       const responseCode = response.status;
       console.log(responseCode);
-      console.log(response);
-      return response.data; 
+      return response;
     } catch (error : any) {
       
       console.error('GET 요청 에러:', error.request.responseText);

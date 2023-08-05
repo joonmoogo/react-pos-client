@@ -5,7 +5,7 @@ import './loginForm.css'
 import naver_id_login from '../modules/naver_login'
 import SocialKakao from '../modules/kakao_login'
 import {authorize} from '../controllers/AuthController.ts'
-import {LoginErrorMessage} from '../components/errorMessageComponent/loginError'
+import {LoginErrorMessage} from '../components/MessageComponent/loginError'
 
 function LoginForm() {
 

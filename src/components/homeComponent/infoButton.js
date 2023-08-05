@@ -5,7 +5,7 @@ export default function InfoButton(){
  
     return(
         <div style={{}}>
-        <Popup size="large" className='fade-in'  trigger={<Button style={{ 
+        <Popup size="large" className='fade-in-modal-button'  trigger={<Button style={{ 
             top:'90%',
             left:'90%',
             position: 'absolute',

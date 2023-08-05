@@ -1,5 +1,5 @@
 import { React, useState, createRef, useEffect } from "react";
-import { Label, Menu, Grid, Container, Sticky } from "semantic-ui-react";
+import { Label, Menu, Grid, Container, Sticky,TransitionablePortal,Segment,Header,Button } from "semantic-ui-react";
 import { useNavigate } from 'react-router-dom'
 import TableGroup from '../components/homeComponent/tableGroup'
 import WaitingList from "../components/homeComponent/waitingList";
@@ -7,58 +7,47 @@ import ReservationList from "../components/homeComponent/reservationList";
 import OrderList from "../components/homeComponent/orderList";
 import Manager from "../components/homeComponent/manager";
 import FindReceipe from "../components/homeComponent/findReceipt";
-import axios from "axios";
-import naver_id_login from '../modules/naver_login'
-
+import { getStores } from "../controllers/StoreController.ts";
+import Modal from "../components/homeComponent/modalComponent/modal";
 function Home() {
-
-  // function naverSignInCallBack(){
-  //   console.log(naver_id_login.getProfileData('email'));
-  //   console.log(naver_id_login.getProfileData('name'));
-  //   console.log(naver_id_login.getProfileData('age'));
-  // }
-  // naverSignInCallBack();
-  axios.defaults.withCredentials = true;
-
-  useEffect(() => {
-    const naverToken = naver_id_login.oauthParams.access_token;
- 
-    // async function getNaver (){
-    //   await axios.get(`https://openapi.naver.com/v1/nid/getUserProfile.json?access_token=${naverToken}`,{
-    //     headers: {
-    //       "Access-Control-Allow-Origin": `*`,
-    //       'Access-Control-Allow-Credentials':"true",
-    //     },
-    //     withCredentials:true,
-
-    //   }).then((data)=>{
-    //     console.log(JSON.parse(data));
-    //   })
-
-    //   console.log(naver_id_login.profileParams);
-    //   if(naverToken) alert(naverToken);
-    //   // console.log(naver_id_login.oauthParams)
-
-    // }
-    // getNaver();
-    alert(naverToken);
-
-
-
-  }, [])
-
-  // 네이버 사용자 프로필 조회
+  useEffect(()=>{
+    getStores().then((response)=>{
+      if(response.data.length == 0){
+        console.log('it is null');
+        setModal(true);
+      }
+    })
+  },[])
   let navigate = useNavigate();
   let [menu, setMenu] = useState('홀');
   let [tableGroup, setTableGroup] = useState(false);
   let [option, setOption] = useState(['홀', '예약', '대기', '영수증 조회', '주방']);
-  let [labelOption, setLabelOption] = useState([0, 3, 9, 0, 0, 1, 0]);
-  const hstyle = {
-    marginTop: '20px',
-  }
+  let [labelOption, setLabelOption] = useState([1, 0, 0, 0, 0, 0]);
+  let [modal,setModal] = useState();
+  let [count,setCount] = useState(1);
   // let contextRef = createRef();
+  function handleModalNext() {
+    console.log(count);
+    setCount(count+1);
+    setMenu(option[count])
+    if(count>=option.length){
+      setMenu('관리자');
+    }
+  }
+  function handleModalOpen(){
+    if(count>option.length+1){
+      console.log('false');
+      return false;
+    }
+    else{
+      console.log('true');
+      return true;
+    }
+  }
+  
   return (
-    <Container style={hstyle}>
+    <Container style={{marginTop:'20px'}}>
+      {modal?<Modal onModalNext={handleModalNext} onModalOpen={handleModalOpen} counter={count-1}/>:null}
       <Grid>
         <Grid.Column width={4} >
           <Sticky>
@@ -66,13 +55,14 @@ function Home() {
               {option.map((e, i) => {
                 return (
                   <Menu.Item
-                    style={hstyle}
+                    
+                    style={{marginTop:'20px'}}
                     key={e}
                     onClick={() => { setMenu(e); }}
                     active={menu == e}
                   >
                     {e}
-                    {labelOption[i] != 0 ? <Label color='red' floating>{labelOption[i]}</Label> : null}
+                    {labelOption[i] != 0 ? <Label color='red' floating tag>{labelOption[i]}</Label> : null}
                   </Menu.Item>
                 )
               })}
@@ -98,4 +88,5 @@ function Home() {
     </Container>
   )
 }
+
 export default Home;
