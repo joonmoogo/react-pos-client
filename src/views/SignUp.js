@@ -6,31 +6,18 @@ import { checkEmail, checkNickName, checkPhoneNumber } from '../controllers/Chec
 
 
 function SignUp() {
-    let [menu, setMenu] = useState('register');
     return (
         <>
             <Menu stackable pointing secondary>
-                <Menu.Item
-                    name='register'
-                    active={menu === 'register'}
-                    onClick={() => {
-                        setMenu('register');
-                    }}>회원가입</Menu.Item>
-                <Menu.Item
-                    name='about'
-                    active={menu === 'about'}
-                    onClick={() => {
-                        setMenu('about');
-                    }}>추가정보</Menu.Item>
+                <Menu.Item name='register'>회원가입</Menu.Item>
             </Menu>
             {
-                menu === 'register' ? <SignUpForm /> : <About />
+                <SignUpForm/>
             }
         </>
     )
 }
 function SignUpForm() {
-
 
     let [nickname, setNickname] = useState();
     let [nicknameCheck, setNicknameCheck] = useState();
@@ -60,7 +47,7 @@ function SignUpForm() {
                                     setNicknameCheck(true);
                                     checkNickName({ nickname: userValue }).then((response) => {
                                         if (response == true) {
-
+                                            setNicknameCheck(true);
                                         }
                                         else {
                                             setNicknameCheck(false);
@@ -137,7 +124,6 @@ function SignUpForm() {
                         >
                         </Form.Input>
 
-                        {/* Form.Input에 error를 추가함으로 노출 */}
                         <Form.Input
                             icon={(phoneNumberCheck==true) && 'check'}
                             onChange={(event) => {
@@ -181,13 +167,14 @@ function SignUpForm() {
                             saveUser(uservalue)
                                 .then(responseData => {
                                     console.log(responseData);
+                                    
                                 })
                                 .catch(error => {
                                     console.log(error);
                                 })
                         }
                         else {
-                            console.error('check, not valid input form');
+                            console.error('check,not valid input form');
                         }
 
                     }}>다음으로</Button>
