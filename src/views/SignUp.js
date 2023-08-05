@@ -1,23 +1,36 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Menu, Container, Button, Checkbox, Form } from 'semantic-ui-react'
 import Validator from '../utils/validation.ts';
 import { saveUser } from '../controllers/UserController.ts'
 import { checkEmail, checkNickName, checkPhoneNumber } from '../controllers/CheckController.ts'
-
+import { getStores, saveStores } from '../controllers/StoreController.ts';
+import { authorize } from '../controllers/AuthController.ts';
+import { useNavigate } from 'react-router-dom';
 
 function SignUp() {
+    let [menu, setMenu] = useState('register');
+    function nextMenu(){
+        setMenu('about');
+    }
     return (
         <>
             <Menu stackable pointing secondary>
-                <Menu.Item name='register'>회원가입</Menu.Item>
+                <Menu.Item
+                    name='register'
+                    active={menu === 'register'}
+                    >회원가입</Menu.Item>
+                <Menu.Item
+                    name='about'
+                    active={menu === 'about'}
+                    >추가정보</Menu.Item>
             </Menu>
             {
-                <SignUpForm/>
+                menu === 'register' ? <SignUpForm nextMenu={nextMenu}></SignUpForm> : <About></About>
             }
         </>
     )
 }
-function SignUpForm() {
+function SignUpForm({nextMenu}) {
 
     let [nickname, setNickname] = useState();
     let [nicknameCheck, setNicknameCheck] = useState();
@@ -164,10 +177,11 @@ function SignUpForm() {
                             Validator.isPasswordValid(password) &&
                             Validator.isPhonenumberValid(phoneNumber)
                         ) {
+                            nextMenu();
                             saveUser(uservalue)
                                 .then(responseData => {
                                     console.log(responseData);
-                                    
+                                    authorize({email:uservalue.email,password:uservalue.password});
                                 })
                                 .catch(error => {
                                     console.log(error);
@@ -184,36 +198,43 @@ function SignUpForm() {
     )
 }
 function About() {
+    const navigate = useNavigate();
+
     return (
         <div>
             <Container text>
                 <Form size='large' success warning error>
                     <Form.Field>
                         <Form.Input
+                            id='name'
                             fluid
                             label='상호명'
                             placeholder='광식이네 포장마차'
                         >
                         </Form.Input>
                         <Form.Input
+                            id='opentime'
                             fluid
                             label='오픈 시간'
                             placeholder='09:00'
                         >
                         </Form.Input>
                         <Form.Input
+                            id='closetime'
                             fluid
                             label='마감시간'
                             placeholder='24:00'
                         >
                         </Form.Input>
                         <Form.Input
+                            id='address'
                             fluid
                             label='주소'
                             placeholder='비밀번호 재입력'
                         >
                         </Form.Input>
                         <Form.Input
+                            id='info'
                             fluid
                             label='가게 소개'
                             placeholder='입력'
@@ -223,7 +244,24 @@ function About() {
                     <Form.Field>
                         <Checkbox label='I agree to the Terms and Conditions' />
                     </Form.Field>
-                    <Button color='teal' type='submit'>가입하기</Button>
+                    <Button color='teal' type='submit' onClick={()=>{
+                        const name = document.querySelector('#name').value;
+                        const address = document.querySelector('#address').value;
+                        const info = document.querySelector('#info').value;
+                        const opentime = document.querySelector('#opentime').value;
+                        const closetime = document.querySelector('#closetime').value;
+
+                        const storeInfo = {
+                            name:name,
+                            address:address,
+                            info:info,
+                            operatingTime:`${opentime}-${closetime}`,
+                        }
+                        
+                        saveStores(storeInfo);
+                        navigate('/')
+                        
+                    }}>가입하기</Button>
                 </Form>
             </Container>
         </div>

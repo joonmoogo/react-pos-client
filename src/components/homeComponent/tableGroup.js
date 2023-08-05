@@ -13,19 +13,7 @@ export default function TableGroup(props) { // 기본
 
     let [table, setTable] = useState(tableSetting);
     let [counter, setCounter] = useState(counterSetting);
-    table.map((e, i) => {
-        localStorage.setItem(`secretNumber${i + 1}`, Math.round(Math.random() * 99999999));
-    })
-
-
-
-    //서버에서 받을 데이터 가입시 기본설정
-
-    //현재 네비게이션 이동시에 메뉴가 추가된 table state가 초기화되어 문제
-    //table state를 상위에 두자 => Redux  => Redux store 사용하면 컴포넌트를 갈아치워도 상태 유지
-    //하지만 새로고침하면 또 날아감 => localStorage나 sessionStorage에 저장.
-    //두 가지를 같이 사용한 라이브러리 redux persist라는게 존재함. => 참고하자.
-
+    
     let [clickedTable, setClickedTable] = useState();
     const localMenu = JSON.parse(localStorage.getItem('menu'));
     const initialMenuList = localMenu ? localMenu : []

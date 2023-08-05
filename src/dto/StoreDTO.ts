@@ -14,8 +14,6 @@ export type StoreSaveDTO = {
     name : string,
     address : string,
     info : string,
-    phoneNumber : string,
-    canReservation : boolean,
     operatingTime : string,
 }
 

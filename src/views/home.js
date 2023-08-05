@@ -10,13 +10,15 @@ import FindReceipe from "../components/homeComponent/findReceipt";
 import { getStores } from "../controllers/StoreController.ts";
 import Modal from "../components/homeComponent/modalComponent/modal";
 function Home() {
+  const userInfo = JSON.stringify(localStorage.getItem('tableSetting'));
   useEffect(()=>{
-    getStores().then((response)=>{
-      if(response.data.length == 0){
-        console.log('it is null');
-        setModal(true);
-      }
-    })
+    // getStores().then((response)=>{
+    //   if(response.data.length == 0){
+    //     console.log('it is null');
+    //     setModal(true);
+    //   }
+    // })
+    setModal(true);
   },[])
   let navigate = useNavigate();
   let [menu, setMenu] = useState('홀');
