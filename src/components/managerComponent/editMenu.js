@@ -1,8 +1,15 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { Table, Button, Form } from "semantic-ui-react";
-
+import { deleteMenu, getMenus, saveMenu } from '../../controllers/menuController.ts'
 
 export default function EditMenu() {
+
+    useEffect(()=>{
+        getMenus().then((data)=>{
+            console.log(data.data);
+            setMenues(data.data)
+        })
+    },[])
     const localMenu = JSON.parse(localStorage.getItem('menu'));
     const initialMenues = localMenu ? localMenu : [];
     const [menues, setMenues] = useState(initialMenues);
@@ -13,8 +20,8 @@ export default function EditMenu() {
             <Table basic='very'>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell>Product</Table.HeaderCell>
-                        <Table.HeaderCell>Option</Table.HeaderCell>
+                        <Table.HeaderCell>name</Table.HeaderCell>
+                        <Table.HeaderCell>category</Table.HeaderCell>
                         <Table.HeaderCell>Price</Table.HeaderCell>
                         <Table.HeaderCell></Table.HeaderCell>
                     </Table.Row>
@@ -23,14 +30,15 @@ export default function EditMenu() {
                     return (
                         <Table.Body>
                             <Table.Row>
-                                <Table.Cell>{e.product}</Table.Cell>
-                                <Table.Cell>{e.option}</Table.Cell>
+                                <Table.Cell>{e.name}</Table.Cell>
+                                <Table.Cell>{e.category}</Table.Cell>
                                 <Table.Cell>{e.price}</Table.Cell>
                                 <Table.Cell><Button onClick={() => {
-                                    console.log(`${e.product} delete button was clicked`);
-                                    let filtered = menues.filter((el) => el.product !== e.product)
+                                    console.log(`${e.name} delete button was clicked`);
+                                    let filtered = menues.filter((el) => el.name !== e.name)
                                     console.log(filtered);
                                     setMenues(filtered);
+                                    deleteMenu(e.id);
                                 }}>X</Button></Table.Cell>
                             </Table.Row>
                         </Table.Body>
@@ -40,19 +48,27 @@ export default function EditMenu() {
 
             <Form>
                 <Form.Group widths='equal'>
-                    <Form.Input id='product' fluid placeholder='상품 이름' />
-                    <Form.Input id='option' fluid placeholder='상품 옵션' />
+                    <Form.Input id='name' fluid placeholder='상품 이름' />
+                    <Form.Input id='category' fluid placeholder='상품 옵션' />
                     <Form.Input id='price' fluid placeholder='상품 가격' />
                     <Button onClick={() => {
                         console.log('add button was clcicked');
-                        const product = document.querySelector('#product');
-                        const option = document.querySelector('#option');
+                        const name = document.querySelector('#name');
+                        const category = document.querySelector('#category');
                         const price = document.querySelector('#price');
-                        const added = { product: product.value, option: option.value, price: price.value, count: 0 };
+                        const added = { 
+                            name: name.value,
+                            price: price.value,
+                            category: category.value,
+                        };
                         console.log(added);
                         menues.push(added);
                         console.log(menues);
                         setMenues([...menues]);
+                        saveMenu(added).then((msg)=>{
+                            console.log(msg);
+                        })
+                        
                     }}>add</Button>
                 </Form.Group>
             </Form>

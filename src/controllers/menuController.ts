@@ -1,7 +1,6 @@
+import { MenuSaveDTO } from "../dto/MenuDTO.ts";
 import axios from "axios";
-import { StoreSaveDTO,StoreOpenDTO } from "../dto/StoreDTO.ts";
-
-export const getStores = async () : Promise<any> => {
+export const saveMenu = async (data : MenuSaveDTO) : Promise<any> => {
     try {
       const localItem = localStorage.getItem('hknuToken');
       let access_token;
@@ -11,7 +10,28 @@ export const getStores = async () : Promise<any> => {
       const headers ={
         'access_token' : access_token
       }
-      const response = await axios.get('/stores',{headers});
+      const response = await axios.post('/menus',null,{params:data,headers});
+      const responseCode = response.status;
+      console.log(responseCode);
+      console.log(response);
+      return response;
+      
+    } catch (error : any) {
+      console.error('POST 요청 에러:', error.request.responseText);
+    }
+  };
+
+  export const getMenus = async () : Promise<any> => {
+    try {
+      const localItem = localStorage.getItem('hknuToken');
+      let access_token;
+      if(localItem){
+        access_token = JSON.parse(localItem);
+      }
+      const headers ={
+        'access_token' : access_token
+      }
+      const response = await axios.get('/menus',{headers});
       const responseCode = response.status;
       console.log(responseCode);
       return response;
@@ -21,7 +41,7 @@ export const getStores = async () : Promise<any> => {
     }
   };
 
-  export const saveStores = async (data : StoreSaveDTO) : Promise<any> => {
+  export const deleteMenu = async (data : number) : Promise<any> => {
     try {
       const localItem = localStorage.getItem('hknuToken');
       let access_token;
@@ -31,34 +51,12 @@ export const getStores = async () : Promise<any> => {
       const headers ={
         'access_token' : access_token
       }
-      const response = await axios.post('/stores',null,{params:data,headers});
+      const response = await axios.delete(`/menus/${data}`,{headers});
       const responseCode = response.status;
       console.log(responseCode);
       return response;
     } catch (error : any) {
       
-      console.error('POST 요청 에러:', error.request.responseText);
-    }
-  };
-
-  export const setOpen = async (data : StoreOpenDTO) : Promise<any> => {
-    try {
-      const localItem = localStorage.getItem('hknuToken');
-      let access_token;
-      if(localItem){
-        access_token = JSON.parse(localItem);
-      }
-      const headers ={
-        'access_token' : access_token
-      }
-      const response = await axios.post('/stores/open',null,{params:data,headers});
-      const responseCode = response.status;
-      console.log(responseCode);
-      console.log(response);
-      return response;
-      
-    } catch (error : any) {
-      
-      console.error('POST 요청 에러:', error.request.responseText);
+      console.error('DELETE 요청 에러:', error.request.responseText);
     }
   };

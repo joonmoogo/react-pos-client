@@ -1,18 +1,30 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { Table, Card, Menu, Grid, Header, Button, Segment, TableRow } from "semantic-ui-react";
 import InfoButton from "./infoButton";
 import OrderFactory from "../../utils/OrderFactory.ts";
+import { getMenus } from "../../controllers/menuController.ts";
+import { getTables } from "../../controllers/TableController.ts";
 
 
 export default function TableGroup(props) { // 기본
-    let counterSetting = localStorage.getItem('counterSetting') ? JSON.parse(localStorage.getItem('counterSetting')) : [{ tableNumber: 10, tableName: '예약' }];
+
+    useEffect(()=>{
+        getTables().then((data)=>{
+            console.log(data);
+        })
+        getMenus().then((data)=>{
+            setMenuList(data.data);
+            console.log(data.data);
+            console.log(menuList)
+        })
+    },[])
+    
     let localTableList = JSON.parse(localStorage.getItem('tableSetting'));
     let initialTableList = localTableList ? localTableList : [];
 
     let tableSetting = initialTableList;
 
     let [table, setTable] = useState(tableSetting);
-    let [counter, setCounter] = useState(counterSetting);
     
     let [clickedTable, setClickedTable] = useState();
     const localMenu = JSON.parse(localStorage.getItem('menu'));
@@ -21,9 +33,9 @@ export default function TableGroup(props) { // 기본
 
     let localOption = [];
     function getLocalOption() {
-        initialMenuList.map((e, i) => {
-            if (!(localOption.includes(e.option))) {
-                localOption.push(e.option);
+        menuList.map((e, i) => {
+            if (!(localOption.includes(e.category))) {
+                localOption.push(e.category);
             }
         })
         return localOption;
@@ -80,7 +92,7 @@ export default function TableGroup(props) { // 기본
                                     style={{ width: `${e.w ? e.w : '90px'}`, height: `${e.h ? e.h : '80px'}`, overflow: 'hidden', position: 'absolute', top: `${e.y}px`, left: `${e.x}px` }} // 이거 수정하셈 테이블세팅 
                                     onClick={() => {
                                         const items = JSON.parse(localStorage.getItem(e.tableNumber));
-                                        setClickedTable(`${e.tableNumber}`);
+                                         setClickedTable(`${e.tableNumber}`);
                                         if (items) {
                                             setTemporaryOrder(items);
                                         }
@@ -107,23 +119,12 @@ export default function TableGroup(props) { // 기본
 
                             )
                         })}
-                        {counter.map((e, i) => {
-                            return (
-                                <Card
-
-                                    // style={{backgroundColor:'teal'}} 
-                                    style={{ width: `${e.w ? e.w : '90px'}`, height: `${e.h ? e.h : '80px'}`, overflow: 'hidden', position: 'absolute', top: `${e.y}px`, left: `${e.x}px` }} // 이거 수정하셈 테이블세팅 
-                                >
-                                    <Card.Content >
-
-
-                                    </Card.Content>
-                                </Card>
-                            )
-                        })}
+                       
                     </Card.Group>
                 </>
-                : <Grid columns='equal' relaxed>
+                : 
+                
+                <Grid columns='equal' relaxed>
                     <Grid.Row>
                         <Grid.Column>
                             <Segment><Header as='h2'>{`${clickedTable}번 테이블`}</Header></Segment>
@@ -139,22 +140,18 @@ export default function TableGroup(props) { // 기본
                                         </Table.Row>
                                     </Table.Header>
                                     <Table.Body >
-                                        {/* <TableRow>
-                          <Table.Cell content={'hai'}></Table.Cell>
-                          <Table.Cell>1</Table.Cell>
-                          <Table.Cell>13,000</Table.Cell>
-                        </TableRow> */}
-
+                                       
+                                        {/* POS 주문 리스트 */}
                                         {temporaryOrder.map((e) => { // state의 내용만 출력
                                             return (
                                                 <TableRow onClick={() => {
                                                     console.log(`${e.product} was clicked`);
                                                 }}>
-                                                    <Table.Cell>{e.product}</Table.Cell>
+                                                    <Table.Cell>{e.name}</Table.Cell>
                                                     <Table.Cell>{e.price}</Table.Cell>
                                                     <Table.Cell>{e.count}</Table.Cell>
                                                     <Table.Cell style={{ cursor: 'pointer' }} onClick={() => {
-                                                        console.log(`${e.product} delete button was clicked`);
+                                                        console.log(`${e.name} delete button was clicked`);
                                                         let filtered = temporaryOrder.filter((el) => el.time !== e.time);
                                                         console.log(filtered);
                                                         setTemporaryOrder(filtered);
@@ -190,13 +187,13 @@ export default function TableGroup(props) { // 기본
                                 </Menu>
                                 <Card.Group itemsPerRow={2}>
                                     {menuList.map((e, i) => {
-                                        if (e.option == tabMenu) {
+                                        if (e.category == tabMenu) {
                                             return (
                                                 <Card color="teal" onClick={() => {
                                                     console.log(clickedTable);
                                                     e.tableNumber = selectedTable.tableNumber;
                                                     e.time = new Date().getTime();
-                                                    e.count = e.count + 1;
+                                                    e.count = 1;
                                                     // temporaryOrder.push(e);
                                                     // (e.count ==1 ? temporaryOrder.push(e) : null)
                                                     if (e.count == 1) { temporaryOrder.push(e); }
@@ -205,7 +202,7 @@ export default function TableGroup(props) { // 기본
                                                     console.log(e);
                                                 }}>
                                                     <Card.Content>
-                                                        <Card.Header content={e.product}></Card.Header>
+                                                        <Card.Header content={e.name}></Card.Header>
                                                         <Card.Meta content={e.price}></Card.Meta>
                                                     </Card.Content>
                                                 </Card>

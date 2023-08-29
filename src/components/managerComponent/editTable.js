@@ -1,12 +1,19 @@
-import { React, useRef, useState } from "react";
+import { React, useEffect, useRef, useState } from "react";
 import { TextArea, Label, Input, Divider, Checkbox, Rail, Icon, Comment, Table, List, Image as ImageComponent, Item, Card, Menu, Message, Grid, Header, Button, Form, Segment, Image, Container, TableRow, Flag } from "semantic-ui-react";
 
 import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
+import { getTables, saveTable } from '../../controllers/TableController.ts'
 
 export default function EditTable() {
+
+    useEffect(()=>{
+        getTables().then((data)=>{
+            console.log(data.data)
+        })
+    },[])
+
     const nodeRef = useRef(null);
     const [table, setTable] = useState([]);
-    const [counter, setCounter] = useState([]);
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [Opacity, setOpacity] = useState(false);
     const trackPos = (data) => {
@@ -27,14 +34,21 @@ export default function EditTable() {
                     setTable([...table, { tableNumber: table.length + 1, tableName: '기본석', x: 0, y: 0, w: 0, h: 0 }])
                     console.log(table)
                 }}>테이블</Button></Menu.Item>
-                <Menu.Item><Button onClick={() => {
-                    setCounter([...counter, { counterNumber: counter.length + 1, counterName: '카운터', x: 0, y: 0, w: 0, h: 0 }])
-                }}>박스</Button></Menu.Item>
+              
                 <Menu.Item><Button primary onClick={() => {
                     console.log(table);
                     alert('저장완료')
+                    table.forEach((e)=>{
+                        saveTable({
+                            name:'기본석',
+                            coordX:e.x,
+                            coordY:e.y,
+                            width:e.w,
+                            height:e.h,
+                            privateKey:e.privateKey,
+                        })
+                    })
                     localStorage.setItem('tableSetting', JSON.stringify(table));
-                    localStorage.setItem('counterSetting', JSON.stringify(counter));
                 }}>Save</Button></Menu.Item>
             </Menu>
 
@@ -51,6 +65,8 @@ export default function EditTable() {
                             e.h = (event.target.parentElement.style.height);
                             e.w = (event.target.parentElement.style.width);
                             e.privateKey = Math.floor(Math.random() * 99999999);
+                            
+                            console.log(table);
                         }}
                     >
                         <div
@@ -73,35 +89,6 @@ export default function EditTable() {
                 )
             })}
 
-            {counter.map((e, i) => {
-                return (
-                    <Draggable
-                        nodeRef={nodeRef}
-                        onDrag={(event, data) => trackPos(data)}
-                        onStart={(e, data) => handleStart(e, data)}
-                        onStop={(event, data) => {
-                            handleEnd(event, data);
-                            e.x = (data.x + 30).toFixed(0);
-                            e.y = (data.y + 50).toFixed(0);
-                            e.h = (event.target.parentElement.style.height);
-                            e.w = (event.target.parentElement.style.width);
-                        }}
-                    >
-                        <div
-                            ref={nodeRef}
-                            style={{ opacity: Opacity ? "0.6" : "1", position: 'absolute' }}
-                        >
-                            <Card
-                                onClick={() => { 'i was clicked' }}
-                                style={{ height: '40%', width: '90px', overflow: 'auto', resize: 'both' }}>
-                                <Card.Content >
-
-                                </Card.Content>
-                            </Card>
-                        </div>
-                    </Draggable>
-                )
-            })}
         </>
     )
 }

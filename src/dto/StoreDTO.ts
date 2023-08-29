@@ -17,3 +17,8 @@ export type StoreSaveDTO = {
     operatingTime : string,
 }
 
+export type StoreOpenDTO = {
+    id: number,
+    isOpen : boolean,
+}
+

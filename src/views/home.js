@@ -18,7 +18,7 @@ function Home() {
     //     setModal(true);
     //   }
     // })
-    setModal(true);
+    // setModal(true);
   },[])
   let navigate = useNavigate();
   let [menu, setMenu] = useState('홀');
