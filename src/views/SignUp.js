@@ -254,7 +254,7 @@ function About() {
                         const storeInfo = {
                             name:name,
                             address:address,
-                            info:info,
+                            info:info,  
                             operatingTime:`${opentime}-${closetime}`,
                         }
                         
