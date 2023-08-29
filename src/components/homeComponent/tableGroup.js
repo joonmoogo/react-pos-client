@@ -14,8 +14,7 @@ export default function TableGroup(props) { // 기본
         })
         getMenus().then((data)=>{
             setMenuList(data.data);
-            console.log(data.data);
-            console.log(menuList)
+            localStorage.setItem('menu',JSON.stringify(data.data));
         })
     },[])
     
@@ -107,7 +106,7 @@ export default function TableGroup(props) { // 기본
                                             ? <Card.Description content='' />
                                             : JSON.parse(localStorage.getItem(e.tableNumber)).map((e) => {
                                                 return (
-                                                    <Card.Description style={{ color: 'teal' }} content={`${e.product} ${e.count}`} />
+                                                    <Card.Description style={{ color: 'teal' }} content={`${e.name} ${e.count}`} />
                                                 )
 
                                             })}
@@ -193,9 +192,8 @@ export default function TableGroup(props) { // 기본
                                                     console.log(clickedTable);
                                                     e.tableNumber = selectedTable.tableNumber;
                                                     e.time = new Date().getTime();
-                                                    e.count = 1;
-                                                    // temporaryOrder.push(e);
-                                                    // (e.count ==1 ? temporaryOrder.push(e) : null)
+                                                    e.count = e.count?e.count+1:1
+                                                 
                                                     if (e.count == 1) { temporaryOrder.push(e); }
                                                     setTemporaryOrder([...temporaryOrder]);
                                                     console.log(temporaryOrder)

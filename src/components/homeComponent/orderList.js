@@ -6,6 +6,7 @@ export default function OrderList() { //주방탭
 
     let kitchenOrder = Object.keys(localStorage).filter((e) => e.includes('kitchen')).sort();
     let [st, setSt] = useState(kitchenOrder);
+    console.log(st);
 
     return (
         <Segment>
@@ -14,7 +15,7 @@ export default function OrderList() { //주방탭
                 return (
                     <List divided relaxed size="large" key={i}>
                         <Segment>
-                            <Header as='h2' icon='food' content={e + '번 주문서'} />
+                            <Header as='h2' icon='food' content={e.tableNumber + '번 주문서'} />
                             <Button onClick={() => {
                                 localStorage.removeItem(e);
                                 setSt(kitchenOrder.splice(e, 1));
@@ -24,7 +25,7 @@ export default function OrderList() { //주방탭
                                 return (
                                     <List.Item>
                                         <List.Content>
-                                            <List.Header as='a'>{e.product}</List.Header>
+                                            <List.Header as='a'>{e.name}</List.Header>
                                             <List.Description as='a'>{e.count}개  {Number.parseInt((new Date() - e.time) / 1000 / 60)}분 전 주문</List.Description>
                                         </List.Content>
                                     </List.Item>

@@ -35,7 +35,7 @@ class Order{
 }
 
 class KitchenOrder extends Order{
-    name: string = `kitchen${super.clickedTable}`
+    name: string = `kitchen ${super.clickedTable}`
     constructor(clickedTable:tableNum, list:list){
         super(clickedTable,list);
     }
