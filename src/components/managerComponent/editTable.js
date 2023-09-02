@@ -48,7 +48,6 @@ export default function EditTable() {
                             privateKey:e.privateKey,
                         })
                     })
-                    localStorage.setItem('tableSetting', JSON.stringify(table));
                 }}>Save</Button></Menu.Item>
             </Menu>
 

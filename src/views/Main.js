@@ -40,17 +40,8 @@ function Main() {
                       console.log(data.headers.access_token);
                       const access_token = data.headers.access_token;
                       localStorage.setItem('hknuToken',`"${access_token}"`);
+                      navigate('/home');
                     })
-                    console.log(storeId);
-                    const openPerson = document.querySelector('#openPerson').value;
-                    const opendate = document.querySelector('#opendate').value;
-                    const opentime = document.querySelector('#opentime').value;
-                    localStorage.setItem('openInfo',JSON.stringify({
-                      openPerson:openPerson,
-                      opendate:opendate,
-                      opentime:opentime
-                    }))
-                    navigate('/home');
                      }}>
                     개점하기
                   </Button>

@@ -9,21 +9,21 @@ import { getTables } from "../../controllers/TableController.ts";
 export default function TableGroup(props) { // 기본
 
     useEffect(()=>{
-        getTables().then((data)=>{
-            console.log(data);
-        })
         getMenus().then((data)=>{
             setMenuList(data.data);
             localStorage.setItem('menu',JSON.stringify(data.data));
         })
+        getTables().then((data)=>{
+            console.log(data);
+            const tabledata = data.data;
+            console.log(tabledata);
+            setTable(tabledata);
+        })
     },[])
     
-    let localTableList = JSON.parse(localStorage.getItem('tableSetting'));
-    let initialTableList = localTableList ? localTableList : [];
 
-    let tableSetting = initialTableList;
 
-    let [table, setTable] = useState(tableSetting);
+    let [table, setTable] = useState([]);
     
     let [clickedTable, setClickedTable] = useState();
     const localMenu = JSON.parse(localStorage.getItem('menu'));
@@ -55,7 +55,7 @@ export default function TableGroup(props) { // 기본
 
     const selectedTable = table.find((e) => {
         return (
-            e.tableNumber == clickedTable
+            e.id == clickedTable
         )
     });
 
@@ -88,23 +88,30 @@ export default function TableGroup(props) { // 기본
                                 <Card
                                     color="green"
                                     // style={{backgroundColor:'teal'}} 
-                                    style={{ width: `${e.w ? e.w : '90px'}`, height: `${e.h ? e.h : '80px'}`, overflow: 'hidden', position: 'absolute', top: `${e.y}px`, left: `${e.x}px` }} // 이거 수정하셈 테이블세팅 
+                                    style={{ 
+                                        width: `${e.width ? e.width : '90px'}`,
+                                        height: `${e.height ? e.height : '80px'}`,
+                                        top: `${e.coordY}px`,
+                                        left: `${e.coordX}px`,
+                                        overflow: 'hidden',
+                                        position: 'absolute',
+                                     }} // 이거 수정하셈 테이블세팅 
                                     onClick={() => {
-                                        const items = JSON.parse(localStorage.getItem(e.tableNumber));
-                                         setClickedTable(`${e.tableNumber}`);
+                                        const items = JSON.parse(localStorage.getItem(e.id));
+                                         setClickedTable(`${e.id}`);
                                         if (items) {
                                             setTemporaryOrder(items);
                                         }
-                                        console.log(e.tableNumber);
+                                        console.log(e.id);
                                         
                                         
                                     }}>
                                     <Card.Content >
-                                        <Card.Header content={`${e.tableNumber} T`} />
-                                        <Card.Meta content={`${e.tableName}`} />
-                                        {localStorage.getItem(e.tableNumber.toString()) == null
+                                        <Card.Header content={`${e.id} T`} />
+                                        <Card.Meta content={`${e.name}`} />
+                                        {localStorage.getItem(e.id) == null
                                             ? <Card.Description content='' />
-                                            : JSON.parse(localStorage.getItem(e.tableNumber)).map((e) => {
+                                            : JSON.parse(localStorage.getItem(e.id)).map((e) => {
                                                 return (
                                                     <Card.Description style={{ color: 'teal' }} content={`${e.name} ${e.count}`} />
                                                 )
@@ -190,7 +197,7 @@ export default function TableGroup(props) { // 기본
                                             return (
                                                 <Card color="teal" onClick={() => {
                                                     console.log(clickedTable);
-                                                    e.tableNumber = selectedTable.tableNumber;
+                                                    e.id = selectedTable.id;
                                                     e.time = new Date().getTime();
                                                     e.count = e.count?e.count+1:1
                                                  
@@ -226,7 +233,7 @@ export default function TableGroup(props) { // 기본
 
                                 <Button primary onClick={() => {
                                     alert('결제')
-                                    console.log(JSON.parse(localStorage.getItem(selectedTable.tableNumber)));
+                                    console.log(JSON.parse(localStorage.getItem(selectedTable.id)));
 
                                     const date = new Date();
                                     console.log(date)

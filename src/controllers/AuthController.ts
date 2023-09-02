@@ -20,3 +20,18 @@ export const authorize = async (data : UserLoginDTO ) : Promise<any> => {
       return false;
     }
   };
+
+
+  export const emailAuthorize = async (data : {token:string} ) : Promise<any> => {
+    try {
+      const response = await axios.post('/auth/email',null,{params:data});
+      const responseCode = response.status;
+      if(responseCode == 200){
+        return true;
+        
+      }
+    } catch (error : any) {
+      console.log(error);
+      return false;
+    }
+  };
