@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Menu, Container, Button, Checkbox, Form } from 'semantic-ui-react'
+import { Image,Header,Menu, Container, Button, Checkbox, Form } from 'semantic-ui-react'
 import Validator from '../utils/validation.ts';
 import { saveUser } from '../controllers/UserController.ts'
 import { checkEmail, checkNickName, checkPhoneNumber } from '../controllers/CheckController.ts'
@@ -9,74 +9,36 @@ import { useNavigate } from 'react-router-dom';
 
 function SignUp() {
     let [menu, setMenu] = useState('register');
-    function nextMenu(){
-        setMenu('about');
-    }
+
     return (
         <>
-            <Menu stackable pointing secondary>
-                <Menu.Item
-                    name='register'
-                    active={menu === 'register'}
-                    >회원가입</Menu.Item>
-                <Menu.Item
-                    name='about'
-                    active={menu === 'about'}
-                    >추가정보</Menu.Item>
-            </Menu>
-            {
-                menu === 'register' ? <SignUpForm nextMenu={nextMenu}></SignUpForm> : <About></About>
-            }
+            <SignUpForm/>
         </>
     )
 }
 function SignUpForm({nextMenu}) {
 
-    let [nickname, setNickname] = useState();
-    let [nicknameCheck, setNicknameCheck] = useState();
-    let [email, setEmail] = useState();
-    let [emailCheck, setEmailCheck] = useState();
-    let [password, setPassword] = useState();
-    let [passwordCheck, setPasswordCheck] = useState();
-    let [authorizePassword, setAuthorizePassword] = useState();
-    let [phoneNumber, setPhoneNumber] = useState();
-    let [phoneNumberCheck, setPhoneNumberCheck] = useState();
+    const navigate = useNavigate();
+
+    const [nickname, setNickname] = useState();
+    const [nicknameCheck, setNicknameCheck] = useState();
+    const [email, setEmail] = useState();
+    const [emailCheck, setEmailCheck] = useState();
+    const [password, setPassword] = useState();
+    const [passwordCheck, setPasswordCheck] = useState();
+    const [authorizePassword, setAuthorizePassword] = useState();
+    const [phoneNumber, setPhoneNumber] = useState();
+    const [phoneNumberCheck, setPhoneNumberCheck] = useState();
 
     return (
-        <div>
-            <Container text>
+        <>
+        <Container text style={{width:'40%'}} >
+            <Header as='h3' color='teal'>
+                <Image src='/logo.png' style={{width:'160px'}}/>
+            </Header>
                 <Form size='large'>
                     {/* Form에 success나 warning을 추가함으로 노출됨 */}
-                    <Form.Field>
-
-                        <Form.Input
-                            icon={(nicknameCheck==true) && 'check'}
-                            onChange={(event) => {
-                                const userValue = event.target.value;
-                                console.log(userValue);
-
-                                setNickname(userValue);
-                                if (Validator.isIdValid(userValue)) {
-                                    setNicknameCheck(true);
-                                    checkNickName({ nickname: userValue }).then((response) => {
-                                        if (response == true) {
-                                            setNicknameCheck(true);
-                                        }
-                                        else {
-                                            setNicknameCheck(false);
-                                        }
-                                    })
-                                }
-                            }}
-                            id='nicknameForm'
-                            fluid
-                            label='닉네임'
-                            placeholder='영문, 숫자 5-11자'
-                            error={(nicknameCheck == false) && {
-                                content: '이미 존재하는 닉네임입니다.',
-                                pointing: 'below'
-                            }}
-                        ></Form.Input>
+                    <Form.Field >
                         <Form.Input
                             icon={(emailCheck==true) && 'check'}
                             onChange={(event) => {
@@ -86,11 +48,10 @@ function SignUpForm({nextMenu}) {
                                 setEmail(userValue);
                                 if (Validator.isEmailValid(userValue)) {
                                     checkEmail({ email: userValue }).then((response) => {
-                                        response ? setEmailCheck(true) : setEmailCheck(false);
+                                        response ? setEmailCheck(false) : setEmailCheck(true);
                                     })
                                 }
                             }}
-                            fluid
                             label='이메일'
                             placeholder='example@example.com'
                             error={(emailCheck == false) && {
@@ -101,7 +62,7 @@ function SignUpForm({nextMenu}) {
                         </Form.Input>
 
 
-                        <Form.Input
+                        <Form.Input type='password'
                             icon={(passwordCheck==true) && 'check'}
                             onChange={(event) => {
                                 const userValue = event.target.value;
@@ -115,13 +76,11 @@ function SignUpForm({nextMenu}) {
                                     setPasswordCheck(false);
                                 }
                             }}
-                            fluid
                             label='비밀번호'
                             placeholder='숫자, 영문, 특수문자 조합 최소 8자'
                         >
                         </Form.Input>
-                        <Form.Input
-                            fluid
+                        <Form.Input type='password'
                             placeholder='비밀번호 재입력'
                             icon={(authorizePassword==true) && 'check'}
 
@@ -136,6 +95,33 @@ function SignUpForm({nextMenu}) {
                             }}
                         >
                         </Form.Input>
+                        <Form.Input 
+                            icon={(nicknameCheck==true) && 'check'}
+                            onChange={(event) => {
+                                const userValue = event.target.value;
+                                console.log(userValue);
+
+                                setNickname(userValue);
+                                if (Validator.isIdValid(userValue)) {
+                                    setNicknameCheck(true);
+                                    checkNickName({ nickname: userValue }).then((response) => {
+                                        if (response == true) {
+                                            setNicknameCheck(false);
+                                        }
+                                        else {
+                                            setNicknameCheck(true);
+                                        }
+                                    })
+                                }
+                            }}
+                            id='nicknameForm'
+                            label='닉네임'
+                            placeholder='영문, 숫자 5-11자'
+                            error={(nicknameCheck == false) && {
+                                content: '이미 존재하는 닉네임입니다.',
+                                pointing: 'below'
+                            }}
+                        ></Form.Input>
 
                         <Form.Input
                             icon={(phoneNumberCheck==true) && 'check'}
@@ -146,11 +132,10 @@ function SignUpForm({nextMenu}) {
                                 setPhoneNumber(userValue);
                                 if (Validator.isPhonenumberValid(userValue)) {
                                     checkPhoneNumber({ phoneNumber: userValue }).then((response) => {
-                                        response ? setPhoneNumberCheck(true) : setPhoneNumberCheck(false);
+                                        response ? setPhoneNumberCheck(false) : setPhoneNumberCheck(true);
                                     })
                                 }
                             }}
-                            fluid
                             label='전화번호'
                             placeholder='숫자만'
                             error={(phoneNumberCheck == false) && {
@@ -177,11 +162,11 @@ function SignUpForm({nextMenu}) {
                             Validator.isPasswordValid(password) &&
                             Validator.isPhonenumberValid(phoneNumber)
                         ) {
-                            nextMenu();
+                            alert('이메일 인증 해주세요')
                             saveUser(uservalue)
                                 .then(responseData => {
                                     console.log(responseData);
-                                    authorize({email:uservalue.email,password:uservalue.password});
+                                    navigate('/')                                    
                                 })
                                 .catch(error => {
                                     console.log(error);
@@ -191,82 +176,10 @@ function SignUpForm({nextMenu}) {
                             console.error('check,not valid input form');
                         }
 
-                    }}>다음으로</Button>
-                </Form>
-            </Container>
-        </div>
-    )
-}
-function About() {
-    const navigate = useNavigate();
-
-    return (
-        <div>
-            <Container text>
-                <Form size='large' success warning error>
-                    <Form.Field>
-                        <Form.Input
-                            id='name'
-                            fluid
-                            label='상호명'
-                            placeholder='광식이네 포장마차'
-                        >
-                        </Form.Input>
-                        <Form.Input
-                            id='opentime'
-                            fluid
-                            label='오픈 시간'
-                            placeholder='09:00'
-                        >
-                        </Form.Input>
-                        <Form.Input
-                            id='closetime'
-                            fluid
-                            label='마감시간'
-                            placeholder='24:00'
-                        >
-                        </Form.Input>
-                        <Form.Input
-                            id='address'
-                            fluid
-                            label='주소'
-                            placeholder='비밀번호 재입력'
-                        >
-                        </Form.Input>
-                        <Form.Input
-                            id='info'
-                            fluid
-                            label='가게 소개'
-                            placeholder='입력'
-                        >
-                        </Form.Input>
-                    </Form.Field>
-                    <Form.Field>
-                        <Checkbox label='I agree to the Terms and Conditions' />
-                    </Form.Field>
-                    <Button color='teal' type='submit' onClick={()=>{
-                        const name = document.querySelector('#name').value;
-                        const address = document.querySelector('#address').value;
-                        const info = document.querySelector('#info').value;
-                        const opentime = document.querySelector('#opentime').value;
-                        const closetime = document.querySelector('#closetime').value;
-
-                        const storeInfo = {
-                            name:name,
-                            address:address,
-                            info:info,  
-                            operatingTime:`${opentime}-${closetime}`,
-                        }
-                        
-                        saveStores(storeInfo);
-                        navigate('/')
-                        
                     }}>가입하기</Button>
                 </Form>
             </Container>
-        </div>
+            </>
     )
 }
-
-
 export default SignUp

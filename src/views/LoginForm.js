@@ -10,15 +10,19 @@ import {LoginErrorMessage} from '../components/MessageComponent/loginError'
 function LoginForm() {
 
   let navigate = useNavigate();
+
   useEffect(() => {
     naver_id_login.init_naver_id_login();
   }, [])
+
   let [loginError,setLoginError] = useState();
+  let [errorMsg,setErrorMsg] = useState();
+
   return (
     <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
       <Grid.Column style={{ maxWidth: 450 }}>
         <Header as='h1' color='teal' textAlign='center'>
-          <Image className='App' src='/logo512.png' /> HELLO POS
+          <Image className='App' src='/logo.png' style={{width:'170px'}}/>
         </Header>
         <Form size='large'>
           <Segment stacked>
@@ -28,19 +32,21 @@ function LoginForm() {
             <Button color='teal' fluid size='large' onClick={() => {
               const email = document.querySelector('#loginEmail');
               const password = document.querySelector('#loginPassword');
-              const userinfo = {email : email.value , password : password.value};
+              const userinfo = {email:email.value, password:password.value};
               authorize(userinfo).then((value)=>{
-                if(value){
+                console.log(value);
+                if(value==true){
                   navigate('/main'); 
                 }
                 else{
+                  setErrorMsg(value);
                   setLoginError(true);
                 }
               })
             }}>
               로그인
             </Button>
-            {loginError?<LoginErrorMessage/>:null}
+            {loginError?<LoginErrorMessage msg={errorMsg}/>:null}
             
           </Segment>
         </Form>

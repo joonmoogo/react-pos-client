@@ -14,6 +14,7 @@ export const checkEmail = async (email : string ) : Promise<any> => {
     try {
       const response = await axios.post('/check/nickname',null,{params:email});
       console.log(`server response :${response.data}`);
+      console.log(response);
       return response.data;
     } catch (error : any) {
       console.error(error);
