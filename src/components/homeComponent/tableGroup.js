@@ -14,10 +14,10 @@ export default function TableGroup(props) { // 기본
             localStorage.setItem('menu',JSON.stringify(data.data));
         })
         getTables().then((data)=>{
-            console.log(data);
-            const tabledata = data.data;
-            console.log(tabledata);
-            setTable(tabledata);
+                console.log(data);
+                const tabledata = data.data;
+                console.log(tabledata);
+                setTable(tabledata);
         })
     },[])
     

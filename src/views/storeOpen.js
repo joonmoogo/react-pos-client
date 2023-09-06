@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Message, Segment, Header, Image, Grid, Form, Button, Container } from "semantic-ui-react";
-import { getStores } from "../controllers/StoreController.ts";
+import { getStores, setOpen } from "../controllers/StoreController.ts";
 import TimeUtil from "../utils/moment.ts";
+import { useNavigate } from "react-router-dom";
 
 function StoreOpen() {
   const [storeList, setStoreList] = useState([]);
@@ -52,6 +53,7 @@ function StoreOpenModal({ store, closeModal }) {
   const timeutil = new TimeUtil();
   const time = timeutil.getTime();
   const date = `${timeutil.getMonth()}/${timeutil.getDate()}/${timeutil.getDayOfTheWeek()}`;
+  const navigate = useNavigate();
 
   return (
     <Segment>
@@ -64,6 +66,18 @@ function StoreOpenModal({ store, closeModal }) {
               <Form.Input id='opentime' value={time} fluid icon='user' iconPosition='left' placeholder='System date' />
               <Button color='teal' fluid size='large' onClick={() => {
                 closeModal();
+                setOpen({
+                    id:store.id,
+                    isOpen:true
+                }).then((data)=>{
+                    console.log(data.headers.access_token);
+                    const access_token = data.headers.access_token;
+                    localStorage.setItem('hknuToken',`"${access_token}"`);
+                    localStorage.setItem('storeId',store.id);
+                    navigate('/home')
+                }).catch((error)=>{
+                    console.error(error);
+                })
               }}>
                 개점하기
               </Button>

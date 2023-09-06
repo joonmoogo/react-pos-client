@@ -6,8 +6,13 @@ export default function EditMarketInfo() {
 
     useEffect(()=>{
         getStores().then((response)=>{
-            const userData = response.data[0];
-            console.log(userData);
+            let userData;
+            response.data.find((obj)=>{
+                const storeId =JSON.parse(localStorage.getItem('storeId'));
+                if(obj.id === storeId){
+                    userData = obj;
+                }
+            })
             setCompany(userData.name);
             setCompanyIntroduce(userData.info);
             setAddress(userData.address);
