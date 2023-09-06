@@ -100,7 +100,7 @@ export default function FindReceipe() { //영수증조회탭 서버에서 불러
                   <List.Item>
                     <List.Content>
                       <List.Description as='h3'>
-                        {`⁘ ${e.product} ${e.count} * ${e.price} = ${e.count * e.price}`}
+                        {`⁘ ${e.name} ${e.count} * ${e.price} = ${e.count * e.price}`}
                       </List.Description>
                     </List.Content>
                   </List.Item>

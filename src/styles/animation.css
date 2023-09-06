@@ -1,7 +1,7 @@
 .fade-in-modal-button {
     display: inline-block;
     padding: 10px;
-    animation: fadeinModal 10s;
+    animation: fadeinModal 1s;
     -moz-animation: fadeinModal 1s; /* Firefox */
     -webkit-animation: fadeinModal 1s; /* Safari and Chrome */
     -o-animation: fadeinModal 1s; /* Opera */
@@ -9,7 +9,7 @@
   
 
 .fade-in{
-    animation: fadein 10s;
+    animation: fadein 1s;
     -moz-animation: fadein 1s; /* Firefox */
     -webkit-animation: fadein 1s; /* Safari and Chrome */
     -o-animation: fadein 1s; /* Opera */
@@ -22,8 +22,6 @@
     }
     to {
         opacity:1;
-        margin-bottom:30px;
-        scale: 1.2;
     }
 }
 

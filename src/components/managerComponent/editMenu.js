@@ -49,7 +49,12 @@ export default function EditMenu() {
             <Form>
                 <Form.Group widths='equal'>
                     <Form.Input id='name' fluid placeholder='상품 이름' />
-                    <Form.Input id='category' fluid placeholder='상품 옵션' />
+                    <Form.Input list='menu' id='category' fluid placeholder='상품 옵션' />
+                        <datalist id='menu'>
+                            <option value='메인 메뉴'>메인 메뉴</option>
+                            <option value='사이드 메뉴'>사이드 메뉴</option>
+                            <option value='주류▪음료'>주류▪음료</option>
+                        </datalist>
                     <Form.Input id='price' fluid placeholder='상품 가격' />
                     <Button onClick={() => {
                         console.log('add button was clcicked');
@@ -67,6 +72,9 @@ export default function EditMenu() {
                         setMenues([...menues]);
                         saveMenu(added).then((msg)=>{
                             console.log(msg);
+                            name.value='';
+                            category.value='';
+                            price.value='';
                         })
                         
                     }}>add</Button>

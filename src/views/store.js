@@ -71,7 +71,7 @@ function Store(){
                         console.log(storeInfo);
                         
                         // saveStores(storeInfo);
-                        // navigate('/')
+                        // navigate('/main')
                         
                     }}>등록하기</Button>
                 </Form>

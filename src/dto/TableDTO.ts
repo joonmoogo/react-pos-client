@@ -27,3 +27,7 @@ export type TableSaveDTO = {
     height : string,
     privateKey : string,
 }
+
+export type TableListSaveDTO = {
+    tableList : TableSaveDTO[]
+}

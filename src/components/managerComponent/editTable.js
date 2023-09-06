@@ -17,11 +17,17 @@ export default function EditTable() {
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [Opacity, setOpacity] = useState(false);
     const trackPos = (data) => {
-        setPosition({ x: data.x, y: data.y });
+        setPosition({ x: data.coordX, y: data.coordY });
+        
     };
     const handleStart = (e, data) => {
+        
         setOpacity(true);
-        console.log(`x:${data.x.toFixed(0)} y:${data.y.toFixed(0)} w:${e.target.parentElement.style.width} h:${e.target.parentElement.style.height}`);
+        console.log(`
+        coordX:${data.x.toFixed(0)}
+        coordY:${data.y.toFixed(0)}
+        width:${e.target.parentElement.style.width}
+        height:${e.target.parentElement.style.height}`);
     };
     const handleEnd = (event, data) => {
         console.log(data);
@@ -31,26 +37,18 @@ export default function EditTable() {
         <>
             <Menu fluid style={{ borderBottom: '1px solid lightGrey ' }}>
                 <Menu.Item><Button onClick={() => {
-                    setTable([...table, { tableNumber: table.length + 1, tableName: '기본석', x: 0, y: 0, w: 0, h: 0 }])
+                    setTable([...table, {name:'기본석',coordX: 0, coordY: 0, width: 0, height: 0 }])
                     console.log(table)
                 }}>테이블</Button></Menu.Item>
               
                 <Menu.Item><Button primary onClick={() => {
-                    console.log(table);
+
+                    localStorage.setItem('tableSetting',JSON.stringify(table));
                     alert('저장완료')
-                    table.forEach((e)=>{
-                        saveTable({
-                            name:'기본석',
-                            coordX:e.x,
-                            coordY:e.y,
-                            width:e.w,
-                            height:e.h,
-                            privateKey:e.privateKey,
-                        })
-                    })
+                    saveTable({tableList:table});
                 }}>Save</Button></Menu.Item>
             </Menu>
-
+            
             {table.map((e, i) => {
                 return (
                     <Draggable
@@ -59,11 +57,11 @@ export default function EditTable() {
                         onStart={(e, data) => handleStart(e, data)}
                         onStop={(event, data) => {
                             handleEnd(event, data);
-                            e.x = (data.x + 30).toFixed(0);
-                            e.y = (data.y + 50).toFixed(0);
-                            e.h = (event.target.parentElement.style.height);
-                            e.w = (event.target.parentElement.style.width);
-                            e.privateKey = Math.floor(Math.random() * 99999999);
+                            e.coordX = (data.x + 30).toFixed(0);
+                            e.coordY = (data.y + 50).toFixed(0);
+                            e.height = (event.target.parentElement.style.height);
+                            e.width = (event.target.parentElement.style.width);
+                            e.privateKey =String(Math.floor(Math.random() * 99999999));
                             
                             console.log(table);
                         }}
@@ -79,7 +77,7 @@ export default function EditTable() {
                                 style={{ height: '80px', width: '90px', overflow: 'auto', resize: 'both' }}>
                                 <Card.Content >
                                     <Card.Header content={`${i + 1}T`} />
-                                    <Card.Meta content={e.tableName} />
+                                    <Card.Meta content={e.name} />
                                 </Card.Content>
                             </Card>
 

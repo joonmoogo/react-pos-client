@@ -1,11 +1,22 @@
 import { Icon,Divider,Image,Popup,List, Button } from "semantic-ui-react";
-
+import {getReservations} from '../../controllers/ReservationController.ts'
 import '../../styles/animation.css';
+import { useEffect, useState } from "react";
 export default function InfoButton(){
- 
+
+    useEffect(()=>{
+        getReservations().then((data)=>{
+            console.log(data.data);
+            setReservation(data.data);
+        })
+    },[])
+    
+    const [reservation,setReservation] = useState([]);
+    
     return(
-        <div style={{}}>
-        <Popup size="large" className='fade-in-modal-button'  trigger={<Button style={{ 
+        <Popup 
+            className='fade-in-modal-button'
+            trigger={<Button style={{ 
             top:'90%',
             left:'90%',
             position: 'absolute',
@@ -14,29 +25,24 @@ export default function InfoButton(){
             circular 
             color='google plus'
             icon='tasks' 
-            onClick={()=>{
-                console.log('infoButton was clicked');
-            }}/>}
-            content={
-            <>
-                  <div>
-                    <Image src='https://react.semantic-ui.com/images/avatar/large/stevie.jpg' avatar verticalAlign='middle' />
-                    <span>07-18-16:40 / 3인<Button>okay</Button><Button><Icon name="address book"></Icon></Button></span>
-                    <Divider />
-                    <Image src='https://react.semantic-ui.com/images/avatar/large/stevie.jpg' avatar verticalAlign='middle' />
-                    <span>07-18-17:00 / 4인 / 3T<Button>okay</Button><Button><Icon name="address book"></Icon></Button></span>
-                    <Divider />
-                    <Image src='https://react.semantic-ui.com/images/avatar/large/stevie.jpg' avatar verticalAlign='middle' />
-                    <span>07-18-18:00 / 5인<Button>okay</Button><Button><Icon name="address book"></Icon></Button></span>
-                    <Divider />
-                    
-                </div>
-            </>}
-            style={{}}
             on='click'
             position="top right"
+            onClick={()=>{
+                console.log('infoButton was clicked');
+            }}
+            />}
+            content={
+                reservation.map((e)=>{
+                    return(
+                  <div>
+                    <Image src='https://react.semantic-ui.com/images/avatar/large/stevie.jpg' avatar verticalAlign='middle' />
+                    <span>{e.id}님이 is waiting your acceptance</span>
+                    <Divider />                   
+                </div>
+                    )
+                })
+            }
             />
-            </div>
     )
 }
 
