@@ -20,7 +20,7 @@ export default function InfoButton(){
             top:'90%',
             left:'90%',
             position: 'absolute',
-            backgroundColor:'red'}}
+            backgroundColor:"red"}}
             size="large"
             circular 
             color='google plus'
@@ -35,9 +35,9 @@ export default function InfoButton(){
                 reservation.map((e)=>{
                     return(
                   <div>
-                    <Image src='https://react.semantic-ui.com/images/avatar/large/stevie.jpg' avatar verticalAlign='middle' />
-                    <span>{e.id}님이 is waiting your acceptance</span>
-                    <Divider />                   
+                    <Image src='https://react.semantic-ui.com/images/avatar/large/stevie.jpg' avatar  />
+                    <span style={{fontSize:'5px'}}>{e.id}님이 예약을 신청했습니다.</span>
+                    <Divider clearing />                   
                 </div>
                     )
                 })

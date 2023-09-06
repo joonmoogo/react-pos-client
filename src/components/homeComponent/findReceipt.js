@@ -19,7 +19,7 @@ export default function FindReceipe() { //영수증조회탭 서버에서 불러
       return sum;
     }
     return (
-      <Grid columns='equal' relaxed>
+      <Grid columns='equal' relaxed className="fade-in" >
         <Grid.Row>
           <Grid.Column >
             <Segment>영수증 목록</Segment>

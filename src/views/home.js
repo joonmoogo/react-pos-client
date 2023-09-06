@@ -48,7 +48,7 @@ function Home() {
   }
   
   return (
-    <Container style={{marginTop:'20px'}}>
+    <Container style={{marginTop:'20px'}} className="fade-in">
       {modal?<Modal onModalNext={handleModalNext} onModalOpen={handleModalOpen} counter={count-1}/>:null}
       <Grid>
         <Grid.Column width={4} >

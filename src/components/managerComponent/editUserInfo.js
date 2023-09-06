@@ -4,7 +4,7 @@ import { Checkbox, Button, Form } from "semantic-ui-react";
 
 export default function EditUserInfo() {
     return (
-        <Form>
+        <Form className="slide-from-right">
             <Form.Field>
                 <label>닉네임</label>
                 <input placeholder='First Name' value='람머스' />

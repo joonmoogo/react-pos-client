@@ -30,7 +30,7 @@ export default function EditMarketInfo() {
     const [companyIntroduce,setCompanyIntroduce] = useState();
     return (
         <>
-            <Form>
+            <Form className="slide-from-right">
                 <Form.Field>
                     <label>상호명</label>
                     <input id="company" placeholder='Name' value={company} onChange={(event)=>{

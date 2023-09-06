@@ -6,7 +6,7 @@ export default function SystemInfo() {
     let a = window.navigator.geolocation;
     let user = window.navigator.userAgent;
     return (
-        <>
+        <div className="slide-from-right">
             <Divider horizontal>
                 <Header as='h4'>
                     <Icon name='bar chart' />
@@ -34,7 +34,7 @@ export default function SystemInfo() {
                     </Table.Row>
                 </Table.Body>
             </Table>
-        </>
+        </div>
     )
 
 }

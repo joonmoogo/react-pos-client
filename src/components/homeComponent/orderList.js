@@ -9,7 +9,7 @@ export default function OrderList() { //주방탭
     console.log(st);
 
     return (
-        <Segment>
+        <Segment className="fade-in">
             <Header as='h5' block >주방임</Header>
             {kitchenOrder.map((e, i) => {
                 return (

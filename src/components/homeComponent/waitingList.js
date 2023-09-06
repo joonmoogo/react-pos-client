@@ -9,7 +9,7 @@ export default function WaitingList() {  //대기탭 미정
     let [people, setPeople] = useState(initialWaiting);
 
     return (
-        <>
+        <div className="fade-in">
             {people && people.map((e, i) => {
                 return (
                     <Item.Group link>
@@ -47,7 +47,7 @@ export default function WaitingList() {  //대기탭 미정
                 </Form.Group>
             </Form>
 
-        </>
+        </div>
     )
 }
 

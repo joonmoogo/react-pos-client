@@ -31,8 +31,8 @@ function SignUpForm({nextMenu}) {
     const [phoneNumberCheck, setPhoneNumberCheck] = useState();
 
     return (
-        <>
-        <Container text style={{width:'40%'}} >
+        <div className='slide-from-left'>
+        <Container text style={{width:'40%'}}>
             <Header as='h3' color='teal'>
                 <Image src='/logo.png' style={{width:'160px'}}/>
             </Header>
@@ -179,7 +179,7 @@ function SignUpForm({nextMenu}) {
                     }}>가입하기</Button>
                 </Form>
             </Container>
-            </>
+            </div>
     )
 }
 export default SignUp

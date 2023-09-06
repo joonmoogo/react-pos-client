@@ -16,7 +16,7 @@ export default function EditMenu() {
 
 
     return (
-        <>
+        <div className="slide-from-right">
             <Table basic='very'>
                 <Table.Header>
                     <Table.Row>
@@ -88,7 +88,7 @@ export default function EditMenu() {
                 localStorage.setItem('menu', JSON.stringify(menues));
                 alert('변경 완료');
             }}>변경</Button>
-        </>
+        </div>
     )
 
 }

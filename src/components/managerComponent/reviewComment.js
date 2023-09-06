@@ -4,7 +4,7 @@ import { Comment, Header, Button, Form } from "semantic-ui-react";
 
 export default function ReviewComment() {
     return (
-        <Comment.Group threaded>
+        <Comment.Group threaded className="slide-from-right">
             <Header as='h3' dividing>
                 Comments
             </Header>

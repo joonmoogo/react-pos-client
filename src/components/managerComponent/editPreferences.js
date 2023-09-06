@@ -4,7 +4,7 @@ import { Checkbox, List, Segment, Flag } from "semantic-ui-react";
 
 export default function EditPreferences() {
     return (
-        <>
+        <div className="slide-from-right">
             <Segment.Group horizontal >
                 <Segment>언어</Segment>
                 <Segment>
@@ -41,6 +41,6 @@ export default function EditPreferences() {
                 <Segment><Checkbox toggle style={{ backgroundColor: 'lightGrey' }}></Checkbox></Segment>
             </Segment.Group>
 
-        </>
+        </div>
     )
 }

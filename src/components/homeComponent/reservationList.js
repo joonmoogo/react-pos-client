@@ -21,7 +21,7 @@ export default function ReservationList() { // 예약탭 서버에서 불러온 
     let [viewData, setViewData] = useState([]);
 
     return (
-        <>
+        <div className="fade-in">
             <Grid columns='equal' relaxed>
                 <Grid.Row>
                     <Grid.Column >
@@ -90,6 +90,6 @@ export default function ReservationList() { // 예약탭 서버에서 불러온 
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
-        </>
+        </div>
     )
 }

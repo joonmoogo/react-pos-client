@@ -7,7 +7,7 @@ import VerticalBarDemo from "../../utils/Chart.js";
 export default function SalesStatistics() {
   const value = ReceiptUtil.parse(ReceiptUtil.filterByMonth('7'))
     return (
-        <>
+        <div className="slide-from-right">
     <Divider horizontal>
       <Header as='h4'>
         <Icon name='tag' />
@@ -36,7 +36,7 @@ export default function SalesStatistics() {
         <div>MAX: {ChartUtil.getMaxVal(value)} </div>
         <div>MIN: {ChartUtil.getMinVal(value)}</div>
         </>
-  </>
+  </div>
     )
 }
 

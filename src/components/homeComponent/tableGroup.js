@@ -4,8 +4,7 @@ import InfoButton from "./infoButton";
 import OrderFactory from "../../utils/OrderFactory.ts";
 import { getMenus } from "../../controllers/menuController.ts";
 import { getTables } from "../../controllers/TableController.ts";
-
-
+import '../../styles/animation.css'
 export default function TableGroup(props) { // 기본
 
     useEffect(()=>{
@@ -18,6 +17,8 @@ export default function TableGroup(props) { // 기본
                 const tabledata = data.data;
                 console.log(tabledata);
                 setTable(tabledata);
+                const hol = document.querySelector('#hol');
+                hol.classList.add('fade-in')
         })
     },[])
     
@@ -82,7 +83,7 @@ export default function TableGroup(props) { // 기본
         <>
             {!clickedTable ?
                 <>
-                    <Card.Group>
+                    <Card.Group id='hol'>
                         {table.map((e, i) => {
                             return (
                                 <Card
@@ -130,7 +131,7 @@ export default function TableGroup(props) { // 기본
                 </>
                 : 
                 
-                <Grid columns='equal' relaxed>
+                <Grid columns='equal' relaxed className="fade-in">
                     <Grid.Row>
                         <Grid.Column>
                             <Segment><Header as='h2'>{`${clickedTable}번 테이블`}</Header></Segment>

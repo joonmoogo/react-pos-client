@@ -17,8 +17,8 @@ export default function Manager() {
     let navigate = useNavigate();
     return (
         !option ?
-            <>
-                <div>
+            <div className="fade-in">
+                <div >
                     <Header as='h4' attached='top'>
                         계정 관리
                     </Header>
@@ -100,7 +100,7 @@ export default function Manager() {
                         </Item>
                     </Segment>
                 </div>
-            </>
+            </div>
             :
             <>
                 <Segment attached  >
@@ -108,7 +108,7 @@ export default function Manager() {
                         <Icon style={{ cursor: 'pointer' }} onClick={() => { setOption(!option) }} name='angle left' />
                         {`관리자 / ${state}`}
                     </Header>
-                    {state == 'EditUserInfo' ? <EditUserInfo /> : null}
+                    {state == 'EditUserInfo' ? <EditUserInfo/> : null}
                     {state == 'EditMarketInfo' ? <EditMarketInfo /> : null}
                     {state == 'EditMenu' ? <EditMenu /> : null}
                     {state == 'EditTable' ? <EditTable /> : null}

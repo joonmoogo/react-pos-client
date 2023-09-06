@@ -21,7 +21,7 @@ function LoginForm() {
   return (
     <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
       <Grid.Column style={{ maxWidth: 450 }}>
-        <Header as='h1' color='teal' textAlign='center'>
+        <Header as='h1' color='teal' textAlign='center' className='bounce'>
           <Image className='App' src='/logo.png' style={{width:'170px'}}/>
         </Header>
         <Form size='large'>

@@ -24,7 +24,7 @@ function StoreOpen() {
   };
 
   return (
-    <Container style={{ width: '70%' }}>
+    <Container style={{ width: '70%' }} className="slide-from-left">
       <Segment>
         <Header>
           <Image circular src='/logo.png' style={{ width: '140px' }} />
@@ -56,7 +56,7 @@ function StoreOpenModal({ store, closeModal }) {
   const navigate = useNavigate();
 
   return (
-    <Segment>
+    <Segment className="fade-in">
       <Grid textAlign='left' verticalAlign='top'>
         <Grid.Column >
           <Form size='large'>

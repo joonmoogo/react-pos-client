@@ -34,7 +34,7 @@ export default function EditTable() {
         setOpacity(false);
     };
     return (
-        <>
+        <div className="slide-from-right">
             <Menu fluid style={{ borderBottom: '1px solid lightGrey ' }}>
                 <Menu.Item><Button onClick={() => {
                     setTable([...table, {name:'기본석',coordX: 0, coordY: 0, width: 0, height: 0 }])
@@ -86,6 +86,6 @@ export default function EditTable() {
                 )
             })}
 
-        </>
+        </div>
     )
 }
