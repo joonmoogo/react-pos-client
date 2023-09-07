@@ -109,14 +109,13 @@ export default function TableGroup(props) { // 기본
                                     }}>
                                     <Card.Content >
                                         <Card.Header content={`${e.id} T`} />
-                                        <Card.Meta content={`${e.name}`} />
+                                        <Card.Meta content={`${e.name}`}/>
                                         {localStorage.getItem(e.id) == null
                                             ? <Card.Description content='' />
                                             : JSON.parse(localStorage.getItem(e.id)).map((e) => {
                                                 return (
                                                     <Card.Description style={{ color: 'teal' }} content={`${e.name} ${e.count}`} />
                                                 )
-
                                             })}
 
                                     </Card.Content>
@@ -151,14 +150,15 @@ export default function TableGroup(props) { // 기본
                                         {/* POS 주문 리스트 */}
                                         {temporaryOrder.map((e) => { // state의 내용만 출력
                                             return (
-                                                <TableRow onClick={() => {
+                                                <TableRow className="slide-from-right" onClick={() => {
                                                     console.log(`${e.product} was clicked`);
                                                 }}>
                                                     <Table.Cell>{e.name}</Table.Cell>
                                                     <Table.Cell>{e.price}</Table.Cell>
                                                     <Table.Cell>{e.count}</Table.Cell>
-                                                    <Table.Cell style={{ cursor: 'pointer' }} onClick={() => {
+                                                    <Table.Cell style={{ cursor: 'pointer' }} onClick={(event) => {
                                                         console.log(`${e.name} delete button was clicked`);
+                                                        console.log(event);
                                                         let filtered = temporaryOrder.filter((el) => el.time !== e.time);
                                                         console.log(filtered);
                                                         setTemporaryOrder(filtered);

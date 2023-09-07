@@ -14,6 +14,7 @@ import Dictaphone from './views/voice';
 import Kiosk from './views/kiosk';
 import WildCardPage from './views/wildCardPage';
 
+
 function App() {
   
   return (
