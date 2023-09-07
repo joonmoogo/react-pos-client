@@ -9,7 +9,6 @@ export const authorize = async (data : UserLoginDTO ) : Promise<any> => {
       if(responseCode == 200){
         console.log(response.headers.access_token);
         localStorage.setItem('hknuToken',JSON.stringify(response.headers.access_token));
-        alert('accepted');
       }
       return true; 
     } catch (error : any) {

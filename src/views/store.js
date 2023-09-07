@@ -2,11 +2,10 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { Header,Image,Button,Container,Form,Checkbox } from "semantic-ui-react";
 import { saveStores } from "../controllers/StoreController.ts";
-
-
 function Store(){
     const [storeInfo,setStoreInfo] = useState();
     const navigate = useNavigate();
+    const [address,setAddress] = useState();
 
     return (
         <div>
@@ -42,8 +41,21 @@ function Store(){
                             fluid
                             label='주소'
                             placeholder='인천광역시 계양구 계산새로 5번길 14'
-                        >
-                        </Form.Input>
+                            onChange={(event)=>{
+                                setAddress(event.target.value);
+                                var geocoder = new window.kakao.maps.services.Geocoder();
+                                var callback = function(result, status) {
+                                    if (status === window.kakao.maps.services.Status.OK) {
+                                        console.log(result);
+                                    }
+                                };
+                                geocoder.addressSearch(address, callback);   
+                                
+                            }}
+                            
+                        />
+                        {/* <KakaoMap/> */}
+
                         <Form.Input
                             id='info'
                             fluid
