@@ -1,17 +1,24 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
-import { Header,Image,Button,Container,Form,Checkbox } from "semantic-ui-react";
+import { Input, Icon, Segment, Header, Image, Button, Container, Form, Checkbox, Modal } from "semantic-ui-react";
 import { saveStores } from "../controllers/StoreController.ts";
-function Store(){
-    const [storeInfo,setStoreInfo] = useState();
+function Store() {
+    const [storeInfo, setStoreInfo] = useState();
     const navigate = useNavigate();
-    const [address,setAddress] = useState();
+    const [open, setOpen] = useState(false);
+    const [address, setAddress] = useState();
+    const [searchedAddress, setSearchedAddress] = useState([]);
+    const [userAddress, setUserAddress] = useState();
+    const [userDetailAddress, setUserDetailAddress] = useState();
+    const [latitude, setLatitude] = useState();
+    const [longitude, setLongitude] = useState();
+
 
     return (
         <div>
-            <Container text style={{width:'40%'}}>
+            <Container text style={{ width: '40%' }} className="slide-from-right">
                 <Header as='h1' color='teal'>
-                    <Image src='/logo.png' style={{width:'160px'}}/> 
+                    <Image src='/logo.png' style={{ width: '160px' }} />
                 </Header>
                 <Form size='large' success warning error>
                     <Form.Field>
@@ -36,26 +43,64 @@ function Store(){
                             placeholder='24:00'
                         >
                         </Form.Input>
-                        <Form.Input
-                            id='address'
-                            fluid
-                            label='주소'
-                            placeholder='인천광역시 계양구 계산새로 5번길 14'
-                            onChange={(event)=>{
-                                setAddress(event.target.value);
-                                var geocoder = new window.kakao.maps.services.Geocoder();
-                                var callback = function(result, status) {
-                                    if (status === window.kakao.maps.services.Status.OK) {
-                                        console.log(result);
-                                    }
-                                };
-                                geocoder.addressSearch(address, callback);   
-                                
+                        <Modal size='tiny' style={{ height: '80%' }} className='no-scroll' dimmer='blurring'
+                            onClose={() => {
+                                setOpen(false)
                             }}
-                            
-                        />
-                        {/* <KakaoMap/> */}
+                            onOpen={() => {
+                                setOpen(true)
+                            }}
 
+                            open={open}
+                            trigger={
+                                <Form.Input
+                                    id='address'
+                                    fluid
+                                    label='주소'
+                                    placeholder='주소를 검색하세요'
+                                    value={userAddress}
+                                />
+                            }>
+                            <Modal.Header>주소 검색</Modal.Header>
+                            <Modal.Content>
+                                <Input fluid onChange={(event) => {
+                                    setAddress(event.target.value);
+                                }}
+                                    icon={<Icon name='search ' inverted circular link onClick={(event) => {
+                                        var geocoder = new window.kakao.maps.services.Geocoder();
+                                        var callback = function (result, status) {
+                                            if (status === window.kakao.maps.services.Status.OK) {
+                                                setSearchedAddress(result);
+                                            }
+                                        };
+                                        geocoder.addressSearch(address, callback);
+                                    }} />}
+                                    placeholder='Search...'
+
+                                />
+                                <Segment.Group >
+                                    {searchedAddress.map((e, i) => {
+
+                                        return (
+                                            <Segment onClick={() => {
+                                                setOpen(false);
+                                                setUserAddress(e.address_name)
+                                                setLatitude(e.x);
+                                                setLongitude(e.y);
+                                            }}>{e.address_name}</Segment>
+                                        )
+                                    })}
+                                </Segment.Group>
+                            </Modal.Content>
+
+                        </Modal>
+                        <Form.Input
+                            id='detailAddress'
+                            fluid
+                            label='상세 주소'
+                            placeholder='ex) 하이베라스 상가 201호'
+
+                        />
                         <Form.Input
                             id='info'
                             fluid
@@ -63,28 +108,42 @@ function Store(){
                             placeholder='입력'
                         >
                         </Form.Input>
+                        <Form.Input
+                            id='phoneNumber'
+                            fluid
+                            label='가게 전화번호'
+                            placeholder='입력'
+                        >
+                        </Form.Input>
                     </Form.Field>
                     <Form.Field>
                         <Checkbox label='I agree to the Terms and Conditions' />
                     </Form.Field>
-                    <Button color='teal' type='submit' onClick={()=>{
+                    <Button color='teal' type='submit' onClick={() => {
                         const name = document.querySelector('#name').value;
                         const address = document.querySelector('#address').value;
+                        const detailAddress = document.querySelector('#detailAddress').value;
                         const info = document.querySelector('#info').value;
                         const opentime = document.querySelector('#opentime').value;
                         const closetime = document.querySelector('#closetime').value;
+                        const phoneNumber = document.querySelector('#phoneNumber').value;
 
                         const storeInfo = {
-                            name:name,
-                            address:address,
-                            info:info,  
-                            operatingTime:`${opentime}-${closetime}`,
+                            name: name,
+                            latitude: latitude,
+                            longitude: longitude,
+                            address: `${address}, ${detailAddress}`,
+                            info: info,
+                            phoneNumber: phoneNumber,
+                            canReservation: true,
+                            operatingTime: `${opentime} - ${closetime}`
+
                         }
                         console.log(storeInfo);
-                        
-                        // saveStores(storeInfo);
-                        // navigate('/main')
-                        
+
+                        saveStores(storeInfo);
+                        navigate('/main')
+
                     }}>등록하기</Button>
                 </Form>
             </Container>

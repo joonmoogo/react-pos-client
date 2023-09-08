@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Image,Header,Menu, Container, Button, Checkbox, Form } from 'semantic-ui-react'
+import { Image, Header, Menu, Container, Button, Checkbox, Form } from 'semantic-ui-react'
 import Validator from '../utils/validation.ts';
 import { saveUser } from '../controllers/UserController.ts'
 import { checkEmail, checkNickName, checkPhoneNumber } from '../controllers/CheckController.ts'
@@ -12,11 +12,11 @@ function SignUp() {
 
     return (
         <>
-            <SignUpForm/>
+            <SignUpForm />
         </>
     )
 }
-function SignUpForm({nextMenu}) {
+function SignUpForm({ nextMenu }) {
 
     const navigate = useNavigate();
 
@@ -32,15 +32,15 @@ function SignUpForm({nextMenu}) {
 
     return (
         <div className='slide-from-left'>
-        <Container text style={{width:'40%'}}>
-            <Header as='h3' color='teal'>
-                <Image src='/logo.png' style={{width:'160px'}}/>
-            </Header>
+            <Container text style={{ width: '40%' }}>
+                <Header as='h3' color='teal'>
+                    <Image src='/logo.png' style={{ width: '160px' }} />
+                </Header>
                 <Form size='large'>
                     {/* Form에 success나 warning을 추가함으로 노출됨 */}
                     <Form.Field >
                         <Form.Input
-                            icon={(emailCheck==true) && 'check'}
+                            icon={(emailCheck == true) && 'check'}
                             onChange={(event) => {
                                 const userValue = event.target.value;
                                 console.log(userValue);
@@ -63,16 +63,16 @@ function SignUpForm({nextMenu}) {
 
 
                         <Form.Input type='password'
-                            icon={(passwordCheck==true) && 'check'}
+                            icon={(passwordCheck == true) && 'check'}
                             onChange={(event) => {
                                 const userValue = event.target.value;
                                 console.log(userValue);
                                 console.log(Validator.isPasswordValid(userValue));
                                 setPassword(userValue);
-                                if(Validator.isPasswordValid(userValue)){
+                                if (Validator.isPasswordValid(userValue)) {
                                     setPasswordCheck(true);
                                 }
-                                else{
+                                else {
                                     setPasswordCheck(false);
                                 }
                             }}
@@ -82,21 +82,21 @@ function SignUpForm({nextMenu}) {
                         </Form.Input>
                         <Form.Input type='password'
                             placeholder='비밀번호 재입력'
-                            icon={(authorizePassword==true) && 'check'}
+                            icon={(authorizePassword == true) && 'check'}
 
-                            onChange={(event)=>{
+                            onChange={(event) => {
                                 const userValue = event.target.value;
-                                if(userValue == password){
+                                if (userValue == password) {
                                     setAuthorizePassword(true);
                                 }
-                                else{
+                                else {
                                     setAuthorizePassword(false);
                                 }
                             }}
                         >
                         </Form.Input>
-                        <Form.Input 
-                            icon={(nicknameCheck==true) && 'check'}
+                        <Form.Input
+                            icon={(nicknameCheck == true) && 'check'}
                             onChange={(event) => {
                                 const userValue = event.target.value;
                                 console.log(userValue);
@@ -124,7 +124,7 @@ function SignUpForm({nextMenu}) {
                         ></Form.Input>
 
                         <Form.Input
-                            icon={(phoneNumberCheck==true) && 'check'}
+                            icon={(phoneNumberCheck == true) && 'check'}
                             onChange={(event) => {
                                 const userValue = event.target.value;
                                 console.log(userValue);
@@ -142,9 +142,9 @@ function SignUpForm({nextMenu}) {
                                 content: '이미 등록된 번호입니다',
                                 pointing: 'below'
                             }}
-                       
+
                         ></Form.Input>
-                        
+
                     </Form.Field>
                     <Form.Field>
                     </Form.Field>
@@ -166,7 +166,7 @@ function SignUpForm({nextMenu}) {
                             saveUser(uservalue)
                                 .then(responseData => {
                                     console.log(responseData);
-                                    navigate('/')                                    
+                                    navigate('/')
                                 })
                                 .catch(error => {
                                     console.log(error);
@@ -179,7 +179,7 @@ function SignUpForm({nextMenu}) {
                     }}>가입하기</Button>
                 </Form>
             </Container>
-            </div>
+        </div>
     )
 }
 export default SignUp

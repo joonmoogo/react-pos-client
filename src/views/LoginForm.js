@@ -1,11 +1,11 @@
-import React, { useEffect,useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
 import { Link, useNavigate } from 'react-router-dom'
 import './loginForm.css'
 import naver_id_login from '../modules/naver_login'
 import SocialKakao from '../modules/kakao_login'
-import {authorize} from '../controllers/AuthController.ts'
-import {LoginErrorMessage} from '../components/MessageComponent/loginError'
+import { authorize } from '../controllers/AuthController.ts'
+import { LoginErrorMessage } from '../components/MessageComponent/loginError'
 
 function LoginForm() {
 
@@ -15,14 +15,14 @@ function LoginForm() {
     naver_id_login.init_naver_id_login();
   }, [])
 
-  let [loginError,setLoginError] = useState();
-  let [errorMsg,setErrorMsg] = useState();
+  let [loginError, setLoginError] = useState();
+  let [errorMsg, setErrorMsg] = useState();
 
   return (
     <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
       <Grid.Column style={{ maxWidth: 450 }}>
         <Header as='h1' color='teal' textAlign='center' className='bounce'>
-          <Image className='App' src='/logo.png' style={{width:'170px'}}/>
+          <Image className='App' src='/logo.png' style={{ width: '170px' }} />
         </Header>
         <Form size='large'>
           <Segment stacked>
@@ -32,13 +32,13 @@ function LoginForm() {
             <Button color='teal' fluid size='large' onClick={() => {
               const email = document.querySelector('#loginEmail');
               const password = document.querySelector('#loginPassword');
-              const userinfo = {email:email.value, password:password.value};
-              authorize(userinfo).then((value)=>{
+              const userinfo = { email: email.value, password: password.value };
+              authorize(userinfo).then((value) => {
                 console.log(value);
-                if(value==true){
-                  navigate('/main'); 
+                if (value == true) {
+                  navigate('/main');
                 }
-                else{
+                else {
                   setErrorMsg(value);
                   setLoginError(true);
                 }
@@ -46,8 +46,8 @@ function LoginForm() {
             }}>
               로그인
             </Button>
-            {loginError?<LoginErrorMessage msg={errorMsg}/>:null}
-            
+            {loginError ? <LoginErrorMessage msg={errorMsg} /> : null}
+
           </Segment>
         </Form>
         <Message>
