@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Message, Segment, Header, Image, Grid, Form, Button, Container } from "semantic-ui-react";
+import { Modal, Message, Segment, Header, Image, Grid, Form, Button, Container } from "semantic-ui-react";
 import { getStores, setOpen } from "../controllers/StoreController.ts";
 import TimeUtil from "../utils/moment.ts";
 import { useNavigate } from "react-router-dom";
@@ -32,7 +32,7 @@ function StoreOpen() {
         {storeList.map((e) => {
           return (
             <div key={e.id}>
-              <Message onClick={() => openModal(e)} style={{marginTop:'10px'}}>
+              <Message onClick={() => openModal(e)} style={{ marginTop: '10px' }}>
                 <Message.Header>{e.name}</Message.Header>
                 <p>{e.operatingTime}</p>
                 <p>{e.address}</p>
@@ -67,16 +67,16 @@ function StoreOpenModal({ store, closeModal }) {
               <Button color='teal' fluid size='large' onClick={() => {
                 closeModal();
                 setOpen({
-                    id:store.id,
-                    isOpen:true
-                }).then((data)=>{
-                    console.log(data.headers.access_token);
-                    const access_token = data.headers.access_token;
-                    localStorage.setItem('hknuToken',`"${access_token}"`);
-                    localStorage.setItem('storeId',store.id);
-                    navigate('/home')
-                }).catch((error)=>{
-                    console.error(error);
+                  id: store.id,
+                  isOpen: true
+                }).then((data) => {
+                  console.log(data.headers.access_token);
+                  const access_token = data.headers.access_token;
+                  localStorage.setItem('hknuToken', `"${access_token}"`);
+                  localStorage.setItem('storeId', store.id);
+                  navigate('/home')
+                }).catch((error) => {
+                  console.error(error);
                 })
               }}>
                 개점하기
