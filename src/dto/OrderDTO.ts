@@ -8,6 +8,20 @@ export type OrderSaveDTO = {
     orderTime? : string,
     paymentTime? : string,
     reservationTime? : string,
-    orderCode : number,
+    orderCode : string,
     reservationDenyDetail? : string,
+}
+export type OrderEditDTO = {
+    id : number,
+    tableId : number,
+    orderTime? : string,
+    paymentTime? : string,
+    reservationTime? : string,
+    orderCode : string,
+}
+
+export type OrderDetailSaveDTO = {
+    orderId: number, 
+    menuId: number,
+    amount: number,
 }

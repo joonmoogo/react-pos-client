@@ -6,6 +6,7 @@ import naver_id_login from '../modules/naver_login'
 import SocialKakao from '../modules/kakao_login'
 import { authorize } from '../controllers/AuthController.ts'
 import { LoginErrorMessage } from '../components/MessageComponent/loginError'
+import send_message from '../utils/send_message.js';
 
 function LoginForm() {
 
@@ -22,7 +23,9 @@ function LoginForm() {
     <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
       <Grid.Column style={{ maxWidth: 450 }}>
         <Header as='h1' color='teal' textAlign='center' className='bounce'>
-          <Image className='App' src='/logo.png' style={{ width: '170px' }} />
+          <Image className='App' src='/logo.png' style={{ width: '170px' }} onClick={()=>{
+            send_message('01022202479');
+          }} />
         </Header>
         <Form size='large'>
           <Segment stacked>

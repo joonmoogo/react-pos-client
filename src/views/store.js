@@ -12,8 +12,6 @@ function Store() {
     const [userDetailAddress, setUserDetailAddress] = useState();
     const [latitude, setLatitude] = useState();
     const [longitude, setLongitude] = useState();
-
-
     return (
         <div>
             <Container text style={{ width: '40%' }} className="slide-from-right">
@@ -50,7 +48,6 @@ function Store() {
                             onOpen={() => {
                                 setOpen(true)
                             }}
-
                             open={open}
                             trigger={
                                 <Form.Input
@@ -76,30 +73,27 @@ function Store() {
                                         geocoder.addressSearch(address, callback);
                                     }} />}
                                     placeholder='Search...'
-
                                 />
                                 <Segment.Group >
                                     {searchedAddress.map((e, i) => {
-
                                         return (
                                             <Segment onClick={() => {
                                                 setOpen(false);
                                                 setUserAddress(e.address_name)
                                                 setLatitude(e.x);
                                                 setLongitude(e.y);
+                                                console.log(e.x,e.y);
                                             }}>{e.address_name}</Segment>
                                         )
                                     })}
                                 </Segment.Group>
                             </Modal.Content>
-
                         </Modal>
                         <Form.Input
                             id='detailAddress'
                             fluid
                             label='상세 주소'
                             placeholder='ex) 하이베라스 상가 201호'
-
                         />
                         <Form.Input
                             id='info'
@@ -127,7 +121,6 @@ function Store() {
                         const opentime = document.querySelector('#opentime').value;
                         const closetime = document.querySelector('#closetime').value;
                         const phoneNumber = document.querySelector('#phoneNumber').value;
-
                         const storeInfo = {
                             name: name,
                             latitude: latitude,
@@ -137,13 +130,9 @@ function Store() {
                             phoneNumber: phoneNumber,
                             canReservation: true,
                             operatingTime: `${opentime} - ${closetime}`
-
                         }
                         console.log(storeInfo);
-
-                        saveStores(storeInfo);
-                        navigate('/main')
-
+                        saveStores(storeInfo).then(()=>{navigate('/main')})                    
                     }}>등록하기</Button>
                 </Form>
             </Container>
