@@ -3,10 +3,11 @@ import { Modal, Message, Segment, Header, Image, Grid, Form, Button, Container }
 import { getStores, setOpen } from "../controllers/StoreController.ts";
 import TimeUtil from "../utils/moment.ts";
 import { useNavigate } from "react-router-dom";
-
+import Store from "./store.js";
 function StoreOpen() {
   const [storeList, setStoreList] = useState([]);
   const [selectedStore, setSelectedStore] = useState(null);
+  const [toggleAdd,setToggleAdd] = useState(false);
 
   useEffect(() => {
     getStores().then((data) => {
@@ -23,8 +24,11 @@ function StoreOpen() {
     setSelectedStore(null);
   };
 
+  
   return (
-    <Container style={{ width: '70%' }} className="slide-from-left">
+    <>
+    {!toggleAdd?
+      <Container style={{ width: '70%' }} className="slide-from-left">
       <Segment>
         <Header>
           <Image circular src='/logo.png' style={{ width: '140px' }} />
@@ -44,8 +48,15 @@ function StoreOpen() {
             </div>
           );
         })}
+        <Button attached onClick={()=>{
+          setToggleAdd(true);
+          console.log('hi');
+        }}>가게 추가하기</Button>
       </Segment>
-    </Container>
+    </Container> : <Store></Store>
+    }
+    
+    </>
   );
 }
 
@@ -56,6 +67,7 @@ function StoreOpenModal({ store, closeModal }) {
   const navigate = useNavigate();
 
   return (
+    
     <Segment className="fade-in">
       <Grid textAlign='left' verticalAlign='top'>
         <Grid.Column >

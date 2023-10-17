@@ -5,15 +5,23 @@ import OrderFactory from "../../utils/OrderFactory.ts";
 import { getMenus } from "../../controllers/menuController.ts";
 import { getTables } from "../../controllers/TableController.ts";
 import { deleteOrder, editOrder, getOrder, saveOrder } from '../../controllers/OrderController.ts';
-import { getUser } from '../../controllers/UserController';
+import { getUser } from '../../controllers/UserController.ts';
+import { getStores } from '../../controllers/StoreController.ts';
 import { deleteOrderDetail, getOrderDetail, saveOrderDetail } from '../../controllers/OrderDetailController.ts'
+// import {subscribe} from '../../controllers/notificationController.ts'
+import { EventSourcePolyfill,EventSource } from "event-source-polyfill";
 import '../../styles/animation.css'
+import {sseNotify} from '../../controllers/notificationController.ts'
 export default function TableGroup(props) { // 기본
+    function formatCurrency(amount) {
+        return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
 
     useEffect(() => {
         getMenus().then((data) => {
           setMenuList(data.data);
           localStorage.setItem('menu', JSON.stringify(data?.data));
+          console.log(data?.data)
         });
       
         getUser().then((data) => {
@@ -26,7 +34,6 @@ export default function TableGroup(props) { // 기본
           const filtered = orders.filter((e)=>e.orderCode == 'ORDER' ); 
           setOrderList(filtered)
           
-      
           getTables().then((data) => {
             console.log(data);
             const tabledata = data?.data;
@@ -39,6 +46,7 @@ export default function TableGroup(props) { // 기본
             }
           });
         });
+
       }, []);
 
     function findMenuById(){
@@ -174,7 +182,7 @@ export default function TableGroup(props) { // 기본
                     <Grid.Row>
                         <Grid.Column>
                             <Segment><Header as='h2'>{`${clickedTable}번 테이블`}</Header></Segment>
-                            <Segment className="no-scroll" style={{ overflow: 'scroll', height: '60%' }}>
+                            <Segment className="no-scroll" style={{ overflow: 'scroll', height: '360px' }}>
                                 <Table fixed singleLine selectable >
                                     <Table.Header>
                                         <Table.Row>
@@ -194,7 +202,7 @@ export default function TableGroup(props) { // 기본
                                                     console.log(`${e.product} was clicked`);
                                                 }}>
                                                     <Table.Cell>{e.name}</Table.Cell>
-                                                    <Table.Cell>{e.price}</Table.Cell>
+                                                    <Table.Cell>{formatCurrency(e.price)}원</Table.Cell>
                                                     <Table.Cell>{e.count}</Table.Cell>
                                                     <Table.Cell style={{ cursor: 'pointer' }} onClick={(event) => {
                                                         console.log(`${e.name} delete button was clicked`);
@@ -212,7 +220,7 @@ export default function TableGroup(props) { // 기본
                                 </Table>
                             </Segment>
                             <Segment>
-                                <Header as='h3'>{`가격: ${getTotal()} Won`}</Header >
+                                <Header as='h3'>{`가격: ${formatCurrency(getTotal())} 원`}</Header >
                             </Segment>
                         </Grid.Column>
                         <Grid.Column>
@@ -250,7 +258,7 @@ export default function TableGroup(props) { // 기본
                                                 }}>
                                                     <Card.Content>
                                                         <Card.Header content={e.name}></Card.Header>
-                                                        <Card.Meta content={e.price}></Card.Meta>
+                                                        <Card.Meta content={formatCurrency(e.price)+'원'}></Card.Meta>
                                                     </Card.Content>
                                                 </Card>
                                             )

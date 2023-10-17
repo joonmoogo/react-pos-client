@@ -18,12 +18,16 @@ export default function FindReceipe() { //영수증조회탭 서버에서 불러
       })
       return sum;
     }
+    function formatCurrency(amount) {
+      return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
     return (
       <Grid columns='equal' relaxed className="fade-in" >
         <Grid.Row>
           <Grid.Column >
             <Segment>영수증 목록</Segment>
-            <Segment className="no-scroll" style={{ overflow: 'scroll', height: '60%' }}>
+            <Segment className="no-scroll" style={{ overflow: 'scroll', height: '400px' }}>
               <Table fixed singleLine selectable>
                 <Table.Header>
                   <Table.Row>
@@ -100,7 +104,7 @@ export default function FindReceipe() { //영수증조회탭 서버에서 불러
                   <List.Item>
                     <List.Content>
                       <List.Description as='h3'>
-                        {`⁘ ${e.name} ${e.count} * ${e.price} = ${e.count * e.price}`}
+                        {`⁘ ${e.name} ${e.count} * ${formatCurrency(e.price)} = ${formatCurrency(e.count * e.price)}`}
                       </List.Description>
                     </List.Content>
                   </List.Item>
@@ -109,7 +113,7 @@ export default function FindReceipe() { //영수증조회탭 서버에서 불러
               </List>
             </Segment>
             <Segment>
-              <h1>{`${getTotal()} won `}</h1>
+              <h1>{`${formatCurrency(getTotal())}원 `}</h1>
             </Segment>
             <Segment>
               <Button primary>환불처리</Button>

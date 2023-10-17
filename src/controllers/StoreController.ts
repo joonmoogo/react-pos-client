@@ -13,7 +13,7 @@ export const getStores = async () : Promise<any> => {
       }
       const response = await axios.get('/stores',{headers});
       const responseCode = response.status;
-      console.log(responseCode);
+      console.log(response);
       return response;
     } catch (error : any) {
       
@@ -21,7 +21,7 @@ export const getStores = async () : Promise<any> => {
     }
   };
 
-  export const saveStores = async (data : StoreSaveDTO) : Promise<any> => {
+  export const getStore = async () : Promise<any> => {
     try {
       const localItem = localStorage.getItem('hknuToken');
       let access_token;
@@ -31,7 +31,39 @@ export const getStores = async () : Promise<any> => {
       const headers ={
         'access_token' : access_token
       }
-      const response = await axios.post('/stores',null,{params:data,headers});
+      const response = await axios.get('/stores',{headers});
+      const responseCode = response.status;
+      console.log(response);
+      return response;
+    } catch (error : any) {
+      
+      console.error('GET 요청 에러:', error.request.responseText);
+    }
+  };
+
+  export const saveStores = async (data : StoreSaveDTO) : Promise<any> => {
+    let formData = new FormData();
+    formData.append('name',data.name);
+    formData.append('latitude',data.latitude);
+    formData.append('longitude',data.longitude);
+    formData.append('address',data.address);
+    formData.append('info',data.info);
+    formData.append('phoneNumber',data.phoneNumber);
+    formData.append('canReservation',data.canReservation);
+    // formData.append('operatingDays',data.operatingTime);
+    formData.append('profilePhoto',data.profilePhoto);
+    
+    try {
+      const localItem = localStorage.getItem('hknuToken');
+      let access_token;
+      if(localItem){
+        access_token = JSON.parse(localItem);
+      }
+      const headers ={
+        'Content-Type': 'multipart/form-data',
+        'access_token' : access_token
+      }
+      const response = await axios.post('/stores',formData,{headers});
       const responseCode = response.status;
       console.log(responseCode);
       return response;

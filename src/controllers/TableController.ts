@@ -10,6 +10,7 @@ export const saveTable = async (data: TableListSaveDTO): Promise<any> => {
     }
     const formdata = new FormData();
     data.tableList.forEach((e, i) => {
+      console.log(e);
       formdata.append(`tableList[${i}].name`, e.name);
       formdata.append(`tableList[${i}].coordX`, e.coordX);
       formdata.append(`tableList[${i}].coordY`, e.coordY);

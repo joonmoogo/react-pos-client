@@ -77,7 +77,7 @@ export default function EditTable() {
                                 style={{ height: '80px', width: '90px', overflow: 'auto', resize: 'both' }}>
                                 <Card.Content >
                                     <Card.Header content={`${i + 1}T`} />
-                                    <Card.Meta content={e.name} />
+                                    <Card.Meta content={e.name}/>
                                 </Card.Content>
                             </Card>
 

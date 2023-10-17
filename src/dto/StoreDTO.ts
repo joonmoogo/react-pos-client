@@ -11,10 +11,15 @@ export type StoreDTO = {
 }
 
 export type StoreSaveDTO = {
-    name : string,
-    address : string,
-    info : string,
-    operatingTime : string,
+    name : any,
+    latitude:any,
+    longitude:any,
+    address : any,
+    info : any,
+    phoneNumber:any,
+    canReservation:any,
+    operatingTime : any,
+    profilePhoto:any
 }
 
 export type StoreOpenDTO = {

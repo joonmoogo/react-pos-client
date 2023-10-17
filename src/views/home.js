@@ -9,24 +9,63 @@ import Manager from "../components/homeComponent/manager";
 import FindReceipe from "../components/homeComponent/findReceipt";
 import { getStores } from "../controllers/StoreController.ts";
 import Modal from "../components/homeComponent/modalComponent/modal";
+import { getReservations, getReservationsList } from "../controllers/ReservationController";
+import { EventSourcePolyfill } from "event-source-polyfill";
 function Home() {
   const userInfo = JSON.stringify(localStorage.getItem('tableSetting'));
   useEffect(() => {
-    // getStores().then((response)=>{
-    //   if(response.data.length == 0){
-    //     console.log('it is null');
-    //     setModal(true);
-    //   }
-    // })
-    // setModal(true);
-  }, [])
+    const fetchData = async () => {
+      try {
+        const data = await getReservations();
+        const array = data.data;
+
+        let newCount = 0;
+
+        array.forEach((e, i) => {
+          if (e.orderCode === 'RESERVATION_WAIT') {
+            newCount++;
+          }
+        });
+
+        setCount(newCount);
+        setLabelOption([0, newCount, 0, 0, 0, 0]);
+        console.log(newCount);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+    const localItem = localStorage.getItem('hknuToken');
+    let access_token;
+    if (localItem) {
+      access_token = JSON.parse(localItem);
+    }
+    const headers = {
+      'access_token' : access_token
+    };
+    const eventSource = new EventSourcePolyfill('/notifications/subscribe',{headers:headers,heartbeatTimeout:86400000});
+    eventSource.onmessage = (event) => {
+      console.log(event);
+    };
+    eventSource.addEventListener('SERVER_CONNECT',(e)=>{console.log(e)});
+    eventSource.addEventListener('RESERVATION_INSERT',(e)=>{console.log(e)});
+    eventSource.addEventListener('RESERVATION_UPDATE',(e)=>{console.log(e)});
+    eventSource.addEventListener('RESERVATION_DELETE',(e)=>{console.log(e)});
+    return () => {
+      // 컴포넌트가 언마운트되면 EventSource 닫기
+      eventSource.close();
+    };
+  }, []);
   let navigate = useNavigate();
   let [menu, setMenu] = useState('홀');
   let [tableGroup, setTableGroup] = useState(false);
   let [option, setOption] = useState(['홀', '예약', '대기', '영수증 조회', '주방']);
-  let [labelOption, setLabelOption] = useState([1, 0, 0, 0, 0, 0]);
+  let [labelOption, setLabelOption] = useState([0, 0, 0, 0, 0, 0]);
   let [modal, setModal] = useState();
-  let [count, setCount] = useState(1);
+  let [count, setCount] = useState(0);
+
+  
   // let contextRef = createRef();
   function handleModalNext() {
     console.log(count);
@@ -64,7 +103,7 @@ function Home() {
                     active={menu == e}
                   >
                     {e}
-                    {labelOption[i] != 0 ? <Label color='red' floating tag>{labelOption[i]}</Label> : null}
+                    {labelOption[i] != 0 ? <Label color='red' floating>{labelOption[i]}</Label> : null}
                   </Menu.Item>
                 )
               })}

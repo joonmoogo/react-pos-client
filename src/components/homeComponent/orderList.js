@@ -5,23 +5,24 @@ import { List, Header, Button, Segment } from "semantic-ui-react";
 export default function OrderList() { //주방탭
 
     let kitchenOrder = Object.keys(localStorage).filter((e) => e.includes('kitchen')).sort();
+    console.log(kitchenOrder);
     let [st, setSt] = useState(kitchenOrder);
     console.log(st);
 
     return (
-        <Segment className="fade-in">
-            <Header as='h5' block >주방임</Header>
+        <>
+        <Header as='h5' block >주방임</Header>
+        <Segment className="fade-in no-scroll" style={{height:450, overflow:'scroll'}}>    
             {kitchenOrder.map((e, i) => {
                 return (
                     <List divided relaxed size="large" key={i}>
                         <Segment>
-                            <Header as='h2' icon='food' content={e.tableNumber + '번 주문서'} />
+                            <Header as='h2' icon='food' content={e + '번 주문서'} />
                             <Button onClick={() => {
                                 localStorage.removeItem(e);
                                 setSt(kitchenOrder.splice(e, 1));
                             }} floated="right">✔</Button>
                             {JSON.parse(localStorage.getItem(e)).map((e) => {
-
                                 return (
                                     <List.Item>
                                         <List.Content>
@@ -36,5 +37,6 @@ export default function OrderList() { //주방탭
                 )
             })}
         </Segment>
+        </>
     )
 }

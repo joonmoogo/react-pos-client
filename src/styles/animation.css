@@ -6,13 +6,32 @@
     -webkit-animation: fadeinModal 1s; /* Safari and Chrome */
     -o-animation: fadeinModal 1s; /* Opera */
   }
-  
+ 
+  .Popup:hover {
+    transform: scale(1.2); /* Adjust the scale factor as needed */
+  }
+
+  .fixed-header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: white;
+  }
 
   .fade-in {
     animation: fadein 0.5s ease-in-out forwards;
     -moz-animation: fadein 0.5s ease-in-out forwards; /* Firefox */
     -webkit-animation: fadein 0.5s ease-in-out forwards; /* Safari and Chrome */
     -o-animation: fadein 0.5s ease-in-out forwards; /* Opera */
+}
+
+@keyframes fadein{
+    from{
+        opacity: 0.1;
+    }
+    to{
+        opacity: 1;
+    }
 }
 
 @keyframes fadeinModal {
@@ -22,16 +41,7 @@
     }
     to {
         opacity:1;
-        scale: 1.1;
-    }
-}
-
-@keyframes fadein{
-    from{
-        opacity: 0.1;
-    }
-    to{
-        opacity: 1;
+        /* scale: 1.1; */
     }
 }
 .bounce {

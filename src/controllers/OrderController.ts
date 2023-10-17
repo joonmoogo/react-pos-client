@@ -9,7 +9,7 @@ export const saveOrder = async (data : OrderSaveDTO) : Promise<any> => {
         access_token = JSON.parse(localItem);
       }
       const headers ={
-        'access_token' : access_token
+        'access_token' : access_token,
       }
       const response = await axios.post('/orders',null,{params:data,headers});
       const responseCode = response.status;

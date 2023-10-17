@@ -1,7 +1,8 @@
-import { useState } from "react"
+import { useState,useRef } from "react"
 import { useNavigate } from "react-router-dom";
 import { Input, Icon, Segment, Header, Image, Button, Container, Form, Checkbox, Modal } from "semantic-ui-react";
 import { saveStores } from "../controllers/StoreController.ts";
+import '../styles/file.css'
 function Store() {
     const [storeInfo, setStoreInfo] = useState();
     const navigate = useNavigate();
@@ -12,6 +13,17 @@ function Store() {
     const [userDetailAddress, setUserDetailAddress] = useState();
     const [latitude, setLatitude] = useState();
     const [longitude, setLongitude] = useState();
+    const [imgFile, setImgFile] = useState("");
+    const imgRef = useRef();
+    // 이미지 업로드 input의 onChange
+    const saveImgFile = () => {
+        const file = imgRef.current.files[0];
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+            setImgFile(reader.result);
+           };
+    };
     return (
         <div>
             <Container text style={{ width: '40%' }} className="slide-from-right">
@@ -109,6 +121,30 @@ function Store() {
                             placeholder='입력'
                         >
                         </Form.Input>
+                        <Form.Input>
+                        <img
+                            src={imgFile ? imgFile :null}
+                            // alt="프로필 이미지"
+                            style={{width:'100%',height:'300px',marginTop:'10px', borderRadius:'10px'}}
+                            />
+                        <form encType="multipart/form-data">
+                            <input style={{display:"none"}}
+                            className="signup-profileImg-input"
+                            type="file"
+                            accept="image/*"
+                            id="profileImg"
+                            onChange={saveImgFile}
+                            
+                            ref={imgRef}
+                            />
+                            </form>
+                        </Form.Input>
+                        <label 
+                            className="signup-profileImg-label" 
+                            htmlFor="profileImg"
+                            >이미지 추가
+                            </label>
+                        
                     </Form.Field>
                     <Form.Field>
                         <Checkbox label='I agree to the Terms and Conditions' />
@@ -129,7 +165,8 @@ function Store() {
                             info: info,
                             phoneNumber: phoneNumber,
                             canReservation: true,
-                            operatingTime: `${opentime} - ${closetime}`
+                            operatingTime: `${opentime} - ${closetime}`,
+                            profilePhoto: imgRef.current.files[0],
                         }
                         console.log(storeInfo);
                         saveStores(storeInfo).then(()=>{navigate('/main')})                    

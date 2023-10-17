@@ -20,6 +20,25 @@ export const getReservations = async () : Promise<any> => {
     }
   };
 
+  export const getReservationsList = async () : Promise<any> => {
+    try {
+      const localItem = localStorage.getItem('hknuToken');
+      let access_token;
+      if(localItem){
+        access_token = JSON.parse(localItem);
+      }
+      const headers ={
+        'access_token' : access_token
+      }
+      const response = await axios.get('/reservations/list',{headers});
+      const responseCode = response.status;
+      console.log(responseCode);
+      return response;
+    } catch (error : any) {
+      console.error('GET 요청 에러:', error.request.responseText);
+    }
+  };
+
   export const saveReservation = async (data : ReservationSaveDTO) : Promise<any> => {
     try {
       const localItem = localStorage.getItem('hknuToken');
@@ -49,7 +68,7 @@ export const getReservations = async () : Promise<any> => {
       const headers ={
         'access_token' : access_token
       }
-      const response = await axios.post('/reservations/approve',null,{params:data,headers});
+      const response = await axios.patch('/reservations/approve',null,{params:data,headers});
       const responseCode = response.status;
       console.log(responseCode);
       return response;

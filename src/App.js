@@ -13,10 +13,20 @@ import UserOrder from './views/userOrder';
 import Dictaphone from './views/voice';
 import Kiosk from './views/kiosk';
 import WildCardPage from './views/wildCardPage';
-
+import TableGroup from './components/homeComponent/tableGroup';
+import { EventSource ,EventSourcePolyfill } from 'event-source-polyfill';
 
 function App() {
-  
+  // const localItem = localStorage.getItem('hknuToken');
+  //     let access_token;
+  //     if(localItem){
+  //         access_token = JSON.parse(localItem);
+  //     }
+  //     const EventSource = EventSourcePolyfill;
+  //     const source = new EventSource('/notifications/subscribe',{headers:{'access_token':access_token},heartbeatTimeout:86400000})
+  //     source.addEventListener('SERVER_CONNECT',(e)=>{
+  //         console.log(e);
+  //     })
   return (
     <>
       <Routes>
@@ -26,6 +36,7 @@ function App() {
         <Route path='/signUp' element={<SignUp></SignUp>} />
         <Route path='*' element={<div><WildCardPage/></div>} />
         <Route path='/home' element={<Home></Home>} />
+        <Route path='/tables' element={<TableGroup></TableGroup>}/>
       
         {/* table order or experimental services */}
 
