@@ -111,7 +111,7 @@ export default function Manager() {
                     {state == 'EditUserInfo' ? <EditUserInfo/> : null}
                     {state == 'EditMarketInfo' ? <EditMarketInfo /> : null}
                     {state == 'EditMenu' ? <EditMenu /> : null}
-                    {state == 'EditTable' ? <EditTable /> : null}
+                    {state == 'EditTable' ? navigate('/tableSetting'):null}
                     {state == 'SalesStatistics' ? <SalesStatistics /> : null}
                     {state == 'ReviewComment' ? <ReviewComment /> : null}
                     {state == 'EditPreferences' ? <EditPreferences /> : null}

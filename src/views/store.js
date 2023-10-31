@@ -1,4 +1,4 @@
-import { useState,useRef } from "react"
+import { useState, useRef } from "react"
 import { useNavigate } from "react-router-dom";
 import { Input, Icon, Segment, Header, Image, Button, Container, Form, Checkbox, Modal } from "semantic-ui-react";
 import { saveStores } from "../controllers/StoreController.ts";
@@ -22,8 +22,14 @@ function Store() {
         reader.readAsDataURL(file);
         reader.onloadend = () => {
             setImgFile(reader.result);
-           };
+        };
     };
+    const options = [
+        { key: '1', text: 'KOREAN', value: 'KOREAN' },
+        { key: '2', text: 'CHINESE', value: 'CHINESE' },
+        { key: '3', text: 'JAPANESE', value: 'JAPANESE' },
+        { key: '4', text: 'WESTERN', value: 'WESTERN' },
+    ]
     return (
         <div>
             <Container text style={{ width: '40%' }} className="slide-from-right">
@@ -94,7 +100,7 @@ function Store() {
                                                 setUserAddress(e.address_name)
                                                 setLatitude(e.x);
                                                 setLongitude(e.y);
-                                                console.log(e.x,e.y);
+                                                console.log(e.x, e.y);
                                             }}>{e.address_name}</Segment>
                                         )
                                     })}
@@ -114,6 +120,13 @@ function Store() {
                             placeholder='입력'
                         >
                         </Form.Input>
+                        <Form.Select
+                            id='storeCategory'
+                            fluid
+                            label='가게 분류'
+                            options={options}
+                            placeholder='선택'
+                        />
                         <Form.Input
                             id='phoneNumber'
                             fluid
@@ -122,29 +135,29 @@ function Store() {
                         >
                         </Form.Input>
                         <Form.Input>
-                        <img
-                            src={imgFile ? imgFile :null}
-                            // alt="프로필 이미지"
-                            style={{width:'100%',height:'300px',marginTop:'10px', borderRadius:'10px'}}
+                            <img
+                                src={imgFile ? imgFile : null}
+                                // alt="프로필 이미지"
+                                style={{ width: '100%', height: '300px', marginTop: '10px', borderRadius: '10px' }}
                             />
-                        <form encType="multipart/form-data">
-                            <input style={{display:"none"}}
-                            className="signup-profileImg-input"
-                            type="file"
-                            accept="image/*"
-                            id="profileImg"
-                            onChange={saveImgFile}
-                            
-                            ref={imgRef}
-                            />
+                            <form encType="multipart/form-data">
+                                <input style={{ display: "none" }}
+                                    className="signup-profileImg-input"
+                                    type="file"
+                                    accept="image/*"
+                                    id="profileImg"
+                                    onChange={saveImgFile}
+
+                                    ref={imgRef}
+                                />
                             </form>
                         </Form.Input>
-                        <label 
-                            className="signup-profileImg-label" 
+                        <label
+                            className="signup-profileImg-label"
                             htmlFor="profileImg"
-                            >이미지 추가
-                            </label>
-                        
+                        >이미지 추가
+                        </label>
+
                     </Form.Field>
                     <Form.Field>
                         <Checkbox label='I agree to the Terms and Conditions' />
@@ -157,6 +170,7 @@ function Store() {
                         const opentime = document.querySelector('#opentime').value;
                         const closetime = document.querySelector('#closetime').value;
                         const phoneNumber = document.querySelector('#phoneNumber').value;
+                        const storeCategory = document.querySelector('#storeCategory').innerText;
                         const storeInfo = {
                             name: name,
                             latitude: latitude,
@@ -167,9 +181,10 @@ function Store() {
                             canReservation: true,
                             operatingTime: `${opentime} - ${closetime}`,
                             profilePhoto: imgRef.current.files[0],
+                            storeCategory: storeCategory,
                         }
                         console.log(storeInfo);
-                        saveStores(storeInfo).then(()=>{navigate('/main')})                    
+                        saveStores(storeInfo).then(() => { navigate('/main') })
                     }}>등록하기</Button>
                 </Form>
             </Container>

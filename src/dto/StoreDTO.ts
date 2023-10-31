@@ -19,7 +19,8 @@ export type StoreSaveDTO = {
     phoneNumber:any,
     canReservation:any,
     operatingTime : any,
-    profilePhoto:any
+    profilePhoto:any,
+    storeCategory:any,
 }
 
 export type StoreOpenDTO = {

@@ -15,18 +15,13 @@ import Kiosk from './views/kiosk';
 import WildCardPage from './views/wildCardPage';
 import TableGroup from './components/homeComponent/tableGroup';
 import { EventSource ,EventSourcePolyfill } from 'event-source-polyfill';
+import TableSetting from './views/tableSetting';
+import { getStores } from './controllers/StoreController';
+import { getTables } from './controllers/TableController';
+
 
 function App() {
-  // const localItem = localStorage.getItem('hknuToken');
-  //     let access_token;
-  //     if(localItem){
-  //         access_token = JSON.parse(localItem);
-  //     }
-  //     const EventSource = EventSourcePolyfill;
-  //     const source = new EventSource('/notifications/subscribe',{headers:{'access_token':access_token},heartbeatTimeout:86400000})
-  //     source.addEventListener('SERVER_CONNECT',(e)=>{
-  //         console.log(e);
-  //     })
+  
   return (
     <>
       <Routes>
@@ -37,19 +32,15 @@ function App() {
         <Route path='*' element={<div><WildCardPage/></div>} />
         <Route path='/home' element={<Home></Home>} />
         <Route path='/tables' element={<TableGroup></TableGroup>}/>
+        <Route path='/tableSetting' element={<TableSetting></TableSetting>}/>
       
         {/* table order or experimental services */}
 
-        {/* <Route path='/test' element={<UserOrder option={1}></UserOrder>} /> */}
-        {/* <Route path='/voice' element={<Dictaphone></Dictaphone>} />
-        <Route path='/kiosk' element={<Kiosk></Kiosk>} />
-
-        {table != 0 ? table.map((e, i) => {
-          return (
-            <Route path={`/home/order/${e.privateKey}`} element={<Loading option={i}></Loading>} />
-          )
-        }) : null}
-        <Route path={`/home/order/${localStorage.getItem('secretNumber1')}`} element={<UserOrder option={1}></UserOrder>} /> */}
+         {/* <Route path='/voice' element={<Dictaphone></Dictaphone>} /> */}
+        {/* <Route path='/kiosk' element={<Kiosk></Kiosk>} /> */}
+      
+        <Route path={"/home/order/:param1/:param2"} element={<UserOrder></UserOrder>} />
+          
       </Routes>
     </>
   );

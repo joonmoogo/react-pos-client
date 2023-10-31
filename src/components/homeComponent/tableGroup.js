@@ -9,58 +9,59 @@ import { getUser } from '../../controllers/UserController.ts';
 import { getStores } from '../../controllers/StoreController.ts';
 import { deleteOrderDetail, getOrderDetail, saveOrderDetail } from '../../controllers/OrderDetailController.ts'
 // import {subscribe} from '../../controllers/notificationController.ts'
-import { EventSourcePolyfill,EventSource } from "event-source-polyfill";
+import { EventSourcePolyfill, EventSource } from "event-source-polyfill";
 import '../../styles/animation.css'
-import {sseNotify} from '../../controllers/notificationController.ts'
+import { sseNotify } from '../../controllers/notificationController.ts'
 export default function TableGroup(props) { // 기본
     function formatCurrency(amount) {
         return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      }
+    }
 
     useEffect(() => {
         getMenus().then((data) => {
-          setMenuList(data.data);
-          localStorage.setItem('menu', JSON.stringify(data?.data));
-          console.log(data?.data)
+            setMenuList(data.data);
+            localStorage.setItem('menu', JSON.stringify(data?.data));
+            console.log(data?.data)
         });
-      
+
         getUser().then((data) => {
-          console.log(data);
-          setAccountId(data.id);
-        });
-      
-        getOrder().then((data) => {
-          const orders = data.data;
-          const filtered = orders.filter((e)=>e.orderCode == 'ORDER' ); 
-          setOrderList(filtered)
-          
-          getTables().then((data) => {
             console.log(data);
-            const tabledata = data?.data;
-            console.log(tabledata);
-            setTable(tabledata);
-      
-            const hol = document.querySelector('#hol');
-            if (hol) {
-              hol.classList.add('fade-in');
-            }
-          });
+            setAccountId(data.id);
         });
 
-      }, []);
+        getOrder().then((data) => {
+            const orders = data.data;
+            const filtered = orders.filter((e) => e.orderCode == 'ORDER');
+            setOrderList(filtered)
 
-    function findMenuById(){
+            getTables().then((data) => {
+                console.log(data);
+                const tabledata = data?.data;
+                console.log(tabledata);
+                setTable(tabledata);
+
+                const hol = document.querySelector('#hol');
+                if (hol) {
+                    hol.classList.add('fade-in');
+                }
+            });
+        });
+
+    }, []);
+
+    function findMenuById() {
         console.log(menuList);
     }
-    
 
-    const [accountId,setAccountId] = useState();
-    const [orderList,setOrderList] = useState([]);
+
+    const [accountId, setAccountId] = useState();
+    const [orderList, setOrderList] = useState([]);
     let [table, setTable] = useState([]);
-    
+    const [privateKey,setPrivateKey] = useState();
+
     let [clickedTable, setClickedTable] = useState();
     let [orderNumber, setOrderNumber] = useState();
-    let [orderDetail,setOrderDetail] = useState([]);
+    let [orderDetail, setOrderDetail] = useState([]);
     const localMenu = JSON.parse(localStorage.getItem('menu'));
     const initialMenuList = localMenu ? localMenu : []
     let [menuList, setMenuList] = useState(initialMenuList);
@@ -101,6 +102,18 @@ export default function TableGroup(props) { // 기본
     // let a = useSelector((state)=>{return state});
     let [tableColor, setTableColor] = useState();
 
+    function findOrderer(id) {
+        const localItem = JSON.parse(localStorage.getItem(id));
+        if (localItem) {
+            const orderer = localItem.find(e => e.tableId === id);
+            if (orderer) {
+                return orderer.orderer;
+            } else {
+                return null; // 또는 다른 기본 값 반환
+            }
+        }
+
+    }
 
 
     function getTotal() {
@@ -120,49 +133,53 @@ export default function TableGroup(props) { // 기본
                         {table.map((e, i) => {
                             return (
                                 <Card
-                                    color="green"
+                                    key={i}
+                                    color={"green"}
                                     // style={{backgroundColor:'teal'}} 
-                                    style={{ 
+                                    style={{
                                         width: `${e.width ? e.width : '90px'}`,
                                         height: `${e.height ? e.height : '80px'}`,
                                         top: `${e.coordY}px`,
                                         left: `${e.coordX}px`,
                                         overflow: 'hidden',
                                         position: 'absolute',
-                                     }} // 이거 수정하셈 테이블세팅 
+                                        // border:findOrderer(e.id)?"1px solid black":null,
+                                    }} // 이거 수정하셈 테이블세팅 
                                     onClick={() => {
                                         // findMenuById();
+                                        
                                         const items = JSON.parse(localStorage.getItem(e.id));
-                                         setClickedTable(`${e.id}`);
+                                        setClickedTable(`${e.id}`);
+                                        setPrivateKey(e.privateKey);
                                         if (items) {
                                             setTemporaryOrder(items);
                                         }
                                         console.log(`tableId = ${e?.id}`);
                                         const foundOrder = orderList.find((order) => {
-                                            return order.tableId === e.id && order.orderCode === 'ORDER' ;
-                                          });
-                                          
-                                          const orderNum = foundOrder ? foundOrder.id : null;
-                                          console.log(orderNum);
+                                            return order.tableId === e.id && order.orderCode === 'ORDER';
+                                        });
+
+                                        const orderNum = foundOrder ? foundOrder.id : null;
+                                        console.log(orderNum);
                                         setOrderNumber(orderNum);
                                         console.log(`orderId = ${orderNum}`);
-                                        if(orderNum != null){
-                                            getOrderDetail(orderNum).then((data)=>{
+                                        if (orderNum != null) {
+                                            getOrderDetail(orderNum).then((data) => {
                                                 setOrderDetail(data?.data);
                                                 console.log(data?.data);
                                             })
-                                        }                        
+                                        }
                                     }}>
-                                    <Card.Content >
-                                        <Card.Header content={`${e.id} T`} />
-                                        <Card.Meta content={`${e.name}`}/>
-                                        
-                                        
+                                    <Card.Content style={{}}>
+                                        <Card.Header content={findOrderer(e.id) ? `${e.privateKey} T😀` : `${e.privateKey} T`} />
+                                        <Card.Meta style={{ color: findOrderer(e.id) ? "green" : null }} content={findOrderer(e.id) ? `${findOrderer(e.id)}` : `${e.name}`} />
+
+
                                         {localStorage.getItem(e.id) == null
                                             ? <Card.Description content='' />
-                                            : JSON.parse(localStorage.getItem(e.id)).map((e) => {
+                                            : JSON.parse(localStorage.getItem(e.id)).map((e, i) => {
                                                 return (
-                                                    <Card.Description style={{ color: 'teal' }} content={`${e?.name} ${e?.count}`} />
+                                                    <Card.Description key={i} style={{ color: 'teal' }} content={`${e?.name} ${e?.count}`} />
                                                 )
                                             })}
 
@@ -173,15 +190,15 @@ export default function TableGroup(props) { // 기본
 
                             )
                         })}
-                       
+
                     </Card.Group>
                 </>
-                : 
-                
+                :
+
                 <Grid columns='equal' relaxed className="fade-in">
                     <Grid.Row>
                         <Grid.Column>
-                            <Segment><Header as='h2'>{`${clickedTable}번 테이블`}</Header></Segment>
+                            <Segment><Header as='h2'>{`${privateKey}번 테이블`}</Header></Segment>
                             <Segment className="no-scroll" style={{ overflow: 'scroll', height: '360px' }}>
                                 <Table fixed singleLine selectable >
                                     <Table.Header>
@@ -194,11 +211,11 @@ export default function TableGroup(props) { // 기본
                                         </Table.Row>
                                     </Table.Header>
                                     <Table.Body >
-                                       
+
                                         {/* POS 주문 리스트 */}
-                                        {temporaryOrder.map((e) => { // state의 내용만 출력
+                                        {temporaryOrder.map((e, i) => { // state의 내용만 출력
                                             return (
-                                                <TableRow className="slide-from-right" onClick={() => {
+                                                <TableRow key={i} className="slide-from-right" onClick={() => {
                                                     console.log(`${e.product} was clicked`);
                                                 }}>
                                                     <Table.Cell>{e.name}</Table.Cell>
@@ -249,8 +266,9 @@ export default function TableGroup(props) { // 기본
                                                     console.log(clickedTable);
                                                     e.tableId = selectedTable.id;
                                                     e.time = new Date().getTime();
-                                                    e.count = e.count?e.count+1:1
-                                                 
+                                                    e.count = e.count ? e.count + 1 : 1;
+                                                    e.privateKey = privateKey;
+
                                                     if (e.count == 1) { temporaryOrder.push(e); }
                                                     setTemporaryOrder([...temporaryOrder]);
                                                     console.log(temporaryOrder)
@@ -258,7 +276,7 @@ export default function TableGroup(props) { // 기본
                                                 }}>
                                                     <Card.Content>
                                                         <Card.Header content={e.name}></Card.Header>
-                                                        <Card.Meta content={formatCurrency(e.price)+'원'}></Card.Meta>
+                                                        <Card.Meta content={formatCurrency(e.price) + '원'}></Card.Meta>
                                                     </Card.Content>
                                                 </Card>
                                             )
@@ -274,98 +292,97 @@ export default function TableGroup(props) { // 기본
                                     const orderFactory = new OrderFactory(clickedTable);
                                     orderFactory.getOrder(temporaryOrder).setLocalStorage();
                                     orderFactory.getKitchenOrder(temporaryOrder).setLocalStorage();
-                                    console.log(clickedTable);
                                     saveOrder({
-                                        accountId : accountId,
-                                        tableId : clickedTable,
+                                        accountId: accountId,
+                                        tableId: clickedTable,
                                         // orderTime? : string,
                                         // paymentTime? : string,
                                         // reservationTime? : string,
-                                        orderCode : 'ORDER',
+                                        orderCode: 'ORDER',
                                         // reservationDenyDetail? : string,
-                                    }).then((data)=>{
-                                        getOrder().then((data)=>{
-                                        
-                                           const orderArray = data.data;
-                                           console.log(orderArray);
-                                           
-                                           console.log('hio');
-                                           setOrderList(orderArray);
-                                           const order = orderArray.find((e)=>{
-                                            return(
-                                                e.tableId == clickedTable && e.orderCode == 'ORDER'
-                                            )
-                                           })
-                                           console.log(order);
-                                           temporaryOrder.forEach((e)=>{
-                                            saveOrderDetail({
-                                                orderId: parseInt(order?.id), 
-                                                menuId: parseInt(e?.id),
-                                                amount: parseInt(e?.count),
+                                    }).then((data) => {
+                                        getOrder().then((data) => {
+
+                                            const orderArray = data.data;
+                                            console.log(orderArray);
+
+                                            console.log('hio');
+                                            setOrderList(orderArray);
+                                            const order = orderArray.find((e) => {
+                                                return (
+                                                    e.tableId == clickedTable && e.orderCode == 'ORDER'
+                                                )
                                             })
-                                            console.log(order?.id,e?.id,e?.count);
-                                            
+                                            console.log(order);
+                                            temporaryOrder.forEach((e) => {
+                                                saveOrderDetail({
+                                                    orderId: parseInt(order?.id),
+                                                    menuId: parseInt(e?.id),
+                                                    amount: parseInt(e?.count),
+                                                })
+                                                console.log(order?.id, e?.id, e?.count);
+
+                                            })
                                         })
-                                        })
-                                        
-                                    }).catch((error)=>{
+
+                                    }).catch((error) => {
                                         console.log(error);
                                     })
                                     console.log(temporaryOrder);
-                                    
+
                                     alert('주문');
                                     setClickedTable();
                                     setTemporaryOrder([]);
                                     clearMenuCount();
                                     setOrderNumber();
-                                    
+
                                 }}>주문</Button>
 
                                 <Button primary onClick={() => {
 
                                     editOrder({
-                                        id : orderNumber,
-                                        tableId : clickedTable,
+                                        id: orderNumber,
+                                        tableId: clickedTable,
                                         // orderTime? : string,
                                         // paymentTime? : string,
                                         // reservationTime? : string,
-                                        orderCode : 'PAYMENT'
-                                    }).then((data)=>{
+                                        orderCode: 'PAYMENT'
+                                    }).then((data) => {
                                         console.log(data);
                                         alert('결제')
-                                    console.log(JSON.parse(localStorage.getItem(selectedTable.id)));
-                                    const date = new Date();
-                                    console.log(date)
-                                    console.log('서버에 결제요청');
-                                    const orderFactory = new OrderFactory(clickedTable);
-                                    orderFactory.getReceipt(temporaryOrder).setLocalStorage();
-                                    setTemporaryOrder([]);
-                                    setOrderNumber();
-                                    setClickedTable();
-                                    clearMenuCount();
-                                    localStorage.removeItem(clickedTable.toString())
-                                    const filter = orderList.filter((e)=> e.id !== orderNumber );
-                                    setOrderList(filter);
-                                    console.log(orderList);
+                                        console.log(JSON.parse(localStorage.getItem(selectedTable.id)));
+                                        const date = new Date();
+                                        console.log(date)
+                                        console.log('서버에 결제요청');
+                                        const orderFactory = new OrderFactory(clickedTable);
+                                        orderFactory.getReceipt(temporaryOrder).setLocalStorage();
+                                        setTemporaryOrder([]);
+                                        setOrderNumber();
+                                        setClickedTable();
+                                        clearMenuCount();
+                                        localStorage.removeItem(clickedTable.toString())
+                                        const filter = orderList.filter((e) => e.id !== orderNumber);
+                                        setOrderList(filter);
+                                        console.log(orderList);
                                     })
 
                                 }}>결제</Button>
 
                                 <Button secondary onClick={() => {
 
-                                    deleteOrder(orderDetail[0]?.orderId).then((data)=>{
+                                    deleteOrder(orderDetail[0]?.orderId).then((data) => {
                                         console.log(data);
-                                    }).then(()=>{
-                                        orderDetail.forEach((e)=>{
-                                            deleteOrderDetail(e?.id).then((data)=>{
+                                    }).then(() => {
+                                        orderDetail.forEach((e) => {
+                                            deleteOrderDetail(e?.id).then((data) => {
                                                 console.log(data);
                                             })
-                                        })                                        
+                                        })
                                     })
-                                    const filter = orderList.filter((e)=> e.id !== orderNumber );
+                                    const filter = orderList.filter((e) => e.id !== orderNumber);
                                     setOrderList(filter);
                                     console.log(orderList);
-                                    
+
                                     alert('주문취소');
                                     setClickedTable();
                                     setTemporaryOrder([]);
@@ -373,12 +390,9 @@ export default function TableGroup(props) { // 기본
                                     localStorage.removeItem(clickedTable.toString());
                                     localStorage.removeItem(`kitchen${clickedTable}`.toString());
 
-                                    
+
                                 }}>주문취소</Button>
                             </Segment>
-
-
-
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>}

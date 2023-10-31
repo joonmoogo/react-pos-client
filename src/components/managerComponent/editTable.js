@@ -6,11 +6,7 @@ import { getTables, saveTable } from '../../controllers/TableController.ts'
 
 export default function EditTable() {
 
-    useEffect(()=>{
-        getTables().then((data)=>{
-            console.log(data.data)
-        })
-    },[])
+
 
     const nodeRef = useRef(null);
     const [table, setTable] = useState([]);

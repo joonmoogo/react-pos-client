@@ -52,6 +52,7 @@ export const getStores = async () : Promise<any> => {
     formData.append('canReservation',data.canReservation);
     // formData.append('operatingDays',data.operatingTime);
     formData.append('profilePhoto',data.profilePhoto);
+    formData.append('storeCategory',data.storeCategory);
     
     try {
       const localItem = localStorage.getItem('hknuToken');
@@ -70,6 +71,7 @@ export const getStores = async () : Promise<any> => {
     } catch (error : any) {
       
       console.error('POST 요청 에러:', error.request.responseText);
+      console.error(error);
     }
   };
 

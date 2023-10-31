@@ -11,32 +11,34 @@ export default function OrderList() { //주방탭
 
     return (
         <>
-        <Header as='h5' block >주방임</Header>
-        <Segment className="fade-in no-scroll" style={{height:450, overflow:'scroll'}}>    
-            {kitchenOrder.map((e, i) => {
-                return (
-                    <List divided relaxed size="large" key={i}>
-                        <Segment>
-                            <Header as='h2' icon='food' content={e + '번 주문서'} />
-                            <Button onClick={() => {
-                                localStorage.removeItem(e);
-                                setSt(kitchenOrder.splice(e, 1));
-                            }} floated="right">✔</Button>
-                            {JSON.parse(localStorage.getItem(e)).map((e) => {
-                                return (
-                                    <List.Item>
-                                        <List.Content>
-                                            <List.Header as='a'>{e.name}</List.Header>
-                                            <List.Description as='a'>{e.count}개  {Number.parseInt((new Date() - e.time) / 1000 / 60)}분 전 주문</List.Description>
-                                        </List.Content>
-                                    </List.Item>
-                                )
-                            })}
-                        </Segment>
-                    </List>
-                )
-            })}
-        </Segment>
+            <Segment className="fade-in no-scroll" style={{ height: 450, overflow: 'scroll' }}>
+                {kitchenOrder.map((e, i) => {
+                    return (
+                        <List divided relaxed size="large" key={i}>
+                            <Segment>
+
+                                {JSON.parse(localStorage.getItem(e)).map((e, i) => {
+                                    return (
+                                        <>
+                                            <Header as='h2' icon='food' content={e.privateKey?e.privateKey + '번 테이블 주문서':e?.orderer +'님 예약 주문서'} />
+                                            <Button onClick={() => {
+                                                localStorage.removeItem(e);
+                                                setSt(kitchenOrder.splice(e, 1));
+                                            }} floated="right">✔️</Button>
+                                            <List.Item key={i}>
+                                                <List.Content>
+                                                    <List.Header as='a'>{e.name}</List.Header>
+                                                    <List.Description as='a'>{e.count}개  {Number.parseInt((new Date() - e.time) / 1000 / 60)}분 전 주문</List.Description>
+                                                </List.Content>
+                                            </List.Item>
+                                        </>
+                                    )
+                                })}
+                            </Segment>
+                        </List>
+                    )
+                })}
+            </Segment>
         </>
     )
 }
