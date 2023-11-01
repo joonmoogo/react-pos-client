@@ -4,32 +4,6 @@ import socket from "../modules/socket-client"
 import { Notify, Report } from "notiflix";
 import axios from 'axios';
 
-const API_KEY = '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';
-
-
-// axios({
-//   method: 'post',
-//   url: 'https://api.openai.com/v1/completions',
-//   headers: {
-//     'Content-Type': 'application/json',
-//     'Authorization': `Bearer ${API_KEY}`
-//   },
-//   data: {
-//     prompt:`다음은 사용자에게 받은 음성 메세지를 텍스트로 번역한 문장이다.\n 자장면 하나 짬뽕 하나요 \n 이를 다음과 같이 변환하라. [{menu1:" "count1:" "},{menu2:" "count2:" "}...]`,
-//     max_tokens: 50,
-//     temperature: 0.7,
-//     model: "text-davinci-003",
-//   }
-// })
-//   .then(response => {
-//     console.log(response.data.choices[0].text);
-//   })
-//   .catch(error => {
-//     console.error(error);
-//   });
-
-
-
 let tableSetting = localStorage.getItem('tableSetting') ? JSON.parse(localStorage.getItem('tableSetting')) : [
   { tableNumber: 1, tableName: 'red' },
   { tableNumber: 2, tableName: 'yellow' },
@@ -50,7 +24,7 @@ let tableSetting = localStorage.getItem('tableSetting') ? JSON.parse(localStorag
 
 
 
-function Kiosk(props) {
+function Kiosk(props) { // experimental 키오스크 컴포넌트
   const [transcript, setTranscript] = useState('');
 
   const panes = [

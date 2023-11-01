@@ -16,7 +16,7 @@ function SignUp() {
         </>
     )
 }
-function SignUpForm({ nextMenu }) {
+function SignUpForm({ nextMenu }) { // 회원가입을 나타낸다.
 
     const navigate = useNavigate();
 

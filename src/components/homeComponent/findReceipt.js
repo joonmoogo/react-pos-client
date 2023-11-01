@@ -5,12 +5,13 @@ import ReceiptUtil from '../../utils/ReceiptUtil.ts';
 
 
 
-export default function FindReceipe() { //영수증조회탭 서버에서 불러온 데이터로 구성될 예정
+export default function FindReceipe() { // 영수증 조회탭
     const company = JSON.parse(localStorage.getItem('company'));
     const initialCompany = company ? company : '';
     let [data, setData] = useState(ReceiptUtil.getFilteredData());
     let [viewData, setViewData] = useState();
     let viewdatasmenu = viewData? (JSON.parse(localStorage.getItem(viewData))) : null;
+    
     function getTotal(){
       let sum = 0;
       viewdatasmenu&&viewdatasmenu.map((e,i)=>{

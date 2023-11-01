@@ -1,6 +1,6 @@
-import { React, useEffect,useState } from "react";
+import { React, useEffect,useRef,useState } from "react";
 import { TextArea, Checkbox, Button, Form } from "semantic-ui-react";
-import { getStores, saveStores } from "../../controllers/StoreController.ts";
+import { editStores, getStores, saveStores } from "../../controllers/StoreController.ts";
 
 export default function EditMarketInfo() {
 
@@ -13,6 +13,7 @@ export default function EditMarketInfo() {
                     userData = obj;
                 }
             })
+            setInfo(userData);
             setCompany(userData.name);
             setCompanyIntroduce(userData.info);
             setAddress(userData.address);
@@ -22,7 +23,18 @@ export default function EditMarketInfo() {
             console.error(error);
         })
     },[])
-
+    const imgRef = useRef();
+    const [imgFile, setImgFile] = useState("");
+    // 이미지 업로드 input의 onChange
+    const saveImgFile = () => {
+        const file = imgRef.current.files[0];
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+            setImgFile(reader.result);
+        };
+    };
+    const [info,setInfo] = useState();
     const [company,setCompany] = useState();
     const [openingTime,setOpeningTime] = useState();
     const [closingTime,setClosingTime] = useState();
@@ -67,19 +79,46 @@ export default function EditMarketInfo() {
                 <Form.Field>
                     <Checkbox label='I agree to the Terms and Conditions' />
                 </Form.Field>
+                <Form.Input>
+                            <img
+                                src={imgFile ? imgFile : null}
+                                // alt="프로필 이미지"
+                                style={{ width: '100%', height: '300px', marginTop: '10px', borderRadius: '10px' }}
+                            />
+                            <form encType="multipart/form-data">
+                                <input style={{ display: "none" }}
+                                    className="signup-profileImg-input"
+                                    type="file"
+                                    accept="image/*"
+                                    id="profileImg"
+                                    onChange={saveImgFile}
+
+                                    ref={imgRef}
+                                />
+                            </form>
+                        </Form.Input>
+                        <label
+                            className="signup-profileImg-label"
+                            htmlFor="profileImg"
+                        >이미지 추가
+                        </label>
                 <Form reply >
                     <label>가게 소개</label>
                     <TextArea id='companyIntroduce' value={companyIntroduce} onChange={(event)=>{
                         setCompanyIntroduce(event.target.value);
                     }}/>
-                    <Button content='Add Reply' labelPosition='left' icon='edit' primary onClick={() => {
-                        // saveStores({
-                        //     name:company,
-                        //     operatingTime:`${openingTime}-${closingTime}`,
-                        //     address:address,
-                        //     info:companyIntroduce
-                        // })
-                        
+                    <Button content='변경' labelPosition='left' icon='edit' primary onClick={() => {
+                        editStores({
+                            name:company,
+                            latitude:info?.latitude,
+                            longitude:info?.longitude,
+                            address:address,
+                            info:info,
+                            phoneNumber:info?.phoneNumber,
+                            profilePhoto:imgRef.current.files[0],
+                            operatingTime:null,
+                            storeCategory:info?.storeCategory,
+                        })
                     }} />
                 </Form>
             </Form>

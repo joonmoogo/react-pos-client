@@ -7,7 +7,7 @@ import { getOrderDetail } from "../../controllers/OrderDetailController.ts";
 import { getMenuById } from "../../controllers/menuController.ts";
 import Draggable from "react-draggable";
 import toast from "react-hot-toast";
-export default function InfoButton() {
+export default function InfoButton() { // 홀 화면에서 나타나는 info버튼, 알림을 나타낸다.
     let userArray = [];
     const [reservationUser, setReservationUser] = useState([]);
     const [reservation, setReservation] = useState([]);

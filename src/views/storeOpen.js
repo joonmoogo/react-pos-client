@@ -9,7 +9,7 @@ function StoreOpen() {
   const [selectedStore, setSelectedStore] = useState(null);
   const [toggleAdd,setToggleAdd] = useState(false);
 
-  useEffect(() => {
+  useEffect(() => { // 서버에 데이터 요청을 위한 useEffect 훅
     getStores().then((data) => {
       console.log(data.data);
       setStoreList(data.data);

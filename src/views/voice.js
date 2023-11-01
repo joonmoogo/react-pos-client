@@ -2,11 +2,10 @@ import { React, useEffect } from 'react';
 // import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { Icon } from "semantic-ui-react";
 import axios from 'axios';
-const API_KEY = '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';
+const API_KEY = 'sk-77l0asdvlknasdlfkmas,ldkn';
 const text = document.querySelector('#text');
 
-function Dictaphone() {
-
+function Dictaphone() { // chatGPT api를 기반으로 STT와 TTS를 활용하여 음성만으로 POS시스템에 데이터를 삽입하는 실험적 페이지
   // let [text, setText] = useState('hi');
   console.log(text);
   // let textArr = [text];

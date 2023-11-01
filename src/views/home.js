@@ -7,7 +7,7 @@ import ReservationList from "../components/homeComponent/reservationList";
 import OrderList from "../components/homeComponent/orderList";
 import Manager from "../components/homeComponent/manager";
 import FindReceipe from "../components/homeComponent/findReceipt";
-import { getStores } from "../controllers/StoreController.ts";
+import { getStore, getStores } from "../controllers/StoreController.ts";
 import Modal from "../components/homeComponent/modalComponent/modal";
 import { getReservations, getReservationsList } from "../controllers/ReservationController";
 import { EventSourcePolyfill } from "event-source-polyfill";
@@ -16,9 +16,15 @@ import TableSetting from "./tableSetting";
 import socket from "../modules/socket-client";
 
 function Home() {
-  const userInfo = JSON.stringify(localStorage.getItem('tableSetting'));
-  useEffect(() => {
 
+  useEffect(() => {  // 서버에 데이터 요청을 위한 useEffect 훅
+    getStore().then((data) => {
+      setStoreInfo(data.data);
+      const stores = data.data;
+      const localStoreId = JSON.parse(localStorage.getItem('storeId'));
+      const findedStore = stores.find((e) => e.id === localStoreId);
+      setStoreInfo(findedStore);
+    })
     const fetchData = async () => {
       try {
         const data = await getReservations();
@@ -33,14 +39,14 @@ function Home() {
         });
 
         setCount(newCount);
-        setLabelOption([0, newCount, 0, 0, 0, 0]);
+        setLabelOption([0, newCount, 0, 0, 0, 0]); // 대기 예약 개수를 카운트
         console.log(newCount);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
-
     fetchData();
+
     const localItem = localStorage.getItem('hknuToken');
     let access_token;
     if (localItem) {
@@ -53,6 +59,7 @@ function Home() {
       "access-control-allow-origin": "*",
     };
 
+    // 
     const eventSource = new EventSourcePolyfill('http://localhost:8080/notifications/subscribe', { headers: headers, heartbeatTimeout: 86400000 });
     console.log(eventSource);
 
@@ -61,27 +68,28 @@ function Home() {
       console.log(eventSource.CONNECTING);
     };
 
-    eventSource.addEventListener('SERVER_CONNECT', (e) => { 
-      console.log(e) });
+    eventSource.addEventListener('SERVER_CONNECT', (e) => {
+      console.log(e)
+    });
     eventSource.addEventListener('RESERVATION_INSERT', (e) => {
       console.log(e);
       toast(`hello 예약 신청 들어왔어요!`,
-          {
-            icon: '👏',
-            style: {
-              borderRadius: '100px',
-              scale:'1.3',
-              background: '#333',
-              color: '#fff',
-            },
-          }
-          
-        );
-        setLabelOption((prevLabelOption) => {
-          const updatedLabelOption = [...prevLabelOption];
-          updatedLabelOption[1] += 1;
-          return updatedLabelOption;
-        });
+        {
+          icon: '👏',
+          style: {
+            borderRadius: '100px',
+            scale: '1.3',
+            background: '#333',
+            color: '#fff',
+          },
+        }
+
+      );
+      setLabelOption((prevLabelOption) => {
+        const updatedLabelOption = [...prevLabelOption];
+        updatedLabelOption[1] += 1;
+        return updatedLabelOption;
+      });
 
     });
     eventSource.addEventListener('RESERVATION_UPDATE', (e) => { console.log(e) });
@@ -93,6 +101,7 @@ function Home() {
     };
   }, []);
   let navigate = useNavigate();
+  let [storeInfo, setStoreInfo] = useState();
   let [menu, setMenu] = useState('홀');
   let [tableGroup, setTableGroup] = useState(false);
   let [option, setOption] = useState(['홀', '예약', '대기', '영수증 조회', '주문 목록']);
@@ -101,7 +110,6 @@ function Home() {
   let [count, setCount] = useState(0);
 
 
-  // let contextRef = createRef();
   function handleModalNext() {
     console.log(count);
     setCount(count + 1);
@@ -123,6 +131,22 @@ function Home() {
 
   return (
     <Container style={{ marginTop: '50px' }} className="fade-in">
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'start',
+        marginBottom: '20px',
+        borderRadius:'50px'
+      }}>
+        {/* 로고 이미지 */}
+        <img src="/logo.png" alt="Company Logo" style={{ width: '120px', height: 'auto' }} />
+        {/* <p style={{ marginLeft: '120px', whiteSpace: 'nowrap',color:'teal', fontWeight:'bold' }}>{storeInfo?.name}</p>
+        <p style={{ marginLeft: '120px', whiteSpace: 'nowrap',color:'teal' ,fontWeight:'bold' }}>{storeInfo?.address}</p>
+        <p style={{ marginLeft: '120px', whiteSpace: 'nowrap',color:'teal' ,fontWeight:'bold' }}>{storeInfo?.phoneNumber}</p>
+        <p>  </p> */}
+      </div>
+
+
       {modal ? <Modal onModalNext={handleModalNext} onModalOpen={handleModalOpen} counter={count - 1} /> : null}
       <Grid>
         <Grid.Column width={4} >
@@ -132,7 +156,7 @@ function Home() {
                 return (
                   <Menu.Item
 
-                    style={{ marginTop: '30px' ,fontSize:'16px',}}
+                    style={{ marginTop: '30px', fontSize: '13px', }}
                     key={e}
                     onClick={() => { setMenu(e); }}
                     active={menu == e}

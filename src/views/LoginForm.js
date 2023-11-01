@@ -23,9 +23,7 @@ function LoginForm() {
     <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
       <Grid.Column style={{ maxWidth: 450 }}>
         <Header as='h1' color='teal' textAlign='center' className='bounce'>
-          <Image className='App' src='/logo.png' style={{ width: '170px' }} onClick={()=>{
-            send_message('01022202479');
-          }} />
+          <Image className='App' src='/logo.png' style={{ width: '170px' }}/>
         </Header>
         <Form size='large'>
           <Segment stacked>
@@ -35,6 +33,8 @@ function LoginForm() {
             <Button color='teal' fluid size='large' onClick={() => {
               const email = document.querySelector('#loginEmail');
               const password = document.querySelector('#loginPassword');
+
+              // 로그인 로직을 나타낸다.
               const userinfo = { email: email.value, password: password.value };
               authorize(userinfo).then((value) => {
                 console.log(value);
@@ -54,6 +54,7 @@ function LoginForm() {
           </Segment>
         </Form>
         <Message>
+          {/* 아이디 찾기와 비밀번호 찾기는 구현중이다. */}
           <Link to='/signUp'>아이디 찾기 | </Link>
           <Link to='/signUp'>비밀번호 찾기 | </Link>
           <Link to='/signUp'>회원가입 | </Link>

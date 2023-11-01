@@ -114,6 +114,23 @@ export default function TableGroup(props) { // 기본
         }
 
     }
+    function nameToColor(name){
+        if(name==='기본 2인석'){
+            return "teal"
+        }
+        else if(name==='기본 4인석'){
+            return "green"
+        }
+        else if(name==='단체 6인석'){
+            return "purple"
+        }
+        else if(name==='단체 8인석'){
+            return "blue"
+        }
+        else{
+            return "red"
+        }
+    }
 
 
     function getTotal() {
@@ -134,7 +151,7 @@ export default function TableGroup(props) { // 기본
                             return (
                                 <Card
                                     key={i}
-                                    color={"green"}
+                                    color={nameToColor(e?.name)}
                                     // style={{backgroundColor:'teal'}} 
                                     style={{
                                         width: `${e.width ? e.width : '90px'}`,

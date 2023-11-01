@@ -16,12 +16,10 @@ export type UserSaveDTO = {
 }
 
 export type UserEditDTO = {
-    email : string,
     nickname : string,
     phoneNumber : string,
-    wishList : string,
-    couponList : string,
-    paymentCard : string,
+    paymentCard:any,
+    profilePhoto:any,
 }
 
 export type UserLoginDTO = {

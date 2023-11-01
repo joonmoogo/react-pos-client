@@ -23,6 +23,19 @@ export type StoreSaveDTO = {
     storeCategory:any,
 }
 
+export type StoreEditDTO={
+    name : any,
+    latitude:any,
+    longitude:any,
+    address : any,
+    info : any,
+    phoneNumber:any,
+    canReservation:any,
+    operatingTime : any,
+    profilePhoto:any,
+    storeCategory:any,
+}
+
 export type StoreOpenDTO = {
     id: number,
     isOpen : boolean,

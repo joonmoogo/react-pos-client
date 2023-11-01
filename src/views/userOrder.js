@@ -4,15 +4,12 @@ import socket from "../modules/socket-client"
 import { Notify, Report } from "notiflix";
 import { useParams } from "react-router-dom";
 
-function UserOrder() {
-  const {param1,param2} = useParams();
-  useEffect()
+function UserOrder(storeItem) { // 테이블 오더를 나타내기 위한 화면
 
 
   return (
     <>
-    <h1>{param1}</h1>
-    <h2>{param2}</h2>
+      im userOrder
     </>
     // <>
     //   <Header as='h3' icon='food' content={`${props.option}번 테이블`} />

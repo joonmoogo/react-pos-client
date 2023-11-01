@@ -116,7 +116,7 @@ export default function ReservationList() { // 예약탭 서버에서 불러온 
             <Grid columns='equal' relaxed>
                 <Grid.Row>
                     <Grid.Column >
-                        <Segment>
+                        <Segment className="no-scroll" style={{ overflow: 'scroll', height: '470px' }}>
                             <Table fixed singleLine selectable>
                                 <Table.Body >
                                     <Table.Row>
@@ -144,6 +144,8 @@ export default function ReservationList() { // 예약탭 서버에서 불러온 
                                     </Table.Row>
                                 </Table.Body>
                             </Table>
+                            
+                            
                         </Segment>
                     </Grid.Column>
                     <Grid.Column>

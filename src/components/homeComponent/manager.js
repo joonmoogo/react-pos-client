@@ -11,7 +11,7 @@ import ReviewComment from "../managerComponent/reviewComment";
 import EditPreferences from "../managerComponent/editPreferences";
 import SystemInfo from "../managerComponent/systemInfo";
 
-export default function Manager() {
+export default function Manager() { 
     let [state, setState] = useState([])
     let [option, setOption] = useState();
     let navigate = useNavigate();

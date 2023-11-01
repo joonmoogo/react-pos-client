@@ -1,5 +1,5 @@
-import { io } from 'socket.io-client';
-var socket = io('http://localhost:8090/');
+// import { io } from 'socket.io-client';
+// var socket = io('http://localhost:8090/');
 
 
-export default socket;
+// export default socket;

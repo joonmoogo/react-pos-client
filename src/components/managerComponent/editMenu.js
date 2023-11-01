@@ -14,13 +14,13 @@ export default function EditMenu() {
     const localMenu = JSON.parse(localStorage.getItem('menu'));
     const initialMenues = localMenu ? localMenu : [];
     const [menues, setMenues] = useState(initialMenues);
-    const [imgFile, setImgFile] = useState("");
-    const imgRef = useRef();
     const [name, setName] = useState()
     const [category, setCategory] = useState();
     const [price, setPrice] = useState();
     const [detail, setDetail] = useState();
-
+    
+    const [imgFile, setImgFile] = useState("");
+    const imgRef = useRef();
    
 
     // 이미지 업로드 input의 onChange

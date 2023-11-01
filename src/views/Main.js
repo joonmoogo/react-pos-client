@@ -11,7 +11,7 @@ function Main() {
   const [storeId, setStoreId] = useState();
   const [ifNoStore, setIfNoStore] = useState();
 
-  useEffect(() => {
+  useEffect(() => {  // 서버에 데이터 요청을 위한 useEffect 훅 
     getStores().then((response) => {
       console.log(response);
       console.log(response.data);
@@ -25,6 +25,7 @@ function Main() {
 
   return (
     <>
+    {/* 계정에 Store가 있다면 생성하는 화면을, 그렇지 않다면 가게 개점 화면을 출력한다. */}
       {ifNoStore ? <Store></Store> : <StoreOpen></StoreOpen>}
     </>
   )

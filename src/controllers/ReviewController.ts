@@ -1,5 +1,5 @@
 import axios from "axios";
-export const getReviews = async (data:number) : Promise<any> => {
+export const getReviews = async () : Promise<any> => {
     try {
       const localItem = localStorage.getItem('hknuToken');
       let access_token;
@@ -9,7 +9,7 @@ export const getReviews = async (data:number) : Promise<any> => {
       const headers ={
         'access_token' : access_token
       }
-      const response = await axios.get(`/reviews/${data}`,{headers});
+      const response = await axios.get(`/reviews`,{headers});
       const responseCode = response.status;
       console.log(responseCode);
       return response;

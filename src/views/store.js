@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Input, Icon, Segment, Header, Image, Button, Container, Form, Checkbox, Modal } from "semantic-ui-react";
 import { saveStores } from "../controllers/StoreController.ts";
 import '../styles/file.css'
-function Store() {
+function Store() { // 가게의 정보를 추가할 수 있는 화면이다.
     const [storeInfo, setStoreInfo] = useState();
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
@@ -15,6 +15,7 @@ function Store() {
     const [longitude, setLongitude] = useState();
     const [imgFile, setImgFile] = useState("");
     const imgRef = useRef();
+
     // 이미지 업로드 input의 onChange
     const saveImgFile = () => {
         const file = imgRef.current.files[0];
@@ -25,6 +26,7 @@ function Store() {
         };
     };
     const options = [
+        // 가게 카테고리를 나타내는 객체 리터럴이다.
         { key: '1', text: 'KOREAN', value: 'KOREAN' },
         { key: '2', text: 'CHINESE', value: 'CHINESE' },
         { key: '3', text: 'JAPANESE', value: 'JAPANESE' },
@@ -82,13 +84,17 @@ function Store() {
                                     setAddress(event.target.value);
                                 }}
                                     icon={<Icon name='search ' inverted circular link onClick={(event) => {
-                                        var geocoder = new window.kakao.maps.services.Geocoder();
-                                        var callback = function (result, status) {
+                                        let geocoder = new window.kakao.maps.services.Geocoder();
+                                        let callback = function (result, status) {
                                             if (status === window.kakao.maps.services.Status.OK) {
+
+                                                // 가게의 상세주소를 출력하는 콜백함수
+                                                
                                                 setSearchedAddress(result);
                                             }
                                         };
                                         geocoder.addressSearch(address, callback);
+                                        // 카카오 맵 API를 이용한 검색 함수
                                     }} />}
                                     placeholder='Search...'
                                 />
@@ -100,6 +106,7 @@ function Store() {
                                                 setUserAddress(e.address_name)
                                                 setLatitude(e.x);
                                                 setLongitude(e.y);
+                                                // 좌표와 그 외 정보를 설정한다.
                                                 console.log(e.x, e.y);
                                             }}>{e.address_name}</Segment>
                                         )
@@ -147,7 +154,6 @@ function Store() {
                                     accept="image/*"
                                     id="profileImg"
                                     onChange={saveImgFile}
-
                                     ref={imgRef}
                                 />
                             </form>
