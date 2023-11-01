@@ -1,7 +1,7 @@
 import { React } from "react";
 
 
-export default function QrCode(props) {
+export default function QrCode(props) { // 테이블 오더용 QR코드
     let item = props.item;
     console.log(item);
     return (

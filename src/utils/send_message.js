@@ -1,12 +1,12 @@
 import axios from "axios";
 import CryptoJS from "crypto-js";
 
-export default function send_message() {
+export default function send_message(phoneNumber,name) {
     const serviceId = process.env.REACT_APP_NAVER_SERVICEID;
     const accessKey = process.env.REACT_APP_NAVER_ACCESSKEY;
     const secretKey = process.env.REACT_APP_NAVER_SECRETKEY;
     const my_number = '01022202479';
-    const your_number = '01022202479'
+    const your_number = phoneNumber
     const date = Date.now().toString();
     const method = "POST";
     const endpoint = `/sms/v2/services/${serviceId}/messages`;
@@ -42,7 +42,7 @@ export default function send_message() {
             type: "SMS",
             countryCode: "82",
             from: my_number,
-            content: '테스트',
+            content: `${name} 님의 순서가 되었습니다!`,
             messages: [
                 { to: your_number },
             ],

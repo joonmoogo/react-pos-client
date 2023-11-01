@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
 import { Link, useNavigate } from 'react-router-dom'
-import './loginForm.css'
 import naver_id_login from '../modules/naver_login'
 import SocialKakao from '../modules/kakao_login'
 import { authorize } from '../controllers/AuthController.ts'
 import { LoginErrorMessage } from '../components/MessageComponent/loginError'
 import send_message from '../utils/send_message.js';
-
+const API_KEY=''
 function LoginForm() {
 
   let navigate = useNavigate();

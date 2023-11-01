@@ -2,6 +2,7 @@ import { React, useState } from "react";
 import { Grid, Image, Item, Form, Segment, Header, Icon } from "semantic-ui-react";
 import TimeUtil from "../../utils/moment.ts";
 import {formatPhoneNumber} from '../../utils/format.ts'
+import send_message from "../../utils/send_message.js";
 export default function WaitingList() {  //대기탭 미정
     let waiting = JSON.parse(localStorage.getItem('waiting'));
     let initialWaiting = waiting ? waiting : [];
@@ -25,6 +26,8 @@ export default function WaitingList() {  //대기탭 미정
                                 </Grid.Column>
                                 <Grid.Column style={{ opacity: 0.7, cursor: 'pointer' }} width={2} onClick={() => {
                                     alert('고객 호출')
+                                    // SMS 메시지를 보낸다.
+                                    send_message(e.name,e.phoneNumber);
                                 }} >
                                     <Icon size="large" color="green" name="call">
                                     </Icon>

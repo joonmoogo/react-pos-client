@@ -3,6 +3,7 @@ import { TableRow, Tab, Label, Comment, Table, List, Image as ImageComponent, It
 import socket from "../modules/socket-client"
 import { Notify, Report } from "notiflix";
 import axios from 'axios';
+const API_KEY=''
 
 let tableSetting = localStorage.getItem('tableSetting') ? JSON.parse(localStorage.getItem('tableSetting')) : [
   { tableNumber: 1, tableName: 'red' },

@@ -2,7 +2,7 @@ import { React } from "react";
 import { Checkbox, List, Segment, Flag } from "semantic-ui-react";
 
 
-export default function EditPreferences() {
+export default function EditPreferences() { // 중요도가 떨어짐으로 추후에 구현 예정
     return (
         <div className="slide-from-right">
             <Segment.Group horizontal >
