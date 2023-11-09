@@ -18,10 +18,54 @@ import socket from "../modules/socket-client";
 function Home() {
 
   useEffect(() => {  // 서버에 데이터 요청을 위한 useEffect 훅
+    socket.on('userOrder',(data)=>{
+      console.log(data);
+      setSocketData(data);
+        console.log(data[0] +'has came to TableGroup');
+        localStorage.setItem(data[0].tableId,JSON.stringify(data));
+        localStorage.setItem('kitchen '+data[0].tableId,JSON.stringify(data));
+      const timeoutId = setTimeout(() => {
+        setSocketData(null); // 또는 다른 초기값으로 설정
+      }, 1000); // 3초 후에 실행
+      toast(`hello 테이블 주문 들어왔어요!`,
+        {
+          icon: '👏',
+          style: {
+            borderRadius: '100px',
+            scale: '1.3',
+            background: '#888',
+            color: '#fff',
+          },
+        }
+      )
+    })
+    socket.on('userOrderReady',(data)=>{
+      console.log(data);
+      setSocketData(data);
+        console.log(data[0] +'has came to TableGroup');
+        localStorage.setItem(data[0].tableId,JSON.stringify(data));
+        localStorage.setItem('kitchen '+data[0].tableId,JSON.stringify(data));
+      const timeoutId = setTimeout(() => {
+        setSocketData(null); // 또는 다른 초기값으로 설정
+      }, 1000); // 3초 후에 실행
+      
+      toast(`hello 음식 준비 됐어요!`,
+        {
+          icon: '👏',
+          style: {
+            borderRadius: '100px',
+            scale: '1.3',
+            background: '#888',
+            color: '#fff',
+          },
+        }
+      )
+    })
     getStore().then((data) => {
       setStoreInfo(data.data);
       const stores = data.data;
       const localStoreId = JSON.parse(localStorage.getItem('storeId'));
+      socket.emit('enter',localStoreId);
       const findedStore = stores.find((e) => e.id === localStoreId);
       setStoreInfo(findedStore);
     })
@@ -46,7 +90,6 @@ function Home() {
       }
     };
     fetchData();
-
     const localItem = localStorage.getItem('hknuToken');
     let access_token;
     if (localItem) {
@@ -98,8 +141,11 @@ function Home() {
     return () => {
       // 컴포넌트가 언마운트되면 EventSource 닫기
       eventSource.close();
+
     };
+    
   }, []);
+
   let navigate = useNavigate();
   let [storeInfo, setStoreInfo] = useState();
   let [menu, setMenu] = useState('홀');
@@ -108,6 +154,8 @@ function Home() {
   let [labelOption, setLabelOption] = useState([0, 0, 0, 0, 0, 0]);
   let [modal, setModal] = useState();
   let [count, setCount] = useState(0);
+  const [socketData, setSocketData] = useState(null);
+
 
 
   function handleModalNext() {
@@ -177,13 +225,13 @@ function Home() {
         <Toaster />
 
         <Grid.Column stretched width={12}>
-          {menu === '홀' ? <TableGroup menu={menu} /> : null}
+          {menu === '홀' ? <TableGroup menu={menu} socketData={socketData} /> : null}
           {/* props로 전달 */}
-          {menu === '예약' ? <ReservationList /> : null}
-          {menu === '대기' ? <WaitingList /> : null}
-          {menu === '주문 목록' ? <OrderList /> : null}
-          {menu === '영수증 조회' ? <FindReceipe /> : null}
-          {menu === '관리자' ? <Manager /> : null}
+          {menu === '예약' ? <ReservationList socketData={socketData} /> : null}
+          {menu === '대기' ? <WaitingList socketData={socketData}/> : null}
+          {menu === '주문 목록' ? <OrderList socketData={socketData} /> : null}
+          {menu === '영수증 조회' ? <FindReceipe socketData={socketData}/> : null}
+          {menu === '관리자' ? <Manager socketData={socketData}/> : null}
         </Grid.Column>
       </Grid>
     </Container>

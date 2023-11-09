@@ -102,6 +102,24 @@
     -o-animation: slideFromRight 0.8s ease-in-out; /* Opera */
 }
 
+.slide-to-left{
+    animation: slideToLeft 0.8s ease-in-out;
+    -moz-animation: slideToLeft 0.8s ease-in-out; /* Firefox */
+    -webkit-animation: slideToLeft 0.8s ease-in-out; /* Safari and Chrome */
+    -o-animation: slideToLeft 0.8s ease-in-out; /* Opera */
+
+}
+
+@keyframes slideToLeft {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+
 @keyframes slideFromRight {
     0% {
         transform: translateX(100%);

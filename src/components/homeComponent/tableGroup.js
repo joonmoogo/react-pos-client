@@ -12,12 +12,18 @@ import { deleteOrderDetail, getOrderDetail, saveOrderDetail } from '../../contro
 import { EventSourcePolyfill, EventSource } from "event-source-polyfill";
 import '../../styles/animation.css'
 import { sseNotify } from '../../controllers/notificationController.ts'
+import socket from "../../modules/socket-client";
 export default function TableGroup(props) { // 기본
+
+    const localStoreId = JSON.parse(localStorage.getItem('storeId'));
+
+
     function formatCurrency(amount) {
         return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
     useEffect(() => {
+        
         getMenus().then((data) => {
             setMenuList(data.data);
             localStorage.setItem('menu', JSON.stringify(data?.data));
@@ -40,19 +46,34 @@ export default function TableGroup(props) { // 기본
                 console.log(tabledata);
                 setTable(tabledata);
 
-                const hol = document.querySelector('#hol');
-                if (hol) {
-                    hol.classList.add('fade-in');
-                }
+                // const hol = document.querySelector('#hol');
+                // if (hol) {
+                //     hol.classList.add('fade-in');
+                // }
             });
         });
 
-    }, []);
+    }, [props]);
+    
+    function needBounce(id) {
+        if (props.socketData && props.socketData.length > 0 && props.socketData[0].tableId === id) {
+          return true;
+        }
+      }
 
     function findMenuById() {
         console.log(menuList);
     }
 
+    // function findSocketId(id){
+    //     if(props.socketData){
+    //         if(props.sockeData[0]?.tableId == id){
+    //             return true;
+    //         }
+    //         return false;
+    //     }
+    //     return false;
+    // }
 
     const [accountId, setAccountId] = useState();
     const [orderList, setOrderList] = useState([]);
@@ -146,10 +167,11 @@ export default function TableGroup(props) { // 기본
         <>
             {!clickedTable ?
                 <>
-                    <Card.Group id='hol'>
+                    <Card.Group className="fade-in">
                         {table.map((e, i) => {
                             return (
                                 <Card
+                                    className={needBounce(e.id)?"bounce":null}
                                     key={i}
                                     color={nameToColor(e?.name)}
                                     // style={{backgroundColor:'teal'}} 
@@ -160,7 +182,6 @@ export default function TableGroup(props) { // 기본
                                         left: `${e.coordX}px`,
                                         overflow: 'hidden',
                                         position: 'absolute',
-                                        // border:findOrderer(e.id)?"1px solid black":null,
                                     }} // 이거 수정하셈 테이블세팅 
                                     onClick={() => {
                                         // findMenuById();
@@ -187,16 +208,17 @@ export default function TableGroup(props) { // 기본
                                             })
                                         }
                                     }}>
-                                    <Card.Content style={{}}>
+                                    <Card.Content style={{}} >
                                         <Card.Header content={findOrderer(e.id) ? `${e.privateKey} T😀` : `${e.privateKey} T`} />
                                         <Card.Meta style={{ color: findOrderer(e.id) ? "green" : null }} content={findOrderer(e.id) ? `${findOrderer(e.id)}` : `${e.name}`} />
-
 
                                         {localStorage.getItem(e.id) == null
                                             ? <Card.Description content='' />
                                             : JSON.parse(localStorage.getItem(e.id)).map((e, i) => {
                                                 return (
-                                                    <Card.Description key={i} style={{ color: 'teal' }} content={`${e?.name} ${e?.count}`} />
+                                                    <>
+                                                        <Card.Description key={i} style={{ color: 'teal' }} content={`${e?.name} ${e?.count} ${e.ready?"👍":''}`} />
+                                                    </>
                                                 )
                                             })}
 
@@ -345,8 +367,8 @@ export default function TableGroup(props) { // 기본
                                     }).catch((error) => {
                                         console.log(error);
                                     })
+                                    socket.emit('order',localStoreId,temporaryOrder);
                                     console.log(temporaryOrder);
-
                                     alert('주문');
                                     setClickedTable();
                                     setTemporaryOrder([]);

@@ -27,7 +27,7 @@ export default function WaitingList() {  //대기탭 미정
                                 <Grid.Column style={{ opacity: 0.7, cursor: 'pointer' }} width={2} onClick={() => {
                                     alert('고객 호출')
                                     // SMS 메시지를 보낸다.
-                                    send_message(e.name,e.phoneNumber);
+                                    // send_message(e.name,e.phoneNumber);
                                 }} >
                                     <Icon size="large" color="green" name="call">
                                     </Icon>

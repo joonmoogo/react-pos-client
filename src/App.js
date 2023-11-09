@@ -40,7 +40,7 @@ function App() {
         {/* table order or experimental services */}
         {/* <Route path='/voice' element={<Dictaphone></Dictaphone>} /> */}
         {/* <Route path='/kiosk' element={<Kiosk></Kiosk>} /> */}
-        {/* <Route path={"/home/order/:param1/:param2"} element={<UserOrder></UserOrder>} /> */}
+        <Route path={"/home/order/:param1/:param2"} element={<UserOrder></UserOrder>} />
         {/* {store.map((storeItem, index) => (
           <Route
             key={index}
